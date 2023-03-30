@@ -1,0 +1,13 @@
+.home {
+  background: #ffffff;
+  width: calc(100vw - 250px);
+  min-height: 100vh;
+  transform: translateX(125px);
+  border-radius: 32px 0 0 32px;
+  box-shadow: -4px 0px 8px rgba(187, 210, 221, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: scroll;
+}

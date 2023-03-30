@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
@@ -8,11 +9,14 @@ const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  const sendData = () => {
-    Axios.post("http://localhost:3001/data", {
+  const navigate = useNavigate();
+
+  const sendLoginData = () => {
+    Axios.post("http://localhost:3001/login", {
       login: login,
       password: password,
-    })
+    });
+    navigate("/");
   };
 
   return (
@@ -39,7 +43,7 @@ const Login = () => {
           />
         </div>
         <div className="logo__window__buttons">
-          <button onClick={sendData}>Zaloguj się</button>
+          <button onClick={sendLoginData}>Zaloguj się</button>
         </div>
       </div>
     </div>
