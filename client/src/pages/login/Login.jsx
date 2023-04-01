@@ -15,8 +15,15 @@ const Login = () => {
     Axios.post("http://localhost:3001/login", {
       login: login,
       password: password,
+    })
+    .then(response => {
+      if (response.status === 200) {
+        navigate("/");
+      }
+    })
+    .catch(error => {
+      console.log(error);
     });
-    navigate("/");
   };
 
   return (
