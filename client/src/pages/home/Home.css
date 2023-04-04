@@ -11,3 +11,14 @@
   flex-direction: column;
   overflow-y: scroll;
 }
+
+.loginButton button{
+  background: #03c3ab;
+  border: none;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1.4rem;
+  border-radius: 10px;
+  padding: 0.8rem 4rem;
+  cursor: pointer;
+}

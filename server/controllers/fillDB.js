@@ -1,4 +1,4 @@
-import { db } from "../connect.js";
+import  { db }  from "../connect.js";
 import { faker } from "@faker-js/faker";
 
 export function createRandomUser() {

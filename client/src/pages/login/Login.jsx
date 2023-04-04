@@ -11,12 +11,20 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const sendLoginData = () => {
-    Axios.post("http://localhost:3001/login", {
-      login: login,
-      password: password,
-    });
-    navigate("/");
+  const sendLoginData = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/login", {
+        login: login,
+        password: password,
+      });
+  
+      if (response.data.success) {
+        navigate("/");
+      }
+    } catch (error) {
+      setErrorMessage("Niepoprawny login lub hasło. Spróbuj ponownie.");
+      console.log(error);
+    }
   };
 
   return (

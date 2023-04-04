@@ -10,6 +10,7 @@ import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
+import Pracownik from "./pages/pracownik/Pracownik";
 
 function App() {
   const currentUser = true;
