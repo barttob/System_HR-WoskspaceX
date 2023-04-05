@@ -1,9 +1,11 @@
 import React from "react";
 import "./Navbar.css";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { BsPersonFill } from "react-icons/bs";
 import { HiHome, HiDocument } from "react-icons/hi";
+import Logo from "../../assets/logo.png"
+
 
 const Menu = () => {
   const location = useLocation();
@@ -11,27 +13,32 @@ const Menu = () => {
 
   const NavbarButton = ({ name, icon, role }) => {
     return (
-      <div
-        className={`navbar__list__button ${
-          location.pathname == `/${name.toLowerCase()}`
-            ? "navbar__list__button--active"
-            : ""
-        }`}
-        style={{
-          display: role.some((element) => element == userRole)
-            ? "flex"
-            : "none",
-        }}
-      >
-        {icon}
-        {name}
-      </div>
+      <>
+        <a href={`/${name.toLowerCase()}`}>
+          <div
+            className={`navbar__list__button ${
+              location.pathname.substring(0, name.length + 1) ==
+              `/${name.toLowerCase()}`
+                ? "navbar__list__button--active"
+                : ""
+            }`}
+            style={{
+              display: role.some((element) => element == userRole)
+                ? "flex"
+                : "none",
+            }}
+          >
+            {icon}
+            {name}
+          </div>
+        </a>
+      </>
     );
   };
 
   return (
     <div className="navbar">
-      <img className="navbar__logo" src="logo.png" alt="logo" />
+      <img className="navbar__logo" src={Logo} alt="logo" />
       <div className="navbar__list">
         <NavbarButton
           name="Home"
@@ -78,6 +85,9 @@ const Menu = () => {
           icon={<HiDocument size={24} />}
           role={["adm"]}
         />
+      </div>
+      <div className="navbar__user">
+
       </div>
     </div>
   );

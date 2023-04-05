@@ -10,7 +10,7 @@ import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
-import Pracownik from "./pages/pracownik/Pracownik";
+import Pracownicy from "./pages/pracownicy/Pracownicy";
 
 function App() {
   const currentUser = true;
@@ -18,8 +18,12 @@ function App() {
   const Layout = () => {
     return (
       <>
-        <Navbar />
-        <Outlet />
+        {/* <div style={{ display: "flex" }}> */}
+          <Navbar />
+          <div className="content">
+            <Outlet />
+          </div>
+        {/* </div> */}
       </>
     );
   };
@@ -48,6 +52,10 @@ function App() {
         {
           path: "/home",
           element: <Home />,
+        },
+        {
+          path: "/pracownicy",
+          element: <Pracownicy />,
         },
       ],
     },

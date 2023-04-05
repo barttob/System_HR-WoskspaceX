@@ -1,10 +1,27 @@
 #root {
-  min-width: 100vw;
+  /* width: 100vw; */
   min-height: 100vh;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
+}
+
+.content {
+  background: #ffffff;
+  width: calc(100vw - 250px - 18px);
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 250px;
+  border-radius: 32px 0 0 32px;
+  box-shadow: -4px 0px 8px rgba(187, 210, 221, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* overflow-y: scroll; */
 }
 
 .logo {
@@ -21,6 +38,6 @@ h1 {
   font-size: 3em;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
+/* ::-webkit-scrollbar {
+  width: 0;
+} */

@@ -7,6 +7,8 @@ import dbQuery from "./dbQuery.js";
 //import LocalStrategy from "passport-local";
 //import session from 'express-session';
 
+import employeesRoutes from "./routes/employees.js";
+
 const app = express();
 
 app.use(cors());
@@ -49,6 +51,8 @@ app.post('/login', async (req, res) => {
       res.status(500).send(error);
   }
 });
+
+app.use("/employees", employeesRoutes);
 
 app.listen(3001, () => {
   console.log("Running on port 3001");

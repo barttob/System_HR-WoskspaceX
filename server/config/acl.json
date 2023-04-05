@@ -1,0 +1,32 @@
+{
+  "adm": {
+    "permissions": ["GET:/users", "POST:/users", "DELETE:/users/:id"]
+  },
+  "per": {
+    "permissions": [
+      "GET:/employees",
+      "POST:/employees",
+      "POST:/employees/:id",
+      "DELETE:/employees/:id"
+    ]
+  },
+  "acc": {
+    "permissions": [
+      "GET:/employees",
+      "POST:/employees",
+      "POST:/employees/:id",
+      "DELETE:/employees/:id"
+    ]
+  },
+  "sv": {
+    "permissions": [
+      "GET:/employees"
+    ]
+  },
+  "emp": {
+    "permissions": [
+      "GET:/documents",
+      "POST:/documents"
+    ]
+  }
+}
