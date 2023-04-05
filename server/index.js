@@ -42,7 +42,8 @@ app.post('/login', async (req, res) => {
       if (results.length > 0) {
           res.send({ success: true });
       } else {
-          res.send({ success: false });
+          //res.send({ success: false });
+          res.status(401).send({ success: false, message: "Nieprawidłowy login lub hasło." });
       }
   } catch (error) {
       res.status(500).send(error);

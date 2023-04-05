@@ -8,6 +8,9 @@ import "./Login.css";
 const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  //const [isLogged, setIsLogged] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,7 +22,12 @@ const Login = () => {
       });
   
       if (response.data.success) {
-        navigate("/");
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        setErrorMessage("Niepoprawny login lub hasło. Spróbuj ponownie.");
       }
     } catch (error) {
       setErrorMessage("Niepoprawny login lub hasło. Spróbuj ponownie.");
@@ -49,6 +57,10 @@ const Login = () => {
               setPassword(e.target.value);
             }}
           />
+          <div className="error-message">{errorMessage}</div>
+          {showSuccessMessage && (
+            <div className="success-message">Zalogowano poprawnie. Witamy!</div>
+            )}
         </div>
         <div className="logo__window__buttons">
           <button onClick={sendLoginData}>Zaloguj się</button>
