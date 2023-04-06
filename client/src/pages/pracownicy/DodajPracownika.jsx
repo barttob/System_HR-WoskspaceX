@@ -5,21 +5,39 @@ import { useNavigate } from "react-router-dom";
 import "./DodajPracownika.css";
 
 const DodajPracownika = () => {
-  /*
-  return (
-    <div className="input_reg_pracownicy">
-      Dodaj Pracownika
-      <input type="text" placeholder="Imię"></input>
-      <input type="text" placeholder="Nazwisko"></input>
-      <input type="text" placeholder="E-mail"></input>
-      <input type="text" placeholder="Login"></input>
-      <input type="text" placeholder="Hasło"></input>
-      <div className="logo__window__buttons">
-          <button >Zarejestruj</button>
-      </div>
-    </div>
-  );
-  */
+  
+  const [first_name, setFirst_Name] = useState("");
+  const [last_name, setLast_Name] = useState("");
+  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  //const [isLogged, setIsLogged] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  //const navigate = useNavigate();
+
+  const sendRegisterData = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/pracownicy/dodaj", {
+        login: login,
+        password: password,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+      });
+  
+      if (response.data.success) {
+        setShowSuccessMessage(true);
+      } else {
+        setErrorMessage("Nie dodano pracownika");
+      }
+    } catch (error) {
+      setErrorMessage("Coś poszło nie tak.");
+      console.log(error);
+    }
+  };
+
   return (
     <div className="register">
       <div className="register__window">
@@ -63,14 +81,17 @@ const DodajPracownika = () => {
               setPassword(e.target.value);
             }}
           />
+          <div className="error-message">{errorMessage}</div>
+          {showSuccessMessage && (
+            <div className="success-message">Pomyślnie dodano pracownika</div>
+            )}
         </div>
         <div className="logo__window__buttons">
-          <button>Zarejestruj</button>
+          <button onClick={sendRegisterData}>Zarejestruj</button>
         </div>
       </div>
     </div>
   );
-
 };
 
 export default DodajPracownika;

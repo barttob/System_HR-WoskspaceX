@@ -33,6 +33,24 @@ app.post(
   })
 );
 */
+app.post('/pracownicy/dodaj', async (req, res) => {
+  const { login, password, first_name, last_name, email } = req.body;
+
+  const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date) VALUES (?,?,?,?,?,'emp','1','1234-1234-1234','2009-09-15 16:49:30')`;
+  const values = [login, password, first_name, last_name, email];
+
+  try {
+    const results = await dbQuery(query, values);
+    if (results.affectedRows > 0) {
+        res.send({ success: true });
+    } else {
+        //res.send({ success: false });
+        res.status(401).send({ success: false, message: "Nie dodano pracownika do bazy" });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 app.post('/login', async (req, res) => {
   const { login, password } = req.body;
