@@ -12,7 +12,7 @@ const Home = () => {
     window.location.href = "http://localhost:5173/login";
   };
 
-  const userRole = "per";
+  const userRole = JSON.parse(localStorage.getItem("user")).user_role;
 
   return (
     <div className="home">
@@ -27,7 +27,13 @@ const Home = () => {
         <Acc />
       ) : userRole == "emp" ? (
         <Emp />
-      ) : userRole == "per" ? <Per /> : userRole == "sv" ? <Sv /> : "Brak roli"}
+      ) : userRole == "per" ? (
+        <Per />
+      ) : userRole == "sv" ? (
+        <Sv />
+      ) : (
+        "Brak roli"
+      )}
     </div>
   );
 };

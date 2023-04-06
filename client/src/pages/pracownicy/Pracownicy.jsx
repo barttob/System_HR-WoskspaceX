@@ -21,11 +21,12 @@ const Pracownicy = () => {
           for (let i = 0; i < Math.ceil(employeeNumber / 50); i++) {
             arr.push(
               <button
-                key={i}
+                key={i + 1}
                 onClick={() => {
                   setEmployeeSites(i + 1);
                   getEmployees();
                 }}
+                style={employeeSites == i + 1 ? { color: "#2eb5a4" } : {}}
               >
                 {i + 1}
               </button>
@@ -36,6 +37,12 @@ const Pracownicy = () => {
       </>
     );
   };
+
+  // const changeSite = (i) => {
+  //   setEmployeeSites(i + 1);
+  //   getEmployees();
+  // };
+  // console.log(employeeSites);
 
   const countEmployees = () => {
     axios.get("http://localhost:3001/employees/").then((response) => {

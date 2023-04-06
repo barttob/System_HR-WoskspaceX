@@ -1,15 +1,14 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import "./Navbar.css";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { BsPersonFill } from "react-icons/bs";
 import { HiHome, HiDocument } from "react-icons/hi";
-import Logo from "../../assets/logo.png"
-
+import Logo from "../../assets/logo.png";
 
 const Menu = () => {
   const location = useLocation();
-  const userRole = "per";
+  const userRole = JSON.parse(localStorage.getItem("user")).user_role;
 
   const NavbarButton = ({ name, icon, role }) => {
     return (
@@ -86,9 +85,7 @@ const Menu = () => {
           role={["adm"]}
         />
       </div>
-      <div className="navbar__user">
-
-      </div>
+      <div className="navbar__user"></div>
     </div>
   );
 };

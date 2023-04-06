@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import "./DodajPracownika.css";
 
 const DodajPracownika = () => {
-  
   const [first_name, setFirst_Name] = useState("");
   const [last_name, setLast_Name] = useState("");
   const [email, setEmail] = useState("");
@@ -19,14 +18,17 @@ const DodajPracownika = () => {
 
   const sendRegisterData = async () => {
     try {
-      const response = await Axios.post("http://localhost:3001/pracownicy/dodaj", {
-        login: login,
-        password: password,
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
-      });
-  
+      const response = await Axios.post(
+        "http://localhost:3001/pracownicy/dodaj",
+        {
+          login: login,
+          password: password,
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+        }
+      );
+
       if (response.data.success) {
         setShowSuccessMessage(true);
       } else {
@@ -45,7 +47,7 @@ const DodajPracownika = () => {
           <img src="../logo.png" alt="logo" />
           <span>WorkspaceX</span>
         </div>
-        <div className="logo__window__inputs">
+        <div className="dodajprac__window__inputs">
           <input
             type="text"
             placeholder="Imię"
@@ -84,7 +86,7 @@ const DodajPracownika = () => {
           <div className="error-message">{errorMessage}</div>
           {showSuccessMessage && (
             <div className="success-message">Pomyślnie dodano pracownika</div>
-            )}
+          )}
         </div>
         <div className="logo__window__buttons">
           <button onClick={sendRegisterData}>Zarejestruj</button>

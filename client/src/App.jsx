@@ -15,7 +15,7 @@ import Dokumenty from "./pages/dokumenty/Dokumenty";
 import DodajPracownika from "./pages/pracownicy/DodajPracownika";
 
 function App() {
-  const currentUser = true;
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const Layout = () => {
     return (
