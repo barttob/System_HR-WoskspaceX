@@ -30,7 +30,7 @@ const DodajPracownika = () => {
       if (response.data.success) {
         setShowSuccessMessage(true);
       } else {
-        setErrorMessage("Nie dodano pracownika");
+        setErrorMessage("Nie dodano pracownika. Spróbuj ponownie.");
       }
     } catch (error) {
       setErrorMessage("Coś poszło nie tak.");
