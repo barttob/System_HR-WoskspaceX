@@ -8,6 +8,7 @@ import dbQuery from "./dbQuery.js";
 //import session from 'express-session';
 
 import employeesRoutes from "./routes/employees.js";
+import documentsRoutes from "./routes/documents.js";
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.use("/employees", employeesRoutes);
+app.use("/documents", documentsRoutes);
 
 app.listen(3001, () => {
   console.log("Running on port 3001");
