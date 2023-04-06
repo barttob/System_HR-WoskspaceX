@@ -53,7 +53,7 @@ const Menu = () => {
         <NavbarButton
           name="Dokumenty"
           icon={<HiDocument size={24} />}
-          role={["emp", "sv", "acc", "per", "adm"]}
+          role={["emp"]}
         />
         <NavbarButton
           name="Wnioski"

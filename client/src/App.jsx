@@ -11,6 +11,8 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
 import Pracownicy from "./pages/pracownicy/Pracownicy";
+import Dokumenty from "./pages/dokumenty/Dokumenty";
+import DodajPracownika from "./pages/pracownicy/DodajPracownika";
 
 function App() {
   const currentUser = true;
@@ -18,12 +20,10 @@ function App() {
   const Layout = () => {
     return (
       <>
-        {/* <div style={{ display: "flex" }}> */}
-          <Navbar />
-          <div className="content">
-            <Outlet />
-          </div>
-        {/* </div> */}
+        <Navbar />
+        <div className="content">
+          <Outlet />
+        </div>
       </>
     );
   };
@@ -56,6 +56,14 @@ function App() {
         {
           path: "/pracownicy",
           element: <Pracownicy />,
+        },
+        {
+          path: "/pracownicy/:id/dokumenty",
+          element: <Dokumenty />,
+        },
+        {
+          path: "/pracownicy/dodaj",
+          element: <DodajPracownika />,
         },
       ],
     },

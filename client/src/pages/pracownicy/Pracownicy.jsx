@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Pracownicy.css";
+import { Link } from "react-router-dom";
 
 const Pracownicy = () => {
   const [employeeList, setEmployeeList] = useState([]);
@@ -9,11 +10,10 @@ const Pracownicy = () => {
 
   useEffect(() => {
     countEmployees();
-
     getEmployees();
   }, []);
 
-  const Buttons = () => {
+  const SiteButtons = () => {
     return (
       <>
         {(() => {
@@ -53,14 +53,54 @@ const Pracownicy = () => {
 
   return (
     <div className="pracownicy">
-      <div className="pracownicy__header">Pracownicy</div>
+      <div className="pracownicy__header">
+        Pracownicy
+        <Link to="/pracownicy/dodaj">Dodaj pracownika</Link>
+      </div>
       <div className="pracownicy__list">
-        <div className="pracownicy__list__headers">
-          <div style={{ minWidth: "80px" }}>Id</div>
-          <div style={{ minWidth: "240px" }}>Imię</div>
-          <div style={{ minWidth: "240px" }}>Nazwisko</div>
-          <div style={{ minWidth: "340px" }}>E-mail</div>
-          <div style={{ width: "100%" }}>Akcje</div>
+        <table style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Imię</th>
+              <th>Nazwisko</th>
+              <th>E-mail</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employeeList.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.user_id}</td>
+                  <td>{val.first_name}</td>
+                  <td>{val.last_name}</td>
+                  <td>{val.email}</td>
+                  <td
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Link>Informacje</Link>
+                    <Link
+                      to={`/pracownicy/${val.user_id}/dokumenty`}
+                      state={{ id: val.user_id }}
+                    >
+                      Dokumenty
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {/* <div className="pracownicy__list__headers">
+          <div style={{ minWidth: "80px", fontWeight: "bold" }}>Id</div>
+          <div style={{ minWidth: "240px", fontWeight: "bold" }}>Imię</div>
+          <div style={{ minWidth: "240px", fontWeight: "bold" }}>Nazwisko</div>
+          <div style={{ minWidth: "340px", fontWeight: "bold" }}>E-mail</div>
+          <div style={{ width: "100%", fontWeight: "bold" }}>Akcje</div>
         </div>
         {employeeList.map((val, key) => {
           return (
@@ -76,15 +116,20 @@ const Pracownicy = () => {
                   justifyContent: "space-evenly",
                 }}
               >
-                <button>Informacje</button>
-                <button>Dokumenty</button>
+                <Link>Informacje</Link>
+                <Link
+                  to="/pracownicy/:id/dokumenty"
+                  state={{ id: val.user_id }}
+                >
+                  Dokumenty
+                </Link>
               </div>
             </div>
           );
-        })}
+        })} */}
       </div>
       <div className="pracownicy__buttons">
-        <Buttons />
+        <SiteButtons />
       </div>
     </div>
   );
