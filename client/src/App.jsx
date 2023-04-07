@@ -13,6 +13,7 @@ import Navbar from "./components/navbar/Navbar";
 import Pracownicy from "./pages/pracownicy/Pracownicy";
 import Dokumenty from "./pages/dokumenty/Dokumenty";
 import DodajPracownika from "./pages/pracownicy/DodajPracownika";
+import DodajDokument from "./pages/dokumenty/DodajDokument";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -60,6 +61,10 @@ function App() {
         {
           path: "/pracownicy/:id/dokumenty",
           element: <Dokumenty />,
+        },
+        {
+          path: "/pracownicy/:id/dokumenty/dodaj",
+          element: <DodajDokument />,
         },
         {
           path: "/pracownicy/dodaj",

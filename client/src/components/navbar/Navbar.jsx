@@ -1,14 +1,30 @@
 import { useState, useEffect } from "react";
 import "./Navbar.css";
-import { Navigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { BsPersonFill } from "react-icons/bs";
 import { HiHome, HiDocument } from "react-icons/hi";
 import Logo from "../../assets/logo.png";
 
+const roles = {
+  adm: "admin",
+  per: "kadrowy",
+  acc: "księgowa",
+  sv: "opiekun",
+  emp: "pracownik",
+};
+
 const Menu = () => {
   const location = useLocation();
-  const userRole = JSON.parse(localStorage.getItem("user")).user_role;
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log("logout")
+    localStorage.clear();
+    navigate("/login")
+  }
 
   const NavbarButton = ({ name, icon, role }) => {
     return (
@@ -22,7 +38,7 @@ const Menu = () => {
                 : ""
             }`}
             style={{
-              display: role.some((element) => element == userRole)
+              display: role.some((element) => element == currentUser.user_role)
                 ? "flex"
                 : "none",
             }}
@@ -37,55 +53,69 @@ const Menu = () => {
 
   return (
     <div className="navbar">
-      <img className="navbar__logo" src={Logo} alt="logo" />
-      <div className="navbar__list">
-        <NavbarButton
-          name="Home"
-          icon={<HiHome size={24} />}
-          role={["emp", "sv", "acc", "per", "adm"]}
-        />
-        <NavbarButton
-          name="Pracownicy"
-          icon={<BsPersonFill size={24} />}
-          role={["sv", "acc", "per"]}
-        />
-        <NavbarButton
-          name="Dokumenty"
-          icon={<HiDocument size={24} />}
-          role={["emp"]}
-        />
-        <NavbarButton
-          name="Wnioski"
-          icon={<HiDocument size={24} />}
-          role={["emp", "sv", "acc", "per"]}
-        />
-        <NavbarButton
-          name="Harmonogram"
-          icon={<HiDocument size={24} />}
-          role={["emp", "sv", "acc", "per"]}
-        />
-        <NavbarButton
-          name="Zakwaterowanie"
-          icon={<HiDocument size={24} />}
-          role={["emp", "sv", "per"]}
-        />
-        <NavbarButton
-          name="Raport"
-          icon={<HiDocument size={24} />}
-          role={["emp", "sv"]}
-        />
-        <NavbarButton
-          name="Użytkownicy"
-          icon={<HiDocument size={24} />}
-          role={["adm"]}
-        />
-        <NavbarButton
-          name="Logi"
-          icon={<HiDocument size={24} />}
-          role={["adm"]}
-        />
+      <div className="navbar__top">
+        <img className="navbar__logo" src={Logo} alt="logo" />
+        <div className="navbar__list">
+          <NavbarButton
+            name="Home"
+            icon={<HiHome size={24} />}
+            role={["emp", "sv", "acc", "per", "adm"]}
+          />
+          <NavbarButton
+            name="Pracownicy"
+            icon={<BsPersonFill size={24} />}
+            role={["sv", "acc", "per"]}
+          />
+          <NavbarButton
+            name="Dokumenty"
+            icon={<HiDocument size={24} />}
+            role={["emp"]}
+          />
+          <NavbarButton
+            name="Wnioski"
+            icon={<HiDocument size={24} />}
+            role={["emp", "sv", "acc", "per"]}
+          />
+          <NavbarButton
+            name="Harmonogram"
+            icon={<HiDocument size={24} />}
+            role={["emp", "sv", "acc", "per"]}
+          />
+          <NavbarButton
+            name="Zakwaterowanie"
+            icon={<HiDocument size={24} />}
+            role={["emp", "sv", "per"]}
+          />
+          <NavbarButton
+            name="Raport"
+            icon={<HiDocument size={24} />}
+            role={["emp", "sv"]}
+          />
+          <NavbarButton
+            name="Użytkownicy"
+            icon={<HiDocument size={24} />}
+            role={["adm"]}
+          />
+          <NavbarButton
+            name="Logi"
+            icon={<HiDocument size={24} />}
+            role={["adm"]}
+          />
+        </div>
       </div>
-      <div className="navbar__user"></div>
+      <div className="navbar__bottom">
+        <div className="navbar__user">
+          <img src={currentUser.img_url} alt="profile" />
+          <div>
+            {currentUser.first_name}
+            <br />
+            {currentUser.last_name}
+            <br />
+            <span>{roles[currentUser.user_role]}</span>
+          </div>
+        </div>
+        <button className="navbar__logout" onClick={handleLogout}>Wyloguj się</button>
+      </div>
     </div>
   );
 };

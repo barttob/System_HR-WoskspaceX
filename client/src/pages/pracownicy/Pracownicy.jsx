@@ -24,7 +24,6 @@ const Pracownicy = () => {
                 key={i + 1}
                 onClick={() => {
                   setEmployeeSites(i + 1);
-                  getEmployees();
                 }}
                 style={employeeSites == i + 1 ? { color: "#2eb5a4" } : {}}
               >
@@ -38,11 +37,9 @@ const Pracownicy = () => {
     );
   };
 
-  // const changeSite = (i) => {
-  //   setEmployeeSites(i + 1);
-  //   getEmployees();
-  // };
-  // console.log(employeeSites);
+  useEffect(() => {
+    getEmployees();
+  }, [employeeSites]);
 
   const countEmployees = () => {
     axios.get("http://localhost:3001/employees/").then((response) => {
@@ -92,7 +89,11 @@ const Pracownicy = () => {
                     <Link>Informacje</Link>
                     <Link
                       to={`/pracownicy/${val.user_id}/dokumenty`}
-                      state={{ id: val.user_id }}
+                      state={{
+                        id: val.user_id,
+                        first_name: val.first_name,
+                        last_name: val.last_name,
+                      }}
                     >
                       Dokumenty
                     </Link>
