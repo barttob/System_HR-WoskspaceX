@@ -3,6 +3,7 @@ import { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./DodajPracownika.css";
+import BackButton from "../../components/backButton/BackButton";
 
 const DodajPracownika = () => {
   const [first_name, setFirst_Name] = useState("");
@@ -43,6 +44,7 @@ const DodajPracownika = () => {
   return (
     <div className="register">
       <div className="register__window">
+        <BackButton />
         <div className="logo__window__header">
           <img src="../logo.png" alt="logo" />
           <span>WorkspaceX</span>

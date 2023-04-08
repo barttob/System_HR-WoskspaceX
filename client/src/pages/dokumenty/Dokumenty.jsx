@@ -3,6 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 import Axios from "axios";
 
 import "./Dokumenty.css";
+import BackButton from "../../components/backButton/BackButton";
 
 const Dokumenty = () => {
   const location = useLocation();
@@ -20,9 +21,16 @@ const Dokumenty = () => {
     });
   };
 
+  const printDate = (exp_date) => {
+    const date = new Date(exp_date);
+    const formattedDate = date.toLocaleDateString("pl-PL");
+    return formattedDate;
+  };
+
   return (
     <div className="dokumenty">
       <div className="dokumenty__header">
+        <BackButton />
         <div>
           {first_name} {last_name}
         </div>
@@ -46,7 +54,11 @@ const Dokumenty = () => {
                 <tr key={key}>
                   <td>{val.document_name}</td>
                   <td>{val.document_type}</td>
-                  <td>{val.exp_date}</td>
+                  <td>
+                    {val.exp_date == "9999-12-31T21:59:59.000Z"
+                      ? "Brak daty końca"
+                      : printDate(val.exp_date)}
+                  </td>
                   <td
                     style={{
                       display: "flex",

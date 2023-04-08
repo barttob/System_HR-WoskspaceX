@@ -1,14 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import DatePicker from "react-date-picker";
+
+import "./DatePicker.css";
 
 import "./Dokumenty.css";
+import BackButton from "../../components/backButton/BackButton";
 
 const DodajDokument = () => {
   const location = useLocation();
   const { id } = location.state;
 
-  const [uploaded, setUploaded] = useState()
+  const [dateValue, setDateValue] = useState(new Date());
+  const [showDate, setShowDate] = useState("nie");
+
+  const navigate = useNavigate();
+  //9999, 11, 31, 23, 59, 59, 999
+
+  // useEffect(() => {
+  //   console.log(showDate);
+  // }, [showDate]);
+
+  let date = new Date();
+  useEffect(() => {
+    date = new Date(
+      dateValue.getTime() - dateValue.getTimezoneOffset() * 60000
+    );
+  }, [dateValue]);
+
+  // const [uploaded, setUploaded] = useState();
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [docType, setDocType] = useState("CV");
@@ -18,6 +39,14 @@ const DodajDokument = () => {
     const formData = new FormData();
     formData.append("docType", docType);
     formData.append("user_id", id);
+    let dateFormat
+    if (showDate == "tak")
+      dateFormat = date.toISOString().slice(0, 19).replace("T", " ");
+    else {
+      date = new Date(9999, 11, 31, 23, 59, 59, 999);
+      dateFormat = date.toISOString().slice(0, 19).replace("T", " ");
+    }
+    formData.append("exp_date", dateFormat);
     formData.append("fileSubmit", selectedFile);
 
     try {
@@ -30,8 +59,10 @@ const DodajDokument = () => {
           },
         }
       );
-      setUploaded(response.data.success)
-      console.log(response.data.success);
+      console.log(id)
+      navigate(-1)
+      // setUploaded(response.data.success);
+      // console.log(response.data.success);
     } catch (error) {
       console.error(error);
     }
@@ -39,7 +70,10 @@ const DodajDokument = () => {
 
   return (
     <div className="dokumenty">
-      <div className="dokumenty__header">Dodaj dokument</div>
+      <div className="dokumentyAdd__header">
+        <BackButton />
+        Dodaj dokument
+      </div>
       <div className="dokumenty__form">
         <form onSubmit={sendDocument}>
           <label htmlFor="">
@@ -61,6 +95,28 @@ const DodajDokument = () => {
               // style={{ display: "none" }}
             />
           </label>
+          <div className="dokumenty__datePick">
+            Czy dokument posiada datę ważności?
+            <input
+              type="radio"
+              id="tak"
+              value="tak"
+              checked={showDate === "tak"}
+              onChange={(e) => setShowDate(e.target.value)}
+            />
+            <label htmlFor="tak">Tak</label>
+            <input
+              type="radio"
+              id="nie"
+              value="nie"
+              checked={showDate === "nie"}
+              onChange={(e) => setShowDate(e.target.value)}
+            />
+            <label htmlFor="nie">Nie</label>
+            <div style={{ display: showDate == "tak" ? "flex" : "none" }}>
+              <DatePicker onChange={setDateValue} value={dateValue} />
+            </div>
+          </div>
           <input
             type="submit"
             value="Prześlij plik"
@@ -68,7 +124,7 @@ const DodajDokument = () => {
           />
         </form>
       </div>
-      {uploaded && <div>Przesłano plik</div>}
+      {/* {uploaded && <div>Przesłano plik</div>} */}
     </div>
   );
 };

@@ -16,9 +16,11 @@ export const getDocuments = (req, res) => {
 
 export const addDocument = (req, res) => {
   console.log(req.file, req.body)
+  const date = new Date();
+  const now = date.toISOString().slice(0, 19).replace('T', ' ');
   db.query(
-    "INSERT INTO documents (user_id, document_type, document_name, add_date, exp_date, file_link) VALUES (?,?,?,'2009-09-15 16:49:30','2009-09-15 16:49:30',?)",
-    [req.body.user_id, req.body.docType, req.file.originalname, req.file.path],
+    "INSERT INTO documents (user_id, document_type, document_name, add_date, exp_date, file_link) VALUES (?,?,?,?,?,?)",
+    [req.body.user_id, req.body.docType, req.file.originalname, now, req.body.exp_date, req.file.path],
     (err, result) => {
       if (err) {
         res.status(500).send({ error: err.message });
