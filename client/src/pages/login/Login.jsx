@@ -12,6 +12,7 @@ const Login = () => {
   //const [isLogged, setIsLogged] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [currentUser, setCurrentUser] = useState(
+    // null
     JSON.parse(localStorage.getItem("user")) || null
   );
 
@@ -33,7 +34,8 @@ const Login = () => {
         setCurrentUser(response.data.user);
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+          window.location.reload();
+        }, 1000);
       } else {
         setErrorMessage("Niepoprawny login lub hasło. Spróbuj ponownie.");
       }

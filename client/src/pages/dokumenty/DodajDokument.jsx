@@ -39,7 +39,7 @@ const DodajDokument = () => {
     const formData = new FormData();
     formData.append("docType", docType);
     formData.append("user_id", id);
-    let dateFormat
+    let dateFormat;
     if (showDate == "tak")
       dateFormat = date.toISOString().slice(0, 19).replace("T", " ");
     else {
@@ -59,8 +59,8 @@ const DodajDokument = () => {
           },
         }
       );
-      console.log(id)
-      navigate(-1)
+      console.log(id);
+      navigate(-1);
       // setUploaded(response.data.success);
       // console.log(response.data.success);
     } catch (error) {
@@ -79,12 +79,16 @@ const DodajDokument = () => {
           <label htmlFor="">
             Rodzaj dokumentu:
             <select name="docType" onChange={(e) => setDocType(e.target.value)}>
-              <option value="CV">CV/Ubieganie się o zatrudnienie</option>
-              <option value="um_praca">Umowa o pracę</option>
-              <option value="zap_reg_bhp">
-                Zapoznanie się z regulaminem/zasadami BHP
+              <option value="Dokumenty aplikacyjne">Dokumenty aplikacyjne</option>
+              <option value="Umowa o pracę">Umowa o pracę</option>
+              <option value="Dane osobowe">Dokumenty dotyczące danych osobowych</option>
+              <option value="Zakres obowiązków">Zakres obowiązków</option>
+              <option value="Potwierdzenia zapoznania się">
+                Potwierdzenia zapoznania się m.in. z regulaminem pracy/zasadami
+                BHP
               </option>
-              <option value="sz_bhp">Szkolenie BHP</option>
+              <option value="Szkolenie">Dokumenty ze szkoleń</option>
+              <option value="Inne">Inne</option>
             </select>
           </label>
           <label htmlFor="fileSubmit" className="dokumenty__label">
@@ -114,7 +118,11 @@ const DodajDokument = () => {
             />
             <label htmlFor="nie">Nie</label>
             <div style={{ display: showDate == "tak" ? "flex" : "none" }}>
-              <DatePicker onChange={setDateValue} value={dateValue} />
+              <DatePicker
+                onChange={setDateValue}
+                value={dateValue}
+                clearIcon={null}
+              />
             </div>
           </div>
           <input
