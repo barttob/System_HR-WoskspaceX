@@ -5,17 +5,13 @@
   "per": {
     "permissions": [
       "GET:/employees",
-      "POST:/employees",
-      "POST:/employees/:id",
-      "DELETE:/employees/:id"
+      "GET:/employees/:site"
     ]
   },
   "acc": {
     "permissions": [
       "GET:/employees",
-      "POST:/employees",
-      "POST:/employees/:id",
-      "DELETE:/employees/:id"
+      "GET:/employees/:site"
     ]
   },
   "sv": {

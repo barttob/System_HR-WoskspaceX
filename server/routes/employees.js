@@ -1,5 +1,6 @@
 import express from "express";
 import { getEmployees, countEmployees } from "../controllers/employees.js";
+import { aclAuth } from "../controllers/aclAuth.js";
 
 const router = express.Router();
 

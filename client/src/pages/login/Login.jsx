@@ -67,10 +67,9 @@ const Login = () => {
               setPassword(e.target.value);
             }}
           />
-          <div className="error-message">{errorMessage}</div>
-          {showSuccessMessage && (
-            <div className="success-message">Zalogowano poprawnie. Witamy!</div>
-          )}
+          <div className="message">
+            {showSuccessMessage ? "Zalogowano poprawnie. Witamy!" : errorMessage}
+          </div>
         </div>
         <div className="logo__window__buttons">
           <button onClick={sendLoginData}>Zaloguj się</button>

@@ -29,8 +29,12 @@ function App() {
     );
   };
 
-  const ProtectedRoute = ({ children }) => {
+  const ProtectedRoute = ({ children, allowedRoles }) => {
     if (!currentUser) {
+      return <Navigate to="/login" />;
+    }
+
+    if (!allowedRoles.includes(currentUser.user_role)) {
       return <Navigate to="/login" />;
     }
 
@@ -41,7 +45,7 @@ function App() {
     {
       path: "/",
       element: (
-        <ProtectedRoute>
+        <ProtectedRoute allowedRoles={["adm", "per", "acc", "sv", "emp"]}>
           <Layout />
         </ProtectedRoute>
       ),
@@ -56,19 +60,29 @@ function App() {
         },
         {
           path: "/pracownicy",
-          element: <Pracownicy />,
-        },
-        {
-          path: "/pracownicy/:id/dokumenty",
-          element: <Dokumenty />,
-        },
-        {
-          path: "/pracownicy/:id/dokumenty/dodaj",
-          element: <DodajDokument />,
-        },
-        {
-          path: "/pracownicy/dodaj",
-          element: <DodajPracownika />,
+          element: (
+            <ProtectedRoute allowedRoles={["per", "acc"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/pracownicy",
+              element: <Pracownicy />,
+            },
+            {
+              path: "/pracownicy/:id/dokumenty",
+              element: <Dokumenty />,
+            },
+            {
+              path: "/pracownicy/:id/dokumenty/dodaj",
+              element: <DodajDokument />,
+            },
+            {
+              path: "/pracownicy/dodaj",
+              element: <DodajPracownika />,
+            },
+          ],
         },
       ],
     },
