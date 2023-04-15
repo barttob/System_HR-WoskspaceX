@@ -84,6 +84,24 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/pracownicy/update', async (req, res) => {
+  const { first_name, last_name, login, email, address_id, phone, birth_date } = req.body;
+
+  try {
+    const query = `UPDATE users SET first_name = ?, last_name = ?, email = ?, address_id = ?, phone = ?, birth_date = ? WHERE login = ?`;
+    const values = [first_name, last_name, email, address_id, phone, birth_date, login];
+
+    const results = await dbQuery(query, values);
+    if (results.affectedRows > 0) {
+        res.send({ success: true });
+    } else {
+        res.status(401).send({ success: false, message: "Nie zaktualizowano danych pracownika" });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post('/pracownicy/usun', async (req, res) => {
   const { first_name, last_name } = req.body;
 
