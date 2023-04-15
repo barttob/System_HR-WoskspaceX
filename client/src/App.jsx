@@ -14,6 +14,9 @@ import Pracownicy from "./pages/pracownicy/Pracownicy";
 import Dokumenty from "./pages/dokumenty/Dokumenty";
 import DodajPracownika from "./pages/pracownicy/DodajPracownika";
 import DodajDokument from "./pages/dokumenty/DodajDokument";
+import Prace from "./pages/prace/Prace";
+import DodajPrace from "./pages/prace/DodajPrace";
+import PracaInfo from "./pages/prace/PracaInfo";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -81,6 +84,28 @@ function App() {
             {
               path: "/pracownicy/dodaj",
               element: <DodajPracownika />,
+            },
+          ],
+        },
+        {
+          path: "/prace",
+          element: (
+            <ProtectedRoute allowedRoles={["per", "acc"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/prace",
+              element: <Prace />,
+            },
+            {
+              path: "/prace/dodaj",
+              element: <DodajPrace />,
+            },
+            {
+              path: "/prace/:id/info",
+              element: <PracaInfo />,
             },
           ],
         },

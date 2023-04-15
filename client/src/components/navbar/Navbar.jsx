@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { BsPersonFill } from "react-icons/bs";
 import { HiHome, HiDocument } from "react-icons/hi";
+import { MdWork } from "react-icons/md";
 import Logo from "../../assets/logo.png";
 
 const roles = {
@@ -67,39 +68,9 @@ const Menu = () => {
             role={["sv", "acc", "per"]}
           />
           <NavbarButton
-            name="Dokumenty"
-            icon={<HiDocument size={24} />}
-            role={["emp"]}
-          />
-          <NavbarButton
-            name="Wnioski"
-            icon={<HiDocument size={24} />}
-            role={["emp", "sv", "acc", "per"]}
-          />
-          <NavbarButton
-            name="Harmonogram"
-            icon={<HiDocument size={24} />}
-            role={["emp", "sv", "acc", "per"]}
-          />
-          <NavbarButton
-            name="Zakwaterowanie"
-            icon={<HiDocument size={24} />}
-            role={["emp", "sv", "per"]}
-          />
-          <NavbarButton
-            name="Raport"
-            icon={<HiDocument size={24} />}
-            role={["emp", "sv"]}
-          />
-          <NavbarButton
-            name="Użytkownicy"
-            icon={<HiDocument size={24} />}
-            role={["adm"]}
-          />
-          <NavbarButton
-            name="Logi"
-            icon={<HiDocument size={24} />}
-            role={["adm"]}
+            name="Prace"
+            icon={<MdWork size={24} />}
+            role={["acc", "per"]}
           />
         </div>
       </div>

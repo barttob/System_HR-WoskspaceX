@@ -10,6 +10,8 @@ import bcrypt from "bcrypt";
 
 import employeesRoutes from "./routes/employees.js";
 import documentsRoutes from "./routes/documents.js";
+import clientsRoutes from "./routes/clients.js";
+import jobsRoutes from "./routes/jobs.js";
 
 const app = express();
 
@@ -86,6 +88,8 @@ app.post('/login', async (req, res) => {
 
 app.use("/employees", employeesRoutes);
 app.use("/documents", documentsRoutes);
+app.use("/clients", clientsRoutes);
+app.use("/jobs", jobsRoutes);
 
 app.listen(3001, () => {
   console.log("Running on port 3001");
