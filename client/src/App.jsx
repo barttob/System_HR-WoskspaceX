@@ -14,6 +14,8 @@ import Pracownicy from "./pages/pracownicy/Pracownicy";
 import Dokumenty from "./pages/dokumenty/Dokumenty";
 import DodajPracownika from "./pages/pracownicy/DodajPracownika";
 import DodajDokument from "./pages/dokumenty/DodajDokument";
+import UsunPracownika from "./pages/pracownicy/UsunPracownika";
+import UpdatePracownika from "./pages/pracownicy/UpdatePracownika";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -81,6 +83,14 @@ function App() {
             {
               path: "/pracownicy/dodaj",
               element: <DodajPracownika />,
+            },
+            {
+              path: "/pracownicy/usun",
+              element: <UsunPracownika />,
+            },
+            {
+              path: "/pracownicy/update",
+              element: <UpdatePracownika />,
             },
           ],
         },

@@ -60,6 +60,8 @@ const Pracownicy = () => {
       <div className="pracownicy__header">
         Pracownicy
         <Link to="/pracownicy/dodaj">Dodaj pracownika</Link>
+        <Link to="/pracownicy/usun">Usuń pracownika</Link>
+        <Link to="/pracownicy/update">Aktualizuj dane</Link>
       </div>
       <div className="pracownicy__list">
         <table style={{ width: "100%" }}>

@@ -44,7 +44,7 @@ app.post('/pracownicy/dodaj', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date) VALUES (?,?,?,?,?,'emp','1','1234-1234-1234','2009-09-15 16:49:30')`;
+    const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date, img_url) VALUES (?,?,?,?,?,'emp',DEFAULT,DEFAULT,DEFAULT, DEFAULT)`;
     const values = [login, hashedPassword, first_name, last_name, email];
 
     const results = await dbQuery(query, values);
@@ -81,6 +81,24 @@ app.post('/login', async (req, res) => {
       }
   } catch (error) {
       res.status(500).send(error);
+  }
+});
+
+app.post('/pracownicy/usun', async (req, res) => {
+  const { first_name, last_name } = req.body;
+
+  try {
+    const query = `DELETE FROM users WHERE first_name = ? AND last_name = ?`;
+    const values = [first_name, last_name];
+
+    const results = await dbQuery(query, values);
+    if (results.affectedRows > 0) {
+        res.send({ success: true });
+    } else {
+        res.status(401).send({ success: false, message: "Nie usunięto pracownika z bazy" });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
