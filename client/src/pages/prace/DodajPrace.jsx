@@ -12,6 +12,7 @@ const DodajPrace = () => {
   const [clientList, setClientList] = useState(null);
   const [clientSite, setClientSite] = useState(1);
   const [clientNumber, setClientNumber] = useState(null);
+  const [currClient, setCurrClient] = useState(null);
   const [checkedClient, setCheckedClient] = useState(null);
   const [dateValue, setDateValue] = useState(new Date());
 
@@ -40,12 +41,6 @@ const DodajPrace = () => {
   };
 
   const navigate = useNavigate();
-
-  // let date = new Date();
-  // useEffect(() => {
-
-  //   console.log(date);
-  // }, [dateValue]);
 
   const [jobInputs, setJobInputs] = useState({
     name: "",
@@ -100,7 +95,7 @@ const DodajPrace = () => {
     );
   };
 
-  const addJob = async () => {
+  const setClientId = async () => {
     if (client == "dodaj") {
       for (const [key, value] of Object.entries(clientInputs)) {
         if (value == "") {
@@ -119,35 +114,41 @@ const DodajPrace = () => {
             clientInputs,
           }
         );
-        zsetClientNumber(responseClient.data.insertId);
+        setCurrClient(responseClient.data.insertId);
       } else if (client == "wybierz") {
-        setClientNumber(checkedClient);
+        setCurrClient(checkedClient);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      const date = new Date(
-        dateValue.getTime() - dateValue.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .slice(0, 19)
-        .replace("T", " ");
-      try {
-        const responseJob = await Axios.post(
-          "http://localhost:3001/jobs/dodaj",
-          {
-            jobInputs,
-            end_date: date,
-            clientId: clientNumber,
-          }
-        );
-        if (responseJob.status == 200) {
-          navigate(`/prace/${responseJob.data.insertId}/info`, {
-            state: { id: responseJob.data.insertId },
-          });
-        } else {
-          console.log("Nie dodano");
-        }
-      } catch {}
-      // console.log(responseJob);
+  useEffect(() => {
+    if (currClient != null) {
+      addJob();
+    }
+  }, [currClient]);
+
+  const addJob = async () => {
+    const date = new Date(
+      dateValue.getTime() - dateValue.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
+    try {
+      const responseJob = await Axios.post("http://localhost:3001/jobs/dodaj", {
+        jobInputs,
+        end_date: date,
+        clientId: currClient,
+      });
+      if (responseJob.status == 200) {
+        navigate(`/prace/${responseJob.data.insertId}/info`, {
+          state: { id: responseJob.data.insertId },
+        });
+      } else {
+        console.log("Nie dodano");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -286,7 +287,7 @@ const DodajPrace = () => {
           </div>
         </div>
         <div className="pracaAdd__form__inputs pracaAdd__submit">
-          <input type="submit" onClick={addJob} />
+          <input type="submit" onClick={setClientId} />
         </div>
       </div>
     </div>
