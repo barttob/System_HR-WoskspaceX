@@ -62,6 +62,7 @@ const Pracownicy = () => {
         <Link to="/pracownicy/dodaj">Dodaj pracownika</Link>
         <Link to="/pracownicy/usun">Usuń pracownika</Link>
         <Link to="/pracownicy/update">Aktualizuj dane</Link>
+        <Link to="/pracownicy/contracts">Kontrakty</Link>
       </div>
       <div className="pracownicy__list">
         <table style={{ width: "100%" }}>
@@ -105,38 +106,6 @@ const Pracownicy = () => {
             })}
           </tbody>
         </table>
-        {/* <div className="pracownicy__list__headers">
-          <div style={{ minWidth: "80px", fontWeight: "bold" }}>Id</div>
-          <div style={{ minWidth: "240px", fontWeight: "bold" }}>Imię</div>
-          <div style={{ minWidth: "240px", fontWeight: "bold" }}>Nazwisko</div>
-          <div style={{ minWidth: "340px", fontWeight: "bold" }}>E-mail</div>
-          <div style={{ width: "100%", fontWeight: "bold" }}>Akcje</div>
-        </div>
-        {employeeList.map((val, key) => {
-          return (
-            <div className="pracownicy__list__content" key={key}>
-              <div style={{ minWidth: "80px" }}>{val.user_id}</div>
-              <div style={{ minWidth: "240px" }}>{val.first_name}</div>
-              <div style={{ minWidth: "240px" }}>{val.last_name}</div>
-              <div style={{ minWidth: "340px" }}>{val.email}</div>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <Link>Informacje</Link>
-                <Link
-                  to="/pracownicy/:id/dokumenty"
-                  state={{ id: val.user_id }}
-                >
-                  Dokumenty
-                </Link>
-              </div>
-            </div>
-          );
-        })} */}
       </div>
       <div className="pracownicy__buttons">
         <SiteButtons />
