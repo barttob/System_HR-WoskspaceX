@@ -54,6 +54,12 @@ const Prace = () => {
     });
   };
 
+  const printDate = (exp_date) => {
+    const date = new Date(exp_date);
+    const formattedDate = date.toLocaleDateString("pl-PL");
+    return formattedDate;
+  };
+
   return (
     <div className="prace">
       <div className="prace__header">
@@ -67,6 +73,7 @@ const Prace = () => {
               <th>Id</th>
               <th>Nazwa</th>
               <th>Klient</th>
+              <th>Koniec pracy</th>
               <th>Akcje</th>
             </tr>
           </thead>
@@ -78,6 +85,9 @@ const Prace = () => {
                   <td>{val.name}</td>
                   <td>
                     {val.client_first} {val.client_last}
+                  </td>
+                  <td>
+                    {printDate(val.end_date)}
                   </td>
                   <td
                     style={{

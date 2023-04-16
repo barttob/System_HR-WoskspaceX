@@ -90,7 +90,7 @@
 }
 
 
-.pracaAdd__form__inputs__divs input {
+.pracaAdd__form__inputs__divs input{
   width: 50%;
 }
 
@@ -322,9 +322,37 @@
   border-bottom: 4px solid #f1f2f6;
 }
 
+.pracaInfo__content__pracownicy {
+  /* justify-content: space-between; */
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+}
+
 .pracaInfo__content__main {
   font-weight: 700;
   width: 12%;
   line-height: 3rem;
   /* border-right: 4px solid #f1f2f6; */
+}
+
+.pracaInfo__content__pracownicy--add {
+  margin-top: 0.5rem;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.pracaInfo__content__pracownicy input,
+.pracaInfo__content__pracownicy button {
+  background: #f1f2f6;
+  border: none;
+  border-radius: 10px;
+  height: 2rem;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  /* box-shadow: 0px 2px 4px rgba(187, 210, 221, 0.25); */
+  margin: 0.4rem 0;
 }

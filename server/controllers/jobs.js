@@ -42,7 +42,7 @@ export const countJobs = (req, res) => {
 };
 
 export const addJob = (req, res) => {
-  console.log(req.body.clientId);
+  // console.log(req.body.clientId);
   const date = new Date();
   const now = date.toISOString().slice(0, 19).replace("T", " ");
   db.query(
@@ -57,6 +57,34 @@ export const addJob = (req, res) => {
       req.body.clientId,
       "active",
     ],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+export const addEmp = (req, res) => {
+  db.query(
+    "INSERT INTO jobs_assigment (job_id, user_id) VALUES (?,?)",
+    [req.body.job_id, req.body.emp_id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+export const getEmps = (req, res) => {
+  db.query(
+    "SELECT * FROM users WHERE users.user_id IN (SELECT user_id FROM jobs_assigment WHERE job_id = ?)",
+    [req.params.id],
     (err, result) => {
       if (err) {
         res.status(500).send({ error: err.message });
