@@ -123,6 +123,29 @@ app.post('/pracownicy/usun', async (req, res) => {
   }
 });
 
+app.post('/pracownicy/contracts/addcontract', async (req, res) => {
+  const { user_id, start_date, end_date, rate, user_role, contract_type } = req.body;
+
+  //const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date) VALUES (?,?,?,?,?,'emp','1','1234-1234-1234','2009-09-15 16:49:30')`;
+  //const values = [login, password, first_name, last_name, email];
+
+  try {
+
+    const query = `INSERT INTO contracts (user_id, start_date, end_date, rate, user_role, contract_type) VALUES (?,?,?,?,?,?)`;
+    const values = [user_id, start_date, end_date, rate, user_role, contract_type];
+
+    const results = await dbQuery(query, values);
+    if (results.affectedRows > 0) {
+        res.send({ success: true });
+    } else {
+        //res.send({ success: false });
+        res.status(401).send({ success: false, message: "Nie dodano kontraktu" });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.use("/employees", employeesRoutes);
 app.use("/documents", documentsRoutes);
 app.use("/clients", clientsRoutes);

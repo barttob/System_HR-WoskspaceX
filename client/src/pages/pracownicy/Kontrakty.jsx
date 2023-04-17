@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Kontrakty.css";
 import { Link } from "react-router-dom";
+import BackButton from "../../components/backButton/BackButton";
 
 const Kontrakty = () => {
     const [contractList, setContractList] = useState([]);
@@ -62,8 +63,9 @@ const Kontrakty = () => {
     return (
       <div className="kontrakty">
         <div className="kontrakty__header">
+        <BackButton />
           Kontrakty
-          <Link to="/contracts/addcontract">Dodaj kontrakt</Link>
+          <Link to="/pracownicy/contracts/addcontract">Dodaj kontrakt z pracownikiem</Link>
         </div>
         <div className="kontrakty__list">
           <table style={{ width: "100%" }}>
