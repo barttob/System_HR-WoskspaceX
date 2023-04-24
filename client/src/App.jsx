@@ -21,6 +21,7 @@ import UsunPracownika from "./pages/pracownicy/UsunPracownika";
 import UpdatePracownika from "./pages/pracownicy/UpdatePracownika";
 import Kontrakty from "./pages/pracownicy/Kontrakty";
 import DodajKontrakt from "./pages/pracownicy/DodajKontrakt";
+import Opiekunowie from "./pages/pracownicy/Opiekunowie";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -104,6 +105,10 @@ function App() {
             {
               path: "/pracownicy/contracts/addcontract",
               element: <DodajKontrakt />,
+            },
+            {
+              path: "/pracownicy/supervisor",
+              element: <Opiekunowie />,
             },
           ],
         },

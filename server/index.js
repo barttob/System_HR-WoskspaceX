@@ -13,6 +13,7 @@ import documentsRoutes from "./routes/documents.js";
 import clientsRoutes from "./routes/clients.js";
 import jobsRoutes from "./routes/jobs.js";
 import contractsRoutes from "./routes/contracts.js";
+import supervisorRoutes from "./routes/supervisor.js";
 
 const app = express();
 
@@ -146,11 +147,35 @@ app.post('/pracownicy/contracts/addcontract', async (req, res) => {
   }
 });
 
+app.post('/pracownicy/supervisor', async (req, res) => {
+  const { sv_id, user_id } = req.body;
+
+  //const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date) VALUES (?,?,?,?,?,'emp','1','1234-1234-1234','2009-09-15 16:49:30')`;
+  //const values = [login, password, first_name, last_name, email];
+
+  try {
+
+    const query = `INSERT INTO supervisor_assigment (sv_id, user_id) VALUES (?,?)`;
+    const values = [sv_id, user_id];
+
+    const results = await dbQuery(query, values);
+    if (results.affectedRows > 0) {
+        res.send({ success: true });
+    } else {
+        //res.send({ success: false });
+        res.status(401).send({ success: false, message: "Nie przypisano opiekuna" });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.use("/employees", employeesRoutes);
 app.use("/documents", documentsRoutes);
 app.use("/clients", clientsRoutes);
 app.use("/jobs", jobsRoutes);
 app.use("/contracts", contractsRoutes);
+app.use("/supervisor", supervisorRoutes);
 
 app.listen(3001, () => {
   console.log("Running on port 3001");

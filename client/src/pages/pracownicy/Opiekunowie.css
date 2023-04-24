@@ -1,10 +1,10 @@
-.pracownicy {
+.opiekunowie {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 }
 
-.pracownicy__header {
+.opiekunowie__header {
   padding: 2rem 2rem 0 2rem;
   font-weight: 700;
   font-size: 3rem;
@@ -13,10 +13,10 @@
   align-items: center;
 }
 
-.pracownicy__header a {
+.opiekunowie__header a {
   padding: 1rem 2rem;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 1rem;
   background-color: #03c3ab;
   color: #ffffff;
   border: none;
@@ -24,7 +24,7 @@
   text-transform: uppercase;
 }
 
-.pracownicy__list {
+.opiekunowie__list {
   width: calc(100vw - 330px);
   margin: 2rem;
   display: flex;
@@ -35,72 +35,72 @@
   text-align: left;
 }
 
-.pracownicy__list table {
+.opiekunowie__list table {
   table-layout: auto;
 }
 
-.pracownicy__list td,
-.pracownicy__list th {
+.opiekunowie__list td,
+.opiekunowie__list th {
   border-collapse: collapse;
   border-right: 2px solid #f1f2f6;
   border-bottom: 2px solid #f1f2f6;
   padding: 2px 8px;
 }
 
-.pracownicy__list td:last-child,
-.pracownicy__list th:last-child {
+.opiekunowie__list td:last-child,
+.opiekunowie__list th:last-child {
   border-right: none;
 }
 
-.pracownicy__list tr:last-child td {
+.opiekunowie__list tr:last-child td {
   border-bottom: none;
 }
 
-.pracownicy__list a {
+.opiekunowie__list a {
   background: none;
   border: none;
   color: #000;
   cursor: pointer;
 }
 
-.pracownicy__list__headers {
+.opiekunowie__list__headers {
   display: flex;
   flex-direction: row;
   text-align: left;
 }
 
-.pracownicy__list__headers div {
+.opiekunowie__list__headers div {
   padding: 0.2rem 0 0.2rem 1rem;
   border-right: 2px solid #f1f2f6;
   border-bottom: 2px solid #f1f2f6;
   /* width: 100%; */
 }
 
-.pracownicy__list__content {
+.opiekunowie__list__content {
   display: flex;
   flex-direction: row;
   text-align: left;
 }
 
-.pracownicy__list__content div {
+.opiekunowie__list__content div {
   padding: 0.2rem 0 0.2rem 1rem;
   border-right: 2px solid #f1f2f6;
   border-bottom: 2px solid #f1f2f6;
 }
 
-.pracownicy__list__content a {
+.opiekunowie__list__content a {
   background: none;
   border: none;
   color: #000;
   cursor: pointer;
 }
 
-.pracownicy__buttons {
+.opiekunowie__buttons {
   margin-top: -1rem;
   padding-bottom: 1rem;
 }
 
-.pracownicy__buttons button {
+.opiekunowie__buttons button {
   background: none;
   border: none;
   color: #000;
@@ -110,53 +110,3 @@
   width: 2rem;
 }
 
-.pracownicy__filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-.pracownicy__filter {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.pracownicy__filter label {
-  margin-right: 10px;
-  font-weight: bold;
-  color: #333;
-}
-
-.pracownicy__filter input,
-.pracownicy__filter select {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  color: #333;
-}
-
-.pracownicy__filter select {
-  width: 150px;
-}
-
-.pracownicy__filter-button {
-  background-color: #03c3ab;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.pracownicy__filter-button:hover {
-  background-color: #0062cc;
-}
