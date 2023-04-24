@@ -90,7 +90,7 @@ const Opiekunowie = () => {
           <div className="opiekunowie__header">
           <BackButton />
             Opiekunowie i podopieczni
-            <Link to="/pracownicy/supervisor/assignsv">Przypisz pracownika</Link>
+            <Link to="/pracownicy/supervisor/assignsv">Przypisz opiekuna</Link>
           </div>
           <div className="opiekunowie__list">
             <table style={{ width: "100%" }}>

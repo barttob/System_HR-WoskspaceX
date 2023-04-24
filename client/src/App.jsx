@@ -22,6 +22,7 @@ import UpdatePracownika from "./pages/pracownicy/UpdatePracownika";
 import Kontrakty from "./pages/pracownicy/Kontrakty";
 import DodajKontrakt from "./pages/pracownicy/DodajKontrakt";
 import Opiekunowie from "./pages/pracownicy/Opiekunowie";
+import PrzypiszOpiekuna from "./pages/pracownicy/PrzypiszOpiekuna";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -109,6 +110,10 @@ function App() {
             {
               path: "/pracownicy/supervisor",
               element: <Opiekunowie />,
+            },
+            {
+              path: "/pracownicy/supervisor/assignsv",
+              element: <PrzypiszOpiekuna />,
             },
           ],
         },

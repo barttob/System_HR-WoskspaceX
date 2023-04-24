@@ -147,7 +147,7 @@ app.post('/pracownicy/contracts/addcontract', async (req, res) => {
   }
 });
 
-app.post('/pracownicy/supervisor', async (req, res) => {
+app.post('/pracownicy/supervisor/assignsv', async (req, res) => {
   const { sv_id, user_id } = req.body;
 
   //const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date) VALUES (?,?,?,?,?,'emp','1','1234-1234-1234','2009-09-15 16:49:30')`;
