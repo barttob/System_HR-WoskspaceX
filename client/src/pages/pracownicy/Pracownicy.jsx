@@ -80,6 +80,7 @@ const Pracownicy = () => {
         <Link to="/pracownicy/usun">Usuń pracownika</Link>
         <Link to="/pracownicy/update">Aktualizuj dane</Link>
         <Link to="/pracownicy/contracts">Kontrakty</Link>
+        <Link to="/pracownicy/supervisor">Przypisz opiekuna</Link>
       </div>
       <div className="pracownicy__filters">
         <div className="pracownicy__filter">
