@@ -1,0 +1,159 @@
+.kalendarz {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+
+.kalendarz__header {
+  padding: 2rem 2rem 0 2rem;
+  font-weight: 700;
+  font-size: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kalendarz__header a {
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  background-color: #03c3ab;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.kalendarzAdd__header {
+  padding: 2rem 2rem 0 2rem;
+  font-weight: 700;
+  font-size: 4rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.kalendarzAdd__content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.kalendarzAdd__form {
+  padding: 2rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+}
+
+.kalendarzAdd__client {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.kalendarzAdd__form form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.kalendarzAdd__form__inputs input,
+.kalendarzAdd__form__inputs textarea {
+  width: 50%;
+  background: #f1f2f6;
+  border: none;
+  border-radius: 10px;
+  height: 3rem;
+  color: #000000;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.4rem 2rem;
+  /* box-shadow: 0px 2px 4px rgba(187, 210, 221, 0.25); */
+  margin-bottom: 1rem;
+}
+
+.kalendarzAdd__form__inputs__divs {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  /* gap: 1rem; */
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+
+.kalendarzAdd__form__inputs__divs input{
+  width: 50%;
+  /* height: 100%; */
+  color: #a0abc5;
+}
+
+.kalendarzAdd__form__inputs__divs input::placeholder {
+  color: #a0abc5;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.kalendarzAdd__form__inputs textarea {
+  padding: 1rem 2rem;
+  height: 15rem;
+}
+
+.kalendarzAdd__form__inputs--div
+.kalendarzAdd__form__inputs input::placeholder,
+.kalendarzAdd__form__inputs input::placeholder,
+.kalendarzAdd__form__inputs textarea::placeholder {
+  color: #a0abc5;
+  font-size: 1rem;
+  font-weight: 700;
+  /* padding-left: 2rem; */
+}
+
+.kalendarzAdd__form__inputs input:focus,
+.kalendarzAdd__form__inputs textarea:focus {
+  color: #000000;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding-left: 2rem;
+}
+
+.kalendarzAdd__form__inputs__date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  width: 50%;
+}
+
+.kalendarzAdd__form__inputs__date--label {
+  width: 50%;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+
+.kalendarzAdd__form__inputs__date input, 
+.kalendarzAdd__form__inputs__date input:focus {
+  font-size: 1rem;
+  font-weight: normal;
+  height: 1rem;
+  padding: 0.4rem;
+  margin: 0;
+}
+
+.kalendarz__content {
+  padding: 2rem;
+  height: 70vh;
+}

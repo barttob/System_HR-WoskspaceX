@@ -21,6 +21,10 @@ import UsunPracownika from "./pages/pracownicy/UsunPracownika";
 import UpdatePracownika from "./pages/pracownicy/UpdatePracownika";
 import Kontrakty from "./pages/pracownicy/Kontrakty";
 import DodajKontrakt from "./pages/pracownicy/DodajKontrakt";
+import Opiekunowie from "./pages/pracownicy/Opiekunowie";
+import PrzypiszOpiekuna from "./pages/pracownicy/PrzypiszOpiekuna";
+import Kalendarz from "./pages/calendar/Kalendarz";
+import DodajEvent from "./pages/calendar/DodajEvent";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -105,6 +109,14 @@ function App() {
               path: "/pracownicy/contracts/addcontract",
               element: <DodajKontrakt />,
             },
+            {
+              path: "/pracownicy/supervisor",
+              element: <Opiekunowie />,
+            },
+            {
+              path: "/pracownicy/supervisor/assignsv",
+              element: <PrzypiszOpiekuna />,
+            },
           ],
         },
         {
@@ -126,6 +138,24 @@ function App() {
             {
               path: "/prace/:id/info",
               element: <PracaInfo />,
+            },
+          ],
+        },
+        {
+          path: "/kalendarz",
+          element: (
+            <ProtectedRoute allowedRoles={["per", "acc"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/kalendarz",
+              element: <Kalendarz />,
+            },
+            {
+              path: "/kalendarz/dodaj",
+              element: <DodajEvent />,
             },
           ],
         },

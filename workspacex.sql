@@ -86,7 +86,8 @@ DROP TABLE IF EXISTS `calendar`;
 CREATE TABLE `calendar` (
   `event_id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
-  `event_date` datetime NOT NULL,
+  `event_date_start` datetime NOT NULL,
+  `event_date_end` datetime NOT NULL,
   `event_name` varchar(255) NOT NULL,
   `event_desc` varchar(255) NOT NULL,
   PRIMARY KEY (`event_id`),

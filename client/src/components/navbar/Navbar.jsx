@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { BsPersonFill } from "react-icons/bs";
+import { BsPersonFill, BsCalendarFill } from "react-icons/bs";
 import { HiHome, HiDocument } from "react-icons/hi";
 import { MdWork } from "react-icons/md";
 import Logo from "../../assets/logo.png";
@@ -70,6 +70,11 @@ const Menu = () => {
           <NavbarButton
             name="Prace"
             icon={<MdWork size={24} />}
+            role={["acc", "per"]}
+          />
+          <NavbarButton
+            name="Kalendarz"
+            icon={<BsCalendarFill size={24} />}
             role={["acc", "per"]}
           />
         </div>
