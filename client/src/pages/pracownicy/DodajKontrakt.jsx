@@ -1,116 +1,158 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./DodajKontrakt.css";
 import BackButton from "../../components/backButton/BackButton";
-import { Link } from "react-router-dom";
-
-/*
-import { useState, useEffect } from "react";
-import axios from "axios";
-import "./Kontrakty.css";
-import { Link } from "react-router-dom";
-import BackButton from "../../components/backButton/BackButton";
-*/
+import { Link, useLocation } from "react-router-dom";
+import DatePicker from "react-date-picker";
 
 const DodajKontrakt = () => {
-  const [user_id, setUser_Id] = useState("");
-  const [start_date, setStart_Date] = useState("");
-  const [end_date, setEnd_Date] = useState("");
-  const [rate, setRate] = useState("");
-  const [user_role, setUser_Role] = useState("");
+  const [start_date, setStart_Date] = useState(new Date());
+  const [end_date, setEnd_Date] = useState(new Date());
   const [contract_type, setContract_Type] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  //const [isLogged, setIsLogged] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [emptyType, setEmptyType] = useState(null);
+
+  const location = useLocation();
+  const { id } = location.state;
+
+  const [inputs, setInputs] = useState({
+    user_id: id,
+    rate: "-1",
+    contract_type: "-",
+    user_role: "",
+  });
+
+  const handleChange = (e) => {
+    setInputs((state) => ({
+      ...state,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  useEffect(() => {
+    if (
+      inputs.contract_type == "Umowa zlecenie" ||
+      inputs.contract_type == "Umowa o dzieło"
+    ) {
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        rate: "-1",
+      }));
+    }
+  }, [inputs.contract_type]);
 
   const sendContractData = async () => {
-    try {
-      const response = await Axios.post(
-        "http://localhost:3001/pracownicy/contracts/addcontract",
-        {
-          user_id: user_id,
-          start_date: start_date,
-          end_date: end_date,
-          rate: rate,
-          user_role: user_role,
-          contract_type: contract_type,
-        }
-      );
+    if (inputs.contract_type == "-") {
+      setEmptyType("empty");
+    } else {
+      try {
+        let dateFormat = new Date(
+          start_date.getTime() - start_date.getTimezoneOffset() * 60000
+        );
+        dateFormat = dateFormat.toISOString().slice(0, 19).replace("T", " ");
+        let dateEndFormat = new Date(
+          end_date.getTime() - end_date.getTimezoneOffset() * 60000
+        );
+        dateEndFormat = dateEndFormat
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " ");
+        const response = await Axios.post(
+          "http://localhost:3001/pracownicy/contracts/addcontract",
+          {
+            inputs,
+            dateFormat,
+            dateEndFormat,
+          }
+        );
 
-      if (response.data.success) {
-        setShowSuccessMessage(true);
-      } else {
-        setErrorMessage("Nie dodano kontraktu. Spróbuj ponownie.");
+        if (response.data.success) {
+          setShowSuccessMessage(true);
+          navigate(-1);
+        } else {
+          setErrorMessage("Nie dodano kontraktu. Spróbuj ponownie.");
+        }
+      } catch (error) {
+        setErrorMessage("Coś poszło nie tak.");
+        console.log(error);
       }
-    } catch (error) {
-      setErrorMessage("Coś poszło nie tak.");
-      console.log(error);
     }
   };
 
   return (
-    <div className="contract">
-      <div className="contract__window">
+    <div className="kalendarz">
+      <div className="kalendarzAdd__header">
         <BackButton />
-        <div className="logo__window__header">
-          <img src="../../logo.png" alt="logo" />
-          <span>WorkspaceX</span>
+        Dodaj kontrakt
+      </div>
+      <div className="kalendarzAdd__wrapper">
+        <div className="kalendarzAdd__content">
+          <div className="kalendarzAdd__form">
+            <form className="kalendarzAdd__form__inputs">
+              <div>
+                <select name="contract_type" onChange={handleChange}>
+                  <option value="-">-</option>
+                  <option value="Umowa o pracę tymczasową">
+                    Umowa o pracę tymczasową
+                  </option>
+                  <option value="Umowa o pracę na czas określony">
+                    Umowa o pracę na czas określony
+                  </option>
+                  <option value="Umowa zlecenie">Umowa zlecenie</option>
+                  <option value="Umowa o dzieło">Umowa o dzieło</option>
+                </select>
+                {inputs.contract_type == "Umowa o pracę tymczasową" && (
+                  <input
+                    type="text"
+                    placeholder="Stawka godzinowa brutto"
+                    name="rate"
+                    onChange={handleChange}
+                    maxLength="10"
+                  />
+                )}
+                {inputs.contract_type == "Umowa o pracę na czas określony" && (
+                  <input
+                    type="text"
+                    placeholder="Pensja brutto"
+                    name="rate"
+                    onChange={handleChange}
+                    maxLength="10"
+                  />
+                )}
+              </div>
+              <div className="kalendarzAdd__form__inputs__date">
+                <div className="kalendarzAdd__form__inputs__date--label">
+                  Start kontraktu:{" "}
+                </div>
+                <DatePicker
+                  onChange={setStart_Date}
+                  value={start_date}
+                  clearIcon={null}
+                />
+              </div>
+              <div className="kalendarzAdd__form__inputs__date">
+                <div className="kalendarzAdd__form__inputs__date--label">
+                  Koniec kontraktu:{" "}
+                </div>
+                <DatePicker
+                  onChange={setEnd_Date}
+                  value={end_date}
+                  clearIcon={null}
+                />
+              </div>
+            </form>
+          </div>
         </div>
-        <div className="contract__window__inputs">
-        <input
-            type="text"
-            placeholder="Id pracownika"
-            onChange={(e) => {
-              setUser_Id(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Początek umowy (yyyy-mm-dd)"
-            onChange={(e) => {
-              setStart_Date(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Koniec umowy (yyyy-mm-dd)"
-            onChange={(e) => {
-              setEnd_Date(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Stawka ($)"
-            onChange={(e) => {
-              setRate(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Rola"
-            onChange={(e) => {
-              setUser_Role(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Typ umowy (Perm/Fixed/Temp)"
-            onChange={(e) => {
-              setContract_Type(e.target.value);
-            }}
-          />
-          <div className="error-message">{errorMessage}</div>
-          {showSuccessMessage && (
-            <div className="success-message">Pomyślnie dodano kontrakt</div>
-          )}
+        <div className="pracaAdd__form__inputs pracaAdd__submit">
+          <input type="submit" onClick={sendContractData} value="Dodaj" />
         </div>
-        <div className="logo__window__buttons">
-          <button onClick={sendContractData}>Zatwierdź kontrakt</button>
-        </div>
+        <div>{emptyType == "empty" && "Wybierz typ kontraktu"}</div>
       </div>
     </div>
   );

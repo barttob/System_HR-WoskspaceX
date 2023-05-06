@@ -69,8 +69,8 @@ export const addJob = (req, res) => {
 
 export const addEmp = (req, res) => {
   db.query(
-    "INSERT INTO jobs_assigment (job_id, user_id) VALUES (?,?)",
-    [req.body.job_id, req.body.emp_id],
+    "INSERT INTO jobs_assigment (job_id, user_id, add_date, contract_id) VALUES (?,?,NOW(),(SELECT contract_id FROM contracts WHERE user_id = ? ORDER BY start_date DESC LIMIT 1))",
+    [req.body.job_id, req.body.emp_id, req.body.emp_id],
     (err, result) => {
       if (err) {
         res.status(500).send({ error: err.message });

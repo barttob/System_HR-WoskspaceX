@@ -143,8 +143,8 @@ CREATE TABLE `contracts` (
   `user_id` int unsigned NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `rate` int NOT NULL,
-  `user_role` varchar(255) NOT NULL,
+  `rate` float NOT NULL,
+  -- `user_role` varchar(255) NOT NULL,
   `contract_type` varchar(255) NOT NULL,
   PRIMARY KEY (`contract_id`),
   KEY `contracts_user_id_foreign` (`user_id`),
@@ -234,12 +234,13 @@ CREATE TABLE `jobs_assigment` (
   `jobassg_id` int unsigned NOT NULL AUTO_INCREMENT,
   `job_id` int unsigned NOT NULL,
   `user_id` int unsigned NOT NULL,
-  -- `contract_id` int unsigned NOT NULL,
+  `add_date` DATETIME NOT NULL,
+  `contract_id` int unsigned NOT NULL,
   PRIMARY KEY (`jobassg_id`),
   KEY `jobs_assigment_job_id_foreign` (`job_id`),
-  -- KEY `jobs_assigment_contract_id_foreign` (`contract_id`),
+  KEY `jobs_assigment_contract_id_foreign` (`contract_id`),
   KEY `jobs_assigment_user_id_foreign` (`user_id`),
-  -- CONSTRAINT `jobs_assigment_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`),
+  CONSTRAINT `jobs_assigment_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`),
   CONSTRAINT `jobs_assigment_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`),
   CONSTRAINT `jobs_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -384,3 +385,11 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-04-06 22:54:06
+
+DROP VIEW IF EXISTS `user_address`;
+
+CREATE VIEW user_address AS 
+SELECT u.user_id, u.login, u.password, u.user_role, u.first_name, u.last_name, u.email, 
+a.address_id, a.address1, a.address2, a.postal_code, a.country, a.city, u.phone, u.birth_date, u.img_url 
+FROM users u 
+JOIN address a ON u.address_id = a.address_id;
