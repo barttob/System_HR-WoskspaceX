@@ -72,6 +72,10 @@ const PracaInfo = () => {
           {job.description}
         </div>
         <div className="pracaInfo__content__status">
+          <div className="pracaInfo__content__main">Początek</div>
+          {printDate(job.start_date)}
+        </div>
+        <div className="pracaInfo__content__status">
           <div className="pracaInfo__content__main">Koniec</div>
           {printDate(job.end_date)}
         </div>

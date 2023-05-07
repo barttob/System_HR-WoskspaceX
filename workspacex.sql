@@ -205,7 +205,7 @@ CREATE TABLE `jobs` (
   `description` varchar(255) NOT NULL,
   `emp_quantity` INT NOT NULL,
   `emp_rate` FLOAT NOT NULL,
-  `add_date` DATETIME NOT NULL,
+  `start_date` DATETIME NOT NULL,
   `end_date` DATETIME NOT NULL,
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`job_id`),
@@ -265,12 +265,16 @@ DROP TABLE IF EXISTS `salaries`;
 CREATE TABLE `salaries` (
   `salary_id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
+  `contract_id` int unsigned NOT NULL,
   `from_date` datetime NOT NULL,
   `to_date` datetime NOT NULL,
-  `salary` int NOT NULL,
+  `salary_gross` int NOT NULL,
+  `salary_net` int NOT NULL,
   PRIMARY KEY (`salary_id`),
   KEY `salaries_user_id_foreign` (`user_id`),
-  CONSTRAINT `salaries_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  KEY `salaries_contract_id_foreign` (`contract_id`),
+  CONSTRAINT `salaries_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `salaries_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

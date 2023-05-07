@@ -43,6 +43,17 @@ const Rozliczenia = () => {
     }
   };
 
+  const makeSettle = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/settlement/settle", {
+        settle,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="prace">
       <div className="pracaAdd__header">
@@ -67,6 +78,9 @@ const Rozliczenia = () => {
         <div className="pracaInfo__content__desc">
           <div className="pracaInfo__content__main">Wyn. netto</div>
           {settle.netto_rate} zł
+        </div>
+        <div className="pracaAdd__form__inputs pracaAdd__submit">
+          <input type="submit" onClick={makeSettle} value="Rozlicz" />
         </div>
       </div>
     </div>

@@ -53,14 +53,14 @@ export const getSettlement = (req, res) => {
             "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? ORDER BY add_date DESC LIMIT 1)",
             [result[0].contract_id],
             (err, subResult) => {
-              if (err) {
-                res.status(500).send({ error: err.message });
+              if (err || subResult[0] == null) {
+                res.status(500).send({ error: err });
               } else {
                 result[0].rate =
                   subResult[0].emp_rate *
                   getBusinessDays(
-                    new Date(result[0].start_date),
-                    new Date(result[0].end_date)
+                    new Date(subResult[0].start_date),
+                    new Date(subResult[0].end_date)
                   ) *
                   8;
                 result[0].netto_rate =
@@ -75,14 +75,46 @@ export const getSettlement = (req, res) => {
             }
           );
         } else if (result[0].contract_type === "Umowa o dzieło") {
-          result[0].rate *=
-            getBusinessDays(
-              new Date(result[0].start_date),
-              new Date(result[0].end_date)
-            ) * 8;
-          result[0].netto_rate = result[0].rate;
-          res.send(result);
+          db.query(
+            "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? ORDER BY add_date DESC LIMIT 1)",
+            [result[0].contract_id],
+            (err, subResult) => {
+              if (err) {
+                res.status(500).send({ error: err.message });
+              } else {
+                result[0].rate *=
+                  getBusinessDays(
+                    new Date(subResult[0].start_date),
+                    new Date(subResult[0].end_date)
+                  ) * 8;
+                result[0].netto_rate = result[0].rate;
+                res.send(result);
+              }
+            }
+          );
         }
+      }
+    }
+  );
+};
+
+export const setSettle = (req, res) => {
+  db.query(
+    "INSERT INTO salaries (user_id, contract_id, from_date, to_date, salary_gross, salary_net) VALUES (?,?,?,?,?,?)",
+    [
+      req.body.settle.user_id,
+      req.body.settle.contract_id,
+      new Date(req.body.settle.start_date),
+      new Date(req.body.settle.end_date),
+      req.body.settle.rate,
+      req.body.settle.netto_rate,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send({ success: true, result: result });
       }
     }
   );

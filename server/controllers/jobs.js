@@ -46,13 +46,13 @@ export const addJob = (req, res) => {
   const date = new Date();
   const now = date.toISOString().slice(0, 19).replace("T", " ");
   db.query(
-    "INSERT INTO jobs (name, description, emp_quantity, emp_rate, add_date, end_date, client_id, status) VALUES (?,?,?,?,?,?,?,?)",
+    "INSERT INTO jobs (name, description, emp_quantity, emp_rate, start_date, end_date, client_id, status) VALUES (?,?,?,?,?,?,?,?)",
     [
       req.body.jobInputs.name,
       req.body.jobInputs.desc,
       req.body.jobInputs.emp_quantity,
       req.body.jobInputs.emp_rate,
-      now,
+      req.body.start_date,
       req.body.end_date,
       req.body.clientId,
       "active",
