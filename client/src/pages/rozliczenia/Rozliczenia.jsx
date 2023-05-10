@@ -45,12 +45,39 @@ const Rozliczenia = () => {
 
   const makeSettle = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/settlement/settle", {
-        settle,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/settlement/settle",
+        {
+          settle,
+        }
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const generatePdf = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/settlement/gen/generate-pdf",
+        {
+          responseType: "blob",
+          params: {
+            settle: settle,
+            first_name: first_name,
+            last_name: last_name,
+          },
+        }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "raport.pdf");
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -79,8 +106,9 @@ const Rozliczenia = () => {
           <div className="pracaInfo__content__main">Wyn. netto</div>
           {settle.netto_rate} zł
         </div>
-        <div className="pracaAdd__form__inputs pracaAdd__submit">
+        <div className="pracaAdd__form__inputs pracaAdd__submit--double">
           <input type="submit" onClick={makeSettle} value="Rozlicz" />
+          <input type="submit" onClick={generatePdf} value="Raport PDF" />
         </div>
       </div>
     </div>

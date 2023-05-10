@@ -1,4 +1,5 @@
 import { db } from "../connect.js";
+import PDFDocument from "pdfkit";
 
 function getBusinessDays(startDate, endDate) {
   let businessDays = 0;
@@ -118,4 +119,53 @@ export const setSettle = (req, res) => {
       }
     }
   );
+};
+
+export const generatePdf = (req, res) => {
+  // console.log(req.query);
+  const date = new Date();
+  const currDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+  const start_date_raw = new Date(req.query.settle.start_date);
+  const start_date = new Date(
+    start_date_raw.getTime() - start_date_raw.getTimezoneOffset() * 60000
+  );
+  const end_date_raw = new Date(req.query.settle.end_date);
+  const end_date = new Date(
+    end_date_raw.getTime() - end_date_raw.getTimezoneOffset() * 60000
+  );
+
+  const doc = new PDFDocument();
+
+
+  // Dodaj zawartość do dokumentu
+  doc.fontSize(18).text("Raport rozliczeniowy", { align: "center" });
+  doc.moveDown();
+  doc.fontSize(12).text(`Imie: ${req.query.first_name}`);
+  doc.fontSize(12).text(`Nazwisko: ${req.query.last_name}`);
+  doc.fontSize(12).text(`Typ umowy: ${req.query.settle.contract_type}`);
+  doc.moveDown();
+  doc
+    .fontSize(12)
+    .text(`Data generowania raportu: ${currDate.toISOString().split("T")[0]}`, {
+      align: "right",
+    });
+  doc.moveDown();
+  doc.fontSize(14).text("Podsumowanie", { underline: true });
+  doc.moveDown();
+  doc
+    .fontSize(12)
+    .text(
+      `Okres rozliczenia: ${start_date.toISOString().split("T")[0]} - ${
+        end_date.toISOString().split("T")[0]
+      }`
+    );
+  doc.fontSize(12).text(`Wynagrodzenie brutto: ${req.query.settle.rate} zl`);
+  doc
+    .fontSize(12)
+    .text(`Wynagrodzenie netto: ${req.query.settle.netto_rate} zl`);
+  doc.moveDown();
+
+  const stream = doc.pipe(res.type("application/pdf").attachment("raport.pdf"));
+  doc.end();
 };

@@ -90,7 +90,7 @@
 }
 
 
-.pracaAdd__form__inputs__divs input{
+.pracaAdd__form__inputs__divs input {
   width: 50%;
 }
 
@@ -134,7 +134,7 @@
 }
 
 
-.pracaAdd__form__inputs__date input, 
+.pracaAdd__form__inputs__date input,
 .pracaAdd__form__inputs__date input:focus {
   font-size: 1rem;
   font-weight: normal;
@@ -201,7 +201,18 @@
   margin-top: 4rem;
 }
 
-.pracaAdd__submit input {
+
+.pracaAdd__submit--double {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+  gap: 2rem;
+}
+
+.pracaAdd__submit input,
+.pracaAdd__submit--double input {
   cursor: pointer;
 }
 
