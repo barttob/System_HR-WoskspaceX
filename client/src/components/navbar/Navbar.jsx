@@ -63,6 +63,11 @@ const Menu = () => {
             role={["emp", "sv", "acc", "per", "adm"]}
           />
           <NavbarButton
+            name="Harmonogram"
+            icon={<BsCalendarFill size={24} />}
+            role={["emp"]}
+          />
+          <NavbarButton
             name="Pracownicy"
             icon={<BsPersonFill size={24} />}
             role={["sv", "acc", "per"]}

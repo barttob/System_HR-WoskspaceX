@@ -15,6 +15,7 @@ import jobsRoutes from "./routes/jobs.js";
 import contractsRoutes from "./routes/contracts.js";
 import supervisorRoutes from "./routes/supervisor.js";
 import calendarRoutes from "./routes/calendar.js";
+import scheduleRoutes from "./routes/schedule.js";
 
 const app = express();
 
@@ -178,6 +179,7 @@ app.use("/jobs", jobsRoutes);
 app.use("/contracts", contractsRoutes);
 app.use("/supervisor", supervisorRoutes);
 app.use("/calendar", calendarRoutes);
+app.use("/schedule", scheduleRoutes);
 
 app.listen(3001, () => {
   console.log("Running on port 3001");

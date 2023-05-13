@@ -25,6 +25,7 @@ import Opiekunowie from "./pages/pracownicy/Opiekunowie";
 import PrzypiszOpiekuna from "./pages/pracownicy/PrzypiszOpiekuna";
 import Kalendarz from "./pages/calendar/Kalendarz";
 import DodajEvent from "./pages/calendar/DodajEvent";
+import Harmonogram from "./pages/harmonogram/Harmonogram";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -156,6 +157,20 @@ function App() {
             {
               path: "/kalendarz/dodaj",
               element: <DodajEvent />,
+            },
+          ],
+        },
+        {
+          path: "/harmonogram",
+          element: (
+            <ProtectedRoute allowedRoles={["emp"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/harmonogram",
+              element: <Harmonogram />,
             },
           ],
         },
