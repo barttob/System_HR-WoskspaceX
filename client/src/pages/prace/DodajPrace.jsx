@@ -14,7 +14,8 @@ const DodajPrace = () => {
   const [clientNumber, setClientNumber] = useState(null);
   const [currClient, setCurrClient] = useState(null);
   const [checkedClient, setCheckedClient] = useState(null);
-  const [dateValue, setDateValue] = useState(new Date());
+  const [dateStartValue, setDateStartValue] = useState(new Date());
+  const [dateEndValue, setDateEndValue] = useState(new Date());
 
   const SiteButtons = () => {
     return (
@@ -130,8 +131,14 @@ const DodajPrace = () => {
   }, [currClient]);
 
   const addJob = async () => {
-    const date = new Date(
-      dateValue.getTime() - dateValue.getTimezoneOffset() * 60000
+    const start_date = new Date(
+      dateStartValue.getTime() - dateStartValue.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
+    const end_date = new Date(
+      dateEndValue.getTime() - dateEndValue.getTimezoneOffset() * 60000
     )
       .toISOString()
       .slice(0, 19)
@@ -139,7 +146,8 @@ const DodajPrace = () => {
     try {
       const responseJob = await Axios.post("http://localhost:3001/jobs/dodaj", {
         jobInputs,
-        end_date: date,
+        start_date: start_date,
+        end_date: end_date,
         clientId: currClient,
       });
       if (responseJob.status == 200) {
@@ -194,11 +202,21 @@ const DodajPrace = () => {
               </div>
               <div className="pracaAdd__form__inputs__date">
                 <div className="pracaAdd__form__inputs__date--label">
+                  Start pracy:{" "}
+                </div>
+                <DatePicker
+                  onChange={setDateStartValue}
+                  value={dateStartValue}
+                  clearIcon={null}
+                />
+              </div>
+              <div className="pracaAdd__form__inputs__date">
+                <div className="pracaAdd__form__inputs__date--label">
                   Koniec pracy:{" "}
                 </div>
                 <DatePicker
-                  onChange={setDateValue}
-                  value={dateValue}
+                  onChange={setDateEndValue}
+                  value={dateEndValue}
                   clearIcon={null}
                 />
               </div>

@@ -26,6 +26,8 @@ import PrzypiszOpiekuna from "./pages/pracownicy/PrzypiszOpiekuna";
 import Kalendarz from "./pages/calendar/Kalendarz";
 import DodajEvent from "./pages/calendar/DodajEvent";
 import Harmonogram from "./pages/harmonogram/Harmonogram";
+import PracownicyInfo from "./pages/pracownicy/PracownicyInfo";
+import Rozliczenia from "./pages/rozliczenia/Rozliczenia";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -81,6 +83,14 @@ function App() {
             {
               path: "/pracownicy",
               element: <Pracownicy />,
+            },
+            {
+              path: "/pracownicy/:id/info",
+              element: <PracownicyInfo />,
+            },
+            {
+              path: "/pracownicy/:id/rozliczenie",
+              element: <Rozliczenia />,
             },
             {
               path: "/pracownicy/:id/dokumenty",

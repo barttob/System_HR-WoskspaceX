@@ -45,7 +45,15 @@ const Pracownicy = () => {
 
   useEffect(() => {
     getEmployees();
-  }, [employeeSites, filterFirstName, filterLastName, filterMinRate, filterMaxRate, filterContractType, filterContractDate]);
+  }, [
+    employeeSites,
+    filterFirstName,
+    filterLastName,
+    filterMinRate,
+    filterMaxRate,
+    filterContractType,
+    filterContractDate,
+  ]);
 
   const countEmployees = () => {
     axios.get("http://localhost:3001/employees/").then((response) => {
@@ -79,29 +87,55 @@ const Pracownicy = () => {
         <Link to="/pracownicy/dodaj">Dodaj pracownika</Link>
         <Link to="/pracownicy/usun">Usuń pracownika</Link>
         <Link to="/pracownicy/update">Aktualizuj dane</Link>
-        <Link to="/pracownicy/contracts">Kontrakty</Link>
+        {/* <Link to="/pracownicy/contracts">Kontrakty</Link> */}
         <Link to="/pracownicy/supervisor">Przypisz opiekuna</Link>
       </div>
       <div className="pracownicy__filters">
         <div className="pracownicy__filter">
-        <label htmlFor="filterFirstName">Imię:</label>
-          <input type="text" id="filterFirstName" value={filterFirstName} onChange={(event) => handleFilterChange(event, setFilterFirstName)} />
+          <label htmlFor="filterFirstName">Imię:</label>
+          <input
+            type="text"
+            id="filterFirstName"
+            value={filterFirstName}
+            onChange={(event) => handleFilterChange(event, setFilterFirstName)}
+          />
         </div>
         <div className="pracownicy__filter">
           <label htmlFor="filterLastName">Nazwisko:</label>
-          <input type="text" id="filterLastName" value={filterLastName} onChange={(event) => handleFilterChange(event, setFilterLastName)} />
+          <input
+            type="text"
+            id="filterLastName"
+            value={filterLastName}
+            onChange={(event) => handleFilterChange(event, setFilterLastName)}
+          />
         </div>
         <div className="pracownicy__filter">
           <label htmlFor="filterMinRate">Minimalna stawka:</label>
-          <input type="number" id="filterMinRate" value={filterMinRate} onChange={(event) => handleFilterChange(event, setFilterMinRate)} />
+          <input
+            type="number"
+            id="filterMinRate"
+            value={filterMinRate}
+            onChange={(event) => handleFilterChange(event, setFilterMinRate)}
+          />
         </div>
         <div className="pracownicy__filter">
           <label htmlFor="filterMaxRate">Maksymalna stawka:</label>
-          <input type="number" id="filterMaxRate" value={filterMaxRate} onChange={(event) => handleFilterChange(event, setFilterMaxRate)} />
+          <input
+            type="number"
+            id="filterMaxRate"
+            value={filterMaxRate}
+            onChange={(event) => handleFilterChange(event, setFilterMaxRate)}
+          />
         </div>
         <div className="pracownicy__filter">
           <label htmlFor="filterContractType">Typ kontraktu:</label>
-          <select id="filterContractType" value={filterContractType} onChange={(event) => handleFilterChange(event, setFilterContractType)}>
+          <select
+            id="filterContractType"
+            value={filterContractType}
+            onChange={(event) =>
+              handleFilterChange(event, setFilterContractType)
+            }
+          >
             <option value="">-</option>
             <option value="Permanent">Permanent</option>
             <option value="Fixed">Fixed time</option>
@@ -111,9 +145,18 @@ const Pracownicy = () => {
         </div>
         <div className="pracownicy__filter">
           <label htmlFor="filterContractDate">Data zawarcia kontraktu:</label>
-          <input type="date" id="filterContractDate" value={filterContractDate} onChange={(event) => handleFilterChange(event, setFilterContractDate)} />
+          <input
+            type="date"
+            id="filterContractDate"
+            value={filterContractDate}
+            onChange={(event) =>
+              handleFilterChange(event, setFilterContractDate)
+            }
+          />
         </div>
-        <button className="pracownicy__filter-button" onClick={getEmployees}>Filtruj</button>
+        <button className="pracownicy__filter-button" onClick={getEmployees}>
+          Filtruj
+        </button>
       </div>
       <div className="pracownicy__list">
         <table style={{ width: "100%" }}>
@@ -140,7 +183,16 @@ const Pracownicy = () => {
                       justifyContent: "space-around",
                     }}
                   >
-                    <Link>Informacje</Link>
+                    <Link
+                      to={`/pracownicy/${val.user_id}/info`}
+                      state={{
+                        id: val.user_id,
+                        first_name: val.first_name,
+                        last_name: val.last_name,
+                      }}
+                    >
+                      Informacje
+                    </Link>
                     <Link
                       to={`/pracownicy/${val.user_id}/dokumenty`}
                       state={{
@@ -150,6 +202,16 @@ const Pracownicy = () => {
                       }}
                     >
                       Dokumenty
+                    </Link>
+                    <Link
+                      to={`/pracownicy/${val.user_id}/rozliczenie`}
+                      state={{
+                        id: val.user_id,
+                        first_name: val.first_name,
+                        last_name: val.last_name,
+                      }}
+                    >
+                      Rozliczenie
                     </Link>
                   </td>
                 </tr>

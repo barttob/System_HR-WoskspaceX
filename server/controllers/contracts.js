@@ -27,3 +27,17 @@ export const countContracts = (req, res) => {
     }
   );
 };
+
+export const getContract = (req, res) => {
+  db.query(
+    "SELECT * FROM contracts WHERE user_id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};

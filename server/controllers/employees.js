@@ -26,3 +26,17 @@ export const countEmployees = (req, res) => {
     }
   );
 };
+
+export const getUser = (req, res) => {
+  db.query(
+    "SELECT * FROM user_address WHERE user_id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
