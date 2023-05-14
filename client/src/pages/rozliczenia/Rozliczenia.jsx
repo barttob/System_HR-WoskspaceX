@@ -18,8 +18,8 @@ const Rozliczenia = () => {
       axios
         .get(`http://localhost:3001/settlement/${id}`)
         .then((response) => {
-          // console.log(response)
-          setSettle(response.data[0]);
+          // console.log(response.data);
+          setSettle(response.data);
         })
         .catch((err) => {
           setSettle({
@@ -90,26 +90,35 @@ const Rozliczenia = () => {
         </div>
       </div>
       <div className="pracaInfo__content">
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Okres rozliczenia</div>
-          {printDate(settle.start_date)} - {printDate(settle.end_date)}
-        </div>
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Rodzaj umowy</div>
-          {settle.contract_type}
-        </div>
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Wyn. brutto</div>
-          {settle.rate} zł
-        </div>
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Wyn. netto</div>
-          {settle.netto_rate} zł
-        </div>
-        <div className="pracaAdd__form__inputs pracaAdd__submit--double">
-          <input type="submit" onClick={makeSettle} value="Rozlicz" />
-          <input type="submit" onClick={generatePdf} value="Raport PDF" />
-        </div>
+        {settle.map((val, key) => {
+          return (
+            <div key={key} className="pracaInfo__content">
+              <div className="pracaInfo__content__desc">
+                <div className="pracaInfo__content__main">
+                  Okres rozliczenia
+                </div>
+                {printDate(val.start_date)} -{" "}
+                {printDate(val.end_date)}
+              </div>
+              <div className="pracaInfo__content__desc">
+                <div className="pracaInfo__content__main">Rodzaj umowy</div>
+                {val.contract_type}
+              </div>
+              <div className="pracaInfo__content__desc">
+                <div className="pracaInfo__content__main">Wyn. brutto</div>
+                {val.rate} zł
+              </div>
+              <div className="pracaInfo__content__desc">
+                <div className="pracaInfo__content__main">Wyn. netto</div>
+                {val.netto_rate} zł
+              </div>
+              <div className="pracaAdd__form__inputs pracaAdd__submit--double">
+                <input type="submit" onClick={makeSettle} value="Rozlicz" />
+                <input type="submit" onClick={generatePdf} value="Raport PDF" />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

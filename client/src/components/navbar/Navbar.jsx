@@ -22,10 +22,10 @@ const Menu = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log("logout")
+    console.log("logout");
     localStorage.clear();
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   const NavbarButton = ({ name, icon, role }) => {
     return (
@@ -63,11 +63,6 @@ const Menu = () => {
             role={["emp", "sv", "acc", "per", "adm"]}
           />
           <NavbarButton
-            name="Harmonogram"
-            icon={<BsCalendarFill size={24} />}
-            role={["emp"]}
-          />
-          <NavbarButton
             name="Pracownicy"
             icon={<BsPersonFill size={24} />}
             role={["sv", "acc", "per"]}
@@ -82,6 +77,26 @@ const Menu = () => {
             icon={<BsCalendarFill size={24} />}
             role={["acc", "per"]}
           />
+          <NavbarButton
+            name="DoZatwierdzenia"
+            icon={<HiDocument size={24} />}
+            role={["acc", "per"]}
+          />
+          <NavbarButton
+            name="Profil"
+            icon={<BsPersonFill size={24} />}
+            role={["emp"]}
+          />
+          <NavbarButton
+            name="Harmonogram"
+            icon={<BsCalendarFill size={24} />}
+            role={["emp"]}
+          />
+          <NavbarButton
+            name="Dokumenty"
+            icon={<HiDocument size={24} />}
+            role={["emp"]}
+          />
         </div>
       </div>
       <div className="navbar__bottom">
@@ -95,7 +110,9 @@ const Menu = () => {
             <span>{roles[currentUser.user_role]}</span>
           </div>
         </div>
-        <button className="navbar__logout" onClick={handleLogout}>Wyloguj się</button>
+        <button className="navbar__logout" onClick={handleLogout}>
+          Wyloguj się
+        </button>
       </div>
     </div>
   );

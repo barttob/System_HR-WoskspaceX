@@ -30,6 +30,9 @@ import PracownicyInfo from "./pages/pracownicy/PracownicyInfo";
 import Rozliczenia from "./pages/rozliczenia/Rozliczenia";
 import Urlop from "./pages/harmonogram/Urlop";
 import Zwolnienie from "./pages/harmonogram/Zwolnienie";
+import EmpDokumenty from "./pages/pracownik/EmpDokumenty";
+import Profil from "./pages/pracownik/Profil";
+import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -133,6 +136,20 @@ function App() {
           ],
         },
         {
+          path: "/dozatwierdzenia",
+          element: (
+            <ProtectedRoute allowedRoles={["per", "acc"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/dozatwierdzenia",
+              element: <DoZatwierdzenia />,
+            },
+          ],
+        },
+        {
           path: "/prace",
           element: (
             <ProtectedRoute allowedRoles={["per", "acc"]}>
@@ -191,6 +208,38 @@ function App() {
             {
               path: "/harmonogram/zwolnienie",
               element: <Zwolnienie />,
+            },
+          ],
+        },
+        {
+          path: "/dokumenty",
+          element: (
+            <ProtectedRoute allowedRoles={["emp"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/dokumenty",
+              element: <EmpDokumenty />,
+            },
+            {
+              path: "/dokumenty/dodaj",
+              element: <DodajDokument />,
+            },
+          ],
+        },
+        {
+          path: "/profil",
+          element: (
+            <ProtectedRoute allowedRoles={["emp"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/profil",
+              element: <Profil />,
             },
           ],
         },

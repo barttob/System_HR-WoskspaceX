@@ -128,11 +128,11 @@ app.post("/pracownicy/update", async (req, res) => {
 });
 
 app.post("/pracownicy/usun", async (req, res) => {
-  const { first_name, last_name } = req.body;
+  const {id, first_name, last_name } = req.body;
 
   try {
-    const query = `DELETE FROM users WHERE first_name = ? AND last_name = ?`;
-    const values = [first_name, last_name];
+    const query = `DELETE FROM users WHERE user_id = ? AND first_name = ? AND last_name = ?`;
+    const values = [id, first_name, last_name];
 
     const results = await dbQuery(query, values);
     if (results.affectedRows > 0) {
