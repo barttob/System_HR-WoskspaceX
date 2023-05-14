@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const EmpDokumenty = () => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -36,7 +37,7 @@ const EmpDokumenty = () => {
           document.body.removeChild(link);
         });
     } catch (error) {
-      console.error(error);
+      toast.error(`Nie udało się pobrać pliku!`);
     }
   };
 
@@ -81,7 +82,9 @@ const EmpDokumenty = () => {
                       justifyContent: "space-around",
                     }}
                   >
-                    <button onClick={() => downloadDoc(val.doc_id, val.document_name)}>
+                    <button
+                      onClick={() => downloadDoc(val.doc_id, val.document_name)}
+                    >
                       Pobierz
                     </button>
                   </td>

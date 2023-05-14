@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import "./Dokumenty.css";
 import BackButton from "../../components/backButton/BackButton";
@@ -42,33 +43,33 @@ const DoZatwierdzenia = () => {
           document.body.removeChild(link);
         });
     } catch (error) {
-      console.error(error);
+      toast.error("Nie udało się pobrać dokumentu!");
     }
   };
 
-  const confirmDoc = async (id, docName) => {
+  const confirmDoc = async (id) => {
     try {
       axios
         .post(`http://localhost:3001/documents/confirm/${id}`)
         .then((response) => {
-          console.log(response);
-          getDocs()
+          toast.success("Zatwierdzono dokument!");
+          getDocs();
         });
     } catch (error) {
-      console.error(error);
+      toast.error("Nie udało się zatwierdzić dokumentu!");
     }
   };
 
-  const deleteDoc = async (id, docName) => {
+  const deleteDoc = async (id) => {
     try {
       axios
         .post(`http://localhost:3001/documents/delete/${id}`)
         .then((response) => {
-          console.log(response);
-          getDocs()
+          toast.success("Usunięto dokument!");
+          getDocs();
         });
     } catch (error) {
-      console.error(error);
+      toast.error("Nie udało się usunąć dokumentu!");
     }
   };
 
@@ -120,14 +121,10 @@ const DoZatwierdzenia = () => {
                     >
                       Pobierz
                     </button>
-                    <button
-                      onClick={() => confirmDoc(val.doc_id, val.document_name)}
-                    >
+                    <button onClick={() => confirmDoc(val.doc_id)}>
                       Zatwierdź
                     </button>
-                    <button
-                      onClick={() => deleteDoc(val.doc_id, val.document_name)}
-                    >
+                    <button onClick={() => deleteDoc(val.doc_id)}>
                       Odrzuć
                     </button>
                   </td>

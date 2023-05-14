@@ -2,7 +2,7 @@ import { db } from "../connect.js";
 
 export const getDocuments = (req, res) => {
   db.query(
-    "SELECT * FROM documents WHERE user_id = ?",
+    "SELECT * FROM documents WHERE user_id = ? ORDER BY add_date DESC",
     [req.params.id],
     (err, result) => {
       if (err) {
@@ -55,7 +55,7 @@ export const downloadDoc = (req, res) => {
 
 export const getDocsConfirm = (req, res) => {
   db.query(
-    "SELECT * FROM user_doc WHERE confirmation = 0",
+    "SELECT * FROM user_doc WHERE confirmation = 0 ORDER BY add_date ASC",
     [req.params.id],
     (err, result) => {
       if (err) {
