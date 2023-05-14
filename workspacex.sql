@@ -144,6 +144,7 @@ CREATE TABLE `contracts` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `rate` float NOT NULL,
+  -- `day_hours` int NOT NULL,
   -- `user_role` varchar(255) NOT NULL,
   `contract_type` varchar(255) NOT NULL,
   PRIMARY KEY (`contract_id`),
@@ -176,6 +177,7 @@ CREATE TABLE `documents` (
   `add_date` datetime NOT NULL,
   `exp_date` datetime NOT NULL,
   `file_link` varchar(255) NOT NULL,
+  `confirmation` boolean NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`doc_id`),
   KEY `documents_user_id_foreign` (`user_id`),
   CONSTRAINT `documents_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)

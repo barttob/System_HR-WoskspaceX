@@ -51,7 +51,7 @@ export const getSettlement = (req, res) => {
           res.send(result);
         } else if (result[0].contract_type === "Umowa zlecenie") {
           db.query(
-            "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? ORDER BY add_date DESC LIMIT 1)",
+            "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? AND contract_id NOT IN (SELECT contract_id FROM salaries) ORDER BY add_date DESC LIMIT 1) ",
             [result[0].contract_id],
             (err, subResult) => {
               if (err || subResult[0] == null) {
@@ -77,7 +77,7 @@ export const getSettlement = (req, res) => {
           );
         } else if (result[0].contract_type === "Umowa o dzieło") {
           db.query(
-            "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? ORDER BY add_date DESC LIMIT 1)",
+            "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? AND contract_id NOT IN (SELECT contract_id FROM salaries) ORDER BY add_date DESC LIMIT 1)",
             [result[0].contract_id],
             (err, subResult) => {
               if (err) {
@@ -136,7 +136,6 @@ export const generatePdf = (req, res) => {
   );
 
   const doc = new PDFDocument();
-
 
   // Dodaj zawartość do dokumentu
   doc.fontSize(18).text("Raport rozliczeniowy", { align: "center" });

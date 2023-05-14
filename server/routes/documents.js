@@ -1,5 +1,5 @@
 import express from "express";
-import { getDocuments, addDocument } from "../controllers/documents.js";
+import { getDocuments, addDocument, downloadDoc } from "../controllers/documents.js";
 import multer from "multer";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -17,6 +17,7 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.get("/:id", getDocuments);
+router.get("/download/:id", downloadDoc);
 router.post("/upload", upload.single("fileSubmit"), addDocument);
 
 export default router;
