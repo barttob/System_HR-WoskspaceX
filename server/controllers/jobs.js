@@ -2,7 +2,7 @@ import { db } from "../connect.js";
 
 export const getJobs = (req, res) => {
   db.query(
-    "SELECT *, (SELECT first_name FROM clients WHERE clients.client_id = jobs.client_id LIMIT 1) AS client_first, (SELECT last_name FROM clients WHERE clients.client_id = jobs.client_id LIMIT 1) AS client_last FROM jobs WHERE status = 'active' LIMIT 50 OFFSET ?",
+    "SELECT *, (SELECT first_name FROM clients WHERE clients.client_id = jobs.client_id LIMIT 1) AS client_first, (SELECT last_name FROM clients WHERE clients.client_id = jobs.client_id LIMIT 1) AS client_last FROM jobs WHERE status = 'active' OR start_date > NOW() ORDER BY start_date ASC LIMIT 50 OFFSET ?",
     [(req.params.site - 1) * 50],
     (err, result) => {
       if (err) {

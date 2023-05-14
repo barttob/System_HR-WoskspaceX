@@ -70,9 +70,10 @@ const Prace = () => {
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
-              <th>Id</th>
+              {/* <th>Id</th> */}
               <th>Nazwa</th>
               <th>Klient</th>
+              <th>Początek pracy</th>
               <th>Koniec pracy</th>
               <th>Akcje</th>
             </tr>
@@ -81,10 +82,13 @@ const Prace = () => {
             {jobList.map((val, key) => {
               return (
                 <tr key={key}>
-                  <td>{val.job_id}</td>
+                  {/* <td>{val.job_id}</td> */}
                   <td>{val.name}</td>
                   <td>
                     {val.client_first} {val.client_last}
+                  </td>
+                  <td>
+                    {printDate(val.start_date)}
                   </td>
                   <td>
                     {printDate(val.end_date)}

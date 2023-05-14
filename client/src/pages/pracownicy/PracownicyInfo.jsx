@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BackButton from "../../components/backButton/BackButton";
+import { toast } from "react-toastify";
 
 const PracownicyInfo = () => {
   const location = useLocation();
@@ -54,16 +55,15 @@ const PracownicyInfo = () => {
       );
 
       if (response.data.success) {
+        toast.success(`Usunięto pracownika ${first_name} ${last_name}!`);
         navigate(-1);
-        // setShowSuccessMessage(true);
-        // setDeletedFirstName(first_name);
-        // setDeletedLastName(last_name);
       } else {
-        // setErrorMessage("Nie usunięto pracownika. Spróbuj ponownie.");
+        toast.error(
+          `Nie udało się usunąć pracownika ${first_name} ${last_name}!`
+        );
       }
     } catch (error) {
-      // setErrorMessage("Coś poszło nie tak.");
-      console.log(error);
+      toast.error(`Nie udało się usunąć pracownika ${first_name} ${last_name}!`);
     }
   };
 

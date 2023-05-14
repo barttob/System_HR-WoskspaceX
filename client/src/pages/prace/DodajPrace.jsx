@@ -4,6 +4,7 @@ import Axios from "axios";
 import DatePicker from "react-date-picker";
 import "./Prace.css";
 import "./DatePicker.css";
+import { toast } from "react-toastify";
 
 import BackButton from "../../components/backButton/BackButton";
 
@@ -100,12 +101,12 @@ const DodajPrace = () => {
     if (client == "dodaj") {
       for (const [key, value] of Object.entries(clientInputs)) {
         if (value == "") {
-          return console.log("error");
+          return toast.error("Nie podano wszystkich danych klienta!");
         }
       }
     }
     if (client == "wybierz" && checkedClient == null) {
-      return console.log("error");
+      toast.error("Nie wybrano klienta!");
     }
     try {
       if (client == "dodaj") {
@@ -120,7 +121,7 @@ const DodajPrace = () => {
         setCurrClient(checkedClient);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Nie udało się dodać klienta!");
     }
   };
 
@@ -151,14 +152,15 @@ const DodajPrace = () => {
         clientId: currClient,
       });
       if (responseJob.status == 200) {
+        toast.success("Dodano pracę!");
         navigate(`/prace/${responseJob.data.insertId}/info`, {
           state: { id: responseJob.data.insertId },
         });
       } else {
-        console.log("Nie dodano");
+        toast.error("Nie udało się dodać pracy!");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Nie udało się dodać pracy!");
     }
   };
 

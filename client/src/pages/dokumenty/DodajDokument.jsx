@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker from "react-date-picker";
+import { toast } from "react-toastify";
 
 import "./DatePicker.css";
 
@@ -17,11 +18,6 @@ const DodajDokument = () => {
   const [showDate, setShowDate] = useState("nie");
 
   const navigate = useNavigate();
-  //9999, 11, 31, 23, 59, 59, 999
-
-  // useEffect(() => {
-  //   console.log(showDate);
-  // }, [showDate]);
 
   let date = new Date();
   useEffect(() => {
@@ -63,12 +59,10 @@ const DodajDokument = () => {
           },
         }
       );
-      console.log(id);
+      toast.success("Dodano plik!");
       navigate(-1);
-      // setUploaded(response.data.success);
-      // console.log(response.data.success);
     } catch (error) {
-      console.error(error);
+      toast.error("Nie udało się dodać pliku!");
     }
   };
 
@@ -104,7 +98,6 @@ const DodajDokument = () => {
               type="file"
               name="fileSubmit"
               onChange={(e) => setSelectedFile(e.target.files[0])}
-              // style={{ display: "none" }}
             />
           </label>
           <div className="dokumenty__datePick">
@@ -140,7 +133,6 @@ const DodajDokument = () => {
           />
         </form>
       </div>
-      {/* {uploaded && <div>Przesłano plik</div>} */}
     </div>
   );
 };
