@@ -28,6 +28,8 @@ import DodajEvent from "./pages/calendar/DodajEvent";
 import Harmonogram from "./pages/harmonogram/Harmonogram";
 import PracownicyInfo from "./pages/pracownicy/PracownicyInfo";
 import Rozliczenia from "./pages/rozliczenia/Rozliczenia";
+import Urlop from "./pages/harmonogram/Urlop";
+import Zwolnienie from "./pages/harmonogram/Zwolnienie";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -181,6 +183,14 @@ function App() {
             {
               path: "/harmonogram",
               element: <Harmonogram />,
+            },
+            {
+              path: "/harmonogram/urlop",
+              element: <Urlop />,
+            },
+            {
+              path: "/harmonogram/zwolnienie",
+              element: <Zwolnienie />,
             },
           ],
         },

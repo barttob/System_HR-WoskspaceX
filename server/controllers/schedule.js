@@ -14,15 +14,15 @@ export const getEvents = (req, res) => {
   );
 };
 
-export const addEvent = (req, res) => {
+export const dodZwolnienie = (req, res) => {
   db.query(
-    "INSERT INTO calendar (user_id, event_date_start, event_date_end, event_name, event_desc) VALUES (?,?,?,?,?)",
+    "INSERT INTO emp_applications (app_type, from_date, to_date, app_desc, user_id) VALUES (?,?,?,?,?)",
     [
-      req.body.eventInputs.user_id,
-      req.body.dateFormat,
-      req.body.dateEndFormat,
-      req.body.eventInputs.event_name,
-      req.body.eventInputs.event_desc,
+      req.body.appInputs.app_type,
+      req.body.fromDate,
+      req.body.toDate,
+      req.body.appInputs.app_desc,
+      req.body.appInputs.user_id,
     ],
     (err, result) => {
       if (err) {

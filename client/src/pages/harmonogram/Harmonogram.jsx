@@ -52,8 +52,7 @@ const Harmonogram = () => {
     <div className="harmonogram">
       <div className="harmonogram__header">
         Harmonogram
-        <Link to="/harmonogram/wniosek">Złóż wniosek o zwolnienie lekarskie</Link>
-        <Link to="/harmonogram/zwolnienie">Złóż wniosek o urlop</Link>
+        <Link to="/harmonogram/zwolnienie">Złóż wniosek o zwolnienie lekarskie lub urlop</Link>
       </div>
       <div className="harmonogram__content">
         <Calendar
