@@ -103,6 +103,16 @@ const PracownicyInfo = () => {
           Ulica: {user.address1} {user.address2} <br /> Miasto: {user.city}{" "}
           <br /> Kraj: {user.country}
         </div>
+        <div className="pracaInfo__content__desc">
+          <div className="pracaInfo__content__main">Opiekun </div>
+          {user.sv_name == null ? (
+            <>Brak opiekuna</>
+          ) : (
+            <>
+              {user.sv_name} {user.sv_last}
+            </>
+          )}
+        </div>
         <div className="pracaInfo__content__status">
           <div className="pracaInfo__content__main">Kontrakt</div>
           {contract == null ? (

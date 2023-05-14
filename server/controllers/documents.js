@@ -52,3 +52,45 @@ export const downloadDoc = (req, res) => {
     }
   );
 };
+
+export const getDocsConfirm = (req, res) => {
+  db.query(
+    "SELECT * FROM user_doc WHERE confirmation = 0",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+export const confirmDoc = (req, res) => {
+  db.query(
+    "UPDATE documents SET confirmation = 1 WHERE doc_id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+export const deleteDoc = (req, res) => {
+  db.query(
+    "DELETE FROM documents WHERE doc_id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};

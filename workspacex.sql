@@ -399,3 +399,12 @@ SELECT u.user_id, u.login, u.password, u.user_role, u.first_name, u.last_name, u
 a.address_id, a.address1, a.address2, a.postal_code, a.country, a.city, u.phone, u.birth_date, u.img_url 
 FROM users u 
 JOIN address a ON u.address_id = a.address_id;
+
+
+DROP VIEW IF EXISTS `user_doc`;
+
+CREATE VIEW user_doc AS 
+SELECT u.user_id, u.login, u.password, u.user_role, u.first_name, u.last_name, u.email, 
+d.doc_id, d.document_type, d.document_name, d.exp_date, d.add_date, d.file_link, d.confirmation, u.phone, u.birth_date, u.img_url 
+FROM users u 
+JOIN documents d ON u.user_id = d.user_id;

@@ -30,6 +30,7 @@ import PracownicyInfo from "./pages/pracownicy/PracownicyInfo";
 import Rozliczenia from "./pages/rozliczenia/Rozliczenia";
 import EmpDokumenty from "./pages/pracownik/EmpDokumenty";
 import Profil from "./pages/pracownik/Profil";
+import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -129,6 +130,20 @@ function App() {
             {
               path: "/pracownicy/supervisor/assignsv",
               element: <PrzypiszOpiekuna />,
+            },
+          ],
+        },
+        {
+          path: "/dozatwierdzenia",
+          element: (
+            <ProtectedRoute allowedRoles={["per", "acc"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/dozatwierdzenia",
+              element: <DoZatwierdzenia />,
             },
           ],
         },

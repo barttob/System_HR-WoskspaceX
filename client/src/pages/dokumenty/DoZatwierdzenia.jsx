@@ -5,9 +5,11 @@ import axios from "axios";
 import "./Dokumenty.css";
 import BackButton from "../../components/backButton/BackButton";
 
-const Dokumenty = () => {
-  const location = useLocation();
-  const { id, first_name, last_name } = location.state;
+const DoZatwierdzenia = () => {
+  //   const location = useLocation();
+  //   const { id, first_name, last_name } = location.state;
+
+  const id = 101;
 
   const [docList, setDocList] = useState([]);
 
@@ -16,9 +18,11 @@ const Dokumenty = () => {
   }, []);
 
   const getDocs = () => {
-    axios.get(`http://localhost:3001/documents/${id}`).then((response) => {
-      setDocList(response.data);
-    });
+    axios
+      .get(`http://localhost:3001/documents/toconfirm/1`)
+      .then((response) => {
+        setDocList(response.data);
+      });
   };
 
   const downloadDoc = async (id, docName) => {
@@ -42,6 +46,32 @@ const Dokumenty = () => {
     }
   };
 
+  const confirmDoc = async (id, docName) => {
+    try {
+      axios
+        .post(`http://localhost:3001/documents/confirm/${id}`)
+        .then((response) => {
+          console.log(response);
+          getDocs()
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteDoc = async (id, docName) => {
+    try {
+      axios
+        .post(`http://localhost:3001/documents/delete/${id}`)
+        .then((response) => {
+          console.log(response);
+          getDocs()
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const printDate = (exp_date) => {
     const date = new Date(exp_date);
     const formattedDate = date.toLocaleDateString("pl-PL");
@@ -51,22 +81,18 @@ const Dokumenty = () => {
   return (
     <div className="dokumenty">
       <div className="dokumenty__header">
-        <BackButton />
-        <div>
-          {first_name} {last_name}
-        </div>
-        <Link to={`/pracownicy/${id}/dokumenty/dodaj`} state={{ id: id }}>
-          Dodaj dokument
-        </Link>
+        {/* <BackButton /> */}
+        <div>Dokumenty do zatwierdzenia</div>
       </div>
       <div className="pracownicy__list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
-              <th>Nazwa</th>
+              <th>Imię</th>
+              <th>Nazwisko</th>
+              <th>Nazwa dokumentu</th>
               <th>Rodzaj</th>
               <th>Data końca ważności</th>
-              <th>Status</th>
               <th>Akcje</th>
             </tr>
           </thead>
@@ -74,6 +100,8 @@ const Dokumenty = () => {
             {docList.map((val, key) => {
               return (
                 <tr key={key}>
+                  <td>{val.first_name}</td>
+                  <td>{val.last_name}</td>
                   <td>{val.document_name}</td>
                   <td>{val.document_type}</td>
                   <td>
@@ -81,17 +109,26 @@ const Dokumenty = () => {
                       ? "Brak daty końca"
                       : printDate(val.exp_date)}
                   </td>
-                  <td>
-                    {val.confirmation == false ? "Niezatwierdzony" : "Zatwierdzony"}
-                  </td>
                   <td
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
                     }}
                   >
-                    <button onClick={() => downloadDoc(val.doc_id, val.document_name)}>
+                    <button
+                      onClick={() => downloadDoc(val.doc_id, val.document_name)}
+                    >
                       Pobierz
+                    </button>
+                    <button
+                      onClick={() => confirmDoc(val.doc_id, val.document_name)}
+                    >
+                      Zatwierdź
+                    </button>
+                    <button
+                      onClick={() => deleteDoc(val.doc_id, val.document_name)}
+                    >
+                      Odrzuć
                     </button>
                   </td>
                 </tr>
@@ -104,4 +141,4 @@ const Dokumenty = () => {
   );
 };
 
-export default Dokumenty;
+export default DoZatwierdzenia;

@@ -63,11 +63,6 @@ const Menu = () => {
             role={["emp", "sv", "acc", "per", "adm"]}
           />
           <NavbarButton
-            name="Harmonogram"
-            icon={<BsCalendarFill size={24} />}
-            role={["emp"]}
-          />
-          <NavbarButton
             name="Pracownicy"
             icon={<BsPersonFill size={24} />}
             role={["sv", "acc", "per"]}
@@ -83,8 +78,18 @@ const Menu = () => {
             role={["acc", "per"]}
           />
           <NavbarButton
+            name="DoZatwierdzenia"
+            icon={<HiDocument size={24} />}
+            role={["acc", "per"]}
+          />
+          <NavbarButton
             name="Profil"
             icon={<BsPersonFill size={24} />}
+            role={["emp"]}
+          />
+          <NavbarButton
+            name="Harmonogram"
+            icon={<BsCalendarFill size={24} />}
             role={["emp"]}
           />
           <NavbarButton
