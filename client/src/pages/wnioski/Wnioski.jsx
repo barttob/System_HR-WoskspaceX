@@ -127,7 +127,7 @@ const Wnioski = () => {
                         id: val.user_id,
                       }}
                     >
-                      Dokument
+                      Wniosek
                     </Link>
                   </td>
                 </tr>

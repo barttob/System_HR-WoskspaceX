@@ -24,7 +24,7 @@ export const handleApproval = (req, res) => {
         if (err) {
           res.status(500).send({ error: err.message });
         } else {
-          res.send({ message: "Rekord został zatwierdzony." });
+          res.send({ message: "Rekord został pomyslnie zatwierdzony." });
         }
       }
     );
