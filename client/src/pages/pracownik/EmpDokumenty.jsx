@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
-import "./Dokumenty.css";
-import BackButton from "../../components/backButton/BackButton";
-
-const Dokumenty = () => {
-  const location = useLocation();
-  const { id, first_name, last_name } = location.state;
+const EmpDokumenty = () => {
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const [docList, setDocList] = useState([]);
 
@@ -16,9 +12,11 @@ const Dokumenty = () => {
   }, []);
 
   const getDocs = () => {
-    axios.get(`http://localhost:3001/documents/${id}`).then((response) => {
-      setDocList(response.data);
-    });
+    axios
+      .get(`http://localhost:3001/documents/${currentUser.user_id}`)
+      .then((response) => {
+        setDocList(response.data);
+      });
   };
 
   const downloadDoc = async (id, docName) => {
@@ -51,11 +49,8 @@ const Dokumenty = () => {
   return (
     <div className="dokumenty">
       <div className="dokumenty__header">
-        <BackButton />
-        <div>
-          {first_name} {last_name}
-        </div>
-        <Link to={`/pracownicy/${id}/dokumenty/dodaj`} state={{ id: id }}>
+        <div>Dokumenty</div>
+        <Link to={`/dokumenty/dodaj`} state={{ id: currentUser.user_id }}>
           Dodaj dokument
         </Link>
       </div>
@@ -100,4 +95,4 @@ const Dokumenty = () => {
   );
 };
 
-export default Dokumenty;
+export default EmpDokumenty;

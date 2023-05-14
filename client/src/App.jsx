@@ -28,6 +28,8 @@ import DodajEvent from "./pages/calendar/DodajEvent";
 import Harmonogram from "./pages/harmonogram/Harmonogram";
 import PracownicyInfo from "./pages/pracownicy/PracownicyInfo";
 import Rozliczenia from "./pages/rozliczenia/Rozliczenia";
+import EmpDokumenty from "./pages/pracownik/EmpDokumenty";
+import Profil from "./pages/pracownik/Profil";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -181,6 +183,38 @@ function App() {
             {
               path: "/harmonogram",
               element: <Harmonogram />,
+            },
+          ],
+        },
+        {
+          path: "/dokumenty",
+          element: (
+            <ProtectedRoute allowedRoles={["emp"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/dokumenty",
+              element: <EmpDokumenty />,
+            },
+            {
+              path: "/dokumenty/dodaj",
+              element: <DodajDokument />,
+            },
+          ],
+        },
+        {
+          path: "/profil",
+          element: (
+            <ProtectedRoute allowedRoles={["emp"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/profil",
+              element: <Profil />,
             },
           ],
         },

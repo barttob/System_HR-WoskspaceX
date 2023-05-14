@@ -13,7 +13,8 @@
   align-items: center;
 }
 
-.pracownicy__header a {
+.pracownicy__header a,
+.pracownicy__header button {
   padding: 1rem 2rem;
   font-weight: 700;
   font-size: 0.7rem;
@@ -22,6 +23,19 @@
   border: none;
   border-radius: 10px;
   text-transform: uppercase;
+  /* margin-left: 1rem; */
+}
+
+.pracownicy__header_btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.pracownicy__header__btns button {
+  border: 1px solid #03c3ab;
+  margin-left: 1rem;
 }
 
 .pracownicy__list {

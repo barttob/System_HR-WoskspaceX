@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import BackButton from "../../components/backButton/BackButton";
 
-const PracownicyInfo = () => {
-  const location = useLocation();
-  const { id, first_name, last_name } = location.state;
-
-  const navigate = useNavigate();
+const Profil = () => {
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const [user, setUser] = useState([]);
   const [contract, setContract] = useState([]);
@@ -18,15 +14,17 @@ const PracownicyInfo = () => {
   }, []);
 
   const getUser = () => {
-    axios.get(`http://localhost:3001/employees/info/${id}`).then((response) => {
-      setUser(response.data[0]);
-    });
+    axios
+      .get(`http://localhost:3001/employees/info/${currentUser.user_id}`)
+      .then((response) => {
+        setUser(response.data[0]);
+      });
   };
 
   const getContract = () => {
     try {
       axios
-        .get(`http://localhost:3001/contracts/info/${id}`)
+        .get(`http://localhost:3001/contracts/info/${currentUser.user_id}`)
         .then((response) => {
           const currDate = new Date();
           if (response.data[0] == null) {
@@ -42,31 +40,6 @@ const PracownicyInfo = () => {
     }
   };
 
-  const sendDeleteData = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/pracownicy/usun",
-        {
-          id: id,
-          first_name: first_name,
-          last_name: last_name,
-        }
-      );
-
-      if (response.data.success) {
-        navigate(-1);
-        // setShowSuccessMessage(true);
-        // setDeletedFirstName(first_name);
-        // setDeletedLastName(last_name);
-      } else {
-        // setErrorMessage("Nie usunięto pracownika. Spróbuj ponownie.");
-      }
-    } catch (error) {
-      // setErrorMessage("Coś poszło nie tak.");
-      console.log(error);
-    }
-  };
-
   const printDate = (exp_date) => {
     const date = new Date(exp_date);
     const formattedDate = date.toLocaleDateString("pl-PL");
@@ -75,14 +48,9 @@ const PracownicyInfo = () => {
 
   return (
     <div className="prace">
-      <div className="pracownicy__header">
-        <BackButton />
+      <div className="pracaAdd__header">
         <div>
-          {first_name} {last_name}
-        </div>
-        <div className="pracownicy__header__btns">
-          <Link to="/pracownicy/update">Aktualizuj dane</Link>
-          <button onClick={sendDeleteData}>Usuń pracownika</button>
+          {currentUser.first_name} {currentUser.last_name}
         </div>
       </div>
       <div className="pracaInfo__content">
@@ -106,17 +74,7 @@ const PracownicyInfo = () => {
         <div className="pracaInfo__content__status">
           <div className="pracaInfo__content__main">Kontrakt</div>
           {contract == null ? (
-            <>
-              Brak aktywnego kontraktu{" "}
-              <Link
-                to="/pracownicy/contracts/addcontract"
-                state={{
-                  id: id,
-                }}
-              >
-                Dodaj kontrakt
-              </Link>
-            </>
+            <>Brak aktywnego kontraktu </>
           ) : (
             <>
               Typ umowy: {contract.contract_type}
@@ -137,4 +95,4 @@ const PracownicyInfo = () => {
   );
 };
 
-export default PracownicyInfo;
+export default Profil;

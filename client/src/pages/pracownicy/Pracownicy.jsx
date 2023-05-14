@@ -85,8 +85,8 @@ const Pracownicy = () => {
       <div className="pracownicy__header">
         Pracownicy
         <Link to="/pracownicy/dodaj">Dodaj pracownika</Link>
-        <Link to="/pracownicy/usun">Usuń pracownika</Link>
-        <Link to="/pracownicy/update">Aktualizuj dane</Link>
+        {/* <Link to="/pracownicy/usun">Usuń pracownika</Link> */}
+        {/* <Link to="/pracownicy/update">Aktualizuj dane</Link> */}
         {/* <Link to="/pracownicy/contracts">Kontrakty</Link> */}
         <Link to="/pracownicy/supervisor">Przypisz opiekuna</Link>
       </div>

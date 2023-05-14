@@ -11,6 +11,7 @@ import BackButton from "../../components/backButton/BackButton";
 const DodajDokument = () => {
   const location = useLocation();
   const { id } = location.state;
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const [dateValue, setDateValue] = useState(new Date());
   const [showDate, setShowDate] = useState("nie");
@@ -39,6 +40,9 @@ const DodajDokument = () => {
     const formData = new FormData();
     formData.append("docType", docType);
     formData.append("user_id", id);
+    currentUser.user_role == "emp"
+      ? formData.append("confirmation", 0)
+      : formData.append("confirmation", 1);
     let dateFormat;
     if (showDate == "tak")
       dateFormat = date.toISOString().slice(0, 19).replace("T", " ");
@@ -79,9 +83,13 @@ const DodajDokument = () => {
           <label htmlFor="">
             Rodzaj dokumentu:
             <select name="docType" onChange={(e) => setDocType(e.target.value)}>
-              <option value="Dokumenty aplikacyjne">Dokumenty aplikacyjne</option>
+              <option value="Dokumenty aplikacyjne">
+                Dokumenty aplikacyjne
+              </option>
               <option value="Umowa o pracę">Umowa o pracę</option>
-              <option value="Dane osobowe">Dokumenty dotyczące danych osobowych</option>
+              <option value="Dane osobowe">
+                Dokumenty dotyczące danych osobowych
+              </option>
               <option value="Zakres obowiązków">Zakres obowiązków</option>
               <option value="Potwierdzenia zapoznania się">
                 Potwierdzenia zapoznania się m.in. z regulaminem pracy/zasadami
