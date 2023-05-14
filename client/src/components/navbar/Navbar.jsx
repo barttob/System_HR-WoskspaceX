@@ -97,6 +97,11 @@ const Menu = () => {
             icon={<HiDocument size={24} />}
             role={["emp"]}
           />
+          <NavbarButton
+            name="Wnioski"
+            icon={<HiDocument size={24} />}
+            role={["per", "acc"]}
+          />
         </div>
       </div>
       <div className="navbar__bottom">

@@ -33,6 +33,7 @@ import Zwolnienie from "./pages/harmonogram/Zwolnienie";
 import EmpDokumenty from "./pages/pracownik/EmpDokumenty";
 import Profil from "./pages/pracownik/Profil";
 import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
+import Wnioski from "./pages/wnioski/Wnioski";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -240,6 +241,20 @@ function App() {
             {
               path: "/profil",
               element: <Profil />,
+            },
+          ],
+        },
+        {
+          path: "/wnioski",
+          element: (
+            <ProtectedRoute allowedRoles={["per", "acc"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/wnioski",
+              element: <Wnioski />,
             },
           ],
         },

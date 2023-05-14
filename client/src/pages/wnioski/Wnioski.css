@@ -1,0 +1,121 @@
+.wnioski {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  
+  .wnioski__header {
+    padding: 2rem 2rem 0 2rem;
+    font-weight: 700;
+    font-size: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .wnioski__header a {
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-size: 1rem;
+    background-color: #03c3ab;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+  
+  .wnioski__list {
+    width: calc(100vw - 330px);
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #f1f2f6;
+    border-radius: 16px;
+    overflow-x: auto;
+    text-align: left;
+  }
+  
+  .wnioski__list table {
+    table-layout: auto;
+  }
+  
+  .wnioski__list td,
+  .wnioski__list th {
+    border-collapse: collapse;
+    border-right: 2px solid #f1f2f6;
+    border-bottom: 2px solid #f1f2f6;
+    padding: 2px 8px;
+  }
+  
+  .wnioski__list td:last-child,
+  .wnioski__list th:last-child {
+    border-right: none;
+  }
+  
+  .wnioski__list tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .wnioski__list a {
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .wnioski__list__headers {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .wnioski__list__headers div {
+    padding: 0.2rem 0 0.2rem 1rem;
+    border-right: 2px solid #f1f2f6;
+    border-bottom: 2px solid #f1f2f6;
+    /* width: 100%; */
+  }
+  
+  .wnioski__list__content {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .wnioski__list__content div {
+    padding: 0.2rem 0 0.2rem 1rem;
+    border-right: 2px solid #f1f2f6;
+    border-bottom: 2px solid #f1f2f6;
+  }
+  
+  .wnioski__list__content a {
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .wnioski__buttons {
+    margin-top: -1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .wnioski__buttons button {
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 2rem;
+  }
+
+  .red-background {
+    background-color: red;
+  }
+  
+  .green-background {
+    background-color: green;
+  }
+  
+  

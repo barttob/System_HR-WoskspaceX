@@ -17,6 +17,7 @@ import supervisorRoutes from "./routes/supervisor.js";
 import calendarRoutes from "./routes/calendar.js";
 import scheduleRoutes from "./routes/schedule.js";
 import settlementRoutes from "./routes/settlement.js";
+import applicationsRoutes from "./routes/applications.js";
 
 const app = express();
 
@@ -209,6 +210,7 @@ app.use("/supervisor", supervisorRoutes);
 app.use("/calendar", calendarRoutes);
 app.use("/schedule", scheduleRoutes);
 app.use("/settlement", settlementRoutes);
+app.use("/applications", applicationsRoutes);
 
 app.listen(3001, () => {
   console.log("Running on port 3001");

@@ -325,6 +325,8 @@ CREATE TABLE emp_applications (
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+INSERT INTO emp_applications VALUES (DEFAULT, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, DEFAULT);
+
 DROP TABLE IF EXISTS `user_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
