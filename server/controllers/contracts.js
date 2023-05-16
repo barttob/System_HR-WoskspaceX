@@ -30,7 +30,7 @@ export const countContracts = (req, res) => {
 
 export const getContract = (req, res) => {
   db.query(
-    "SELECT * FROM contracts WHERE user_id = ?",
+    "SELECT * FROM contracts WHERE user_id = ? ORDER BY end_date DESC",
     [req.params.id],
     (err, result) => {
       if (err) {

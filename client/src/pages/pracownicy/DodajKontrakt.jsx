@@ -6,6 +6,7 @@ import "./DodajKontrakt.css";
 import BackButton from "../../components/backButton/BackButton";
 import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-date-picker";
+import { toast } from "react-toastify";
 
 const DodajKontrakt = () => {
   const [start_date, setStart_Date] = useState(new Date());
@@ -73,13 +74,16 @@ const DodajKontrakt = () => {
         );
 
         if (response.data.success) {
-          setShowSuccessMessage(true);
+          toast.success("Dodano kontrakt.")
+          // setShowSuccessMessage(true);
           navigate(-1);
         } else {
-          setErrorMessage("Nie dodano kontraktu. Spróbuj ponownie.");
+          // setErrorMessage("Nie dodano kontraktu. Spróbuj ponownie.");
+          toast.error("Nie dodano kontraktu.")
         }
       } catch (error) {
-        setErrorMessage("Coś poszło nie tak.");
+        // setErrorMessage("Coś poszło nie tak.");
+        toast.error("Nie dodano kontraktu.")
         console.log(error);
       }
     }

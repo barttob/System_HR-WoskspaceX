@@ -38,7 +38,7 @@ export const dodZwolnienie = (req, res) => {
       req.body.fromDate,
       req.body.toDate,
       req.body.appInputs.app_desc,
-      req.body.appInputs.user_id,
+      req.body.user_id,
     ],
     (err, result) => {
       if (err) {

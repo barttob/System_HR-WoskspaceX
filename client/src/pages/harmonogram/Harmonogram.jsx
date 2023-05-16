@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import "./Harmonogram.css";
 import { Link } from "react-router-dom";
-import React from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-//import { getApplications } from "../../../../server/controllers/applications";
+import React from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const messages = {
   week: "Tydzień",
@@ -111,7 +110,14 @@ const Harmonogram = () => {
     <div className="harmonogram">
       <div className="harmonogram__header">
         Harmonogram
-        <Link to="/harmonogram/zwolnienie">Złóż wniosek o zwolnienie lekarskie lub urlop</Link>
+        <Link
+          to="/harmonogram/zwolnienie"
+          state={{
+            id: id,
+          }}
+        >
+          Złóż wniosek o zwolnienie lekarskie lub urlop
+        </Link>
       </div>
       <div className="harmonogram__content">
         <Calendar
@@ -125,7 +131,6 @@ const Harmonogram = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Harmonogram;
-
