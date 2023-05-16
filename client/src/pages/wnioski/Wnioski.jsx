@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Wnioski.css";
 import { Link } from "react-router-dom";
 import BackButton from "../../components/backButton/BackButton";
+import { toast } from "react-toastify";
 
 const Wnioski = () => {
   const [applicationList, setApplicationList] = useState([]);
@@ -36,10 +37,12 @@ const Wnioski = () => {
       })
       .then(() => {
         console.log("Rekord został zatwierdzony.");
+        toast.success("Rekord został zatwierdzony!")
         getApplications();
       })
       .catch((error) => {
         console.error("Błąd podczas zatwierdzania rekordu:", error);
+        toast.error(`Błąd podczas zatwierdzania rekordu: ${error}`)
       });
   };
 
@@ -75,7 +78,7 @@ const Wnioski = () => {
 	return (
     <div className="wnioski">
       <div className="wnioski__header">
-      <BackButton />
+      {/* <BackButton /> */}
         Wnioski pracowników
       </div>
       <div className="wnioski__list">
