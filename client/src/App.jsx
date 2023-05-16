@@ -34,6 +34,7 @@ import EmpDokumenty from "./pages/pracownik/EmpDokumenty";
 import Profil from "./pages/pracownik/Profil";
 import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
 import Wnioski from "./pages/wnioski/Wnioski";
+import Podopieczni from "./pages/podopieczni/Podopieczni";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -255,6 +256,20 @@ function App() {
             {
               path: "/wnioski",
               element: <Wnioski />,
+            },
+          ],
+        },
+        {
+          path: "/podopieczni",
+          element: (
+            <ProtectedRoute allowedRoles={["sv"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/podopieczni",
+              element: <Podopieczni />,
             },
           ],
         },

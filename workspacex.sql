@@ -331,7 +331,7 @@ CREATE TABLE emp_applications (
   user_id INT UNSIGNED,
   approved BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO emp_applications VALUES (0, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, DEFAULT),
   (1, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, TRUE);

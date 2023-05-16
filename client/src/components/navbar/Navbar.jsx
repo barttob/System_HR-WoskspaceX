@@ -102,6 +102,11 @@ const Menu = () => {
             icon={<HiDocument size={24} />}
             role={["per", "acc"]}
           />
+          <NavbarButton
+            name="Podopieczni"
+            icon={<BsPersonFill size={24} />}
+            role={["sv"]}
+          />
         </div>
       </div>
       <div className="navbar__bottom">
