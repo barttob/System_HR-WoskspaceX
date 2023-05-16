@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { BsPersonFill, BsCalendarFill } from "react-icons/bs";
 import { HiHome, HiDocument } from "react-icons/hi";
-import { MdWork } from "react-icons/md";
+import { MdWork, MdOutlineAttachMoney } from "react-icons/md";
 import Logo from "../../assets/logo.png";
 
 const roles = {
@@ -106,6 +106,11 @@ const Menu = () => {
             name="Podopieczni"
             icon={<BsPersonFill size={24} />}
             role={["sv"]}
+          />
+          <NavbarButton
+            name="Wynagrodzenie"
+            icon={<MdOutlineAttachMoney size={24} />}
+            role={["emp"]}
           />
         </div>
       </div>

@@ -91,6 +91,66 @@ export const getSettlement = (req, res) => {
   } else if (
     req.query.contract[0].contract_type === "Umowa o pracę na czas określony"
   ) {
+    const existingSalaryQuery = "SELECT * FROM salaries WHERE user_id = ?";
+    const existingSalaryParams = [req.params.id];
+
+    db.query(
+      existingSalaryQuery,
+      existingSalaryParams,
+      (salaryErr, salaryResult) => {
+        if (salaryErr) {
+          res.status(500).send({ error: salaryErr });
+          return;
+        }
+        const existingSalaries = salaryResult;
+
+        while (currentDate < endDate) {
+          const lastDayOfMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            currentDate.getDate()
+          );
+
+          // const daysInMonth = getBusinessDays(currentDate, lastDayOfMonth);
+          const monthlyRate = req.query.contract[0].rate;
+          const monthlyNettoRate =
+            Math.floor(
+              (monthlyRate - monthlyRate * 0.24 - monthlyRate * 0.0775) * 100
+            ) / 100;
+
+          const existingSalary = existingSalaries.find((salary) => {
+            const salaryStartDate = new Date(salary.from_date);
+            const salaryEndDate = new Date(salary.to_date);
+
+            return (
+              salaryStartDate <= currentDate && currentDate <= salaryEndDate
+            );
+          });
+
+          if (existingSalary) {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          } else {
+            monthlyRecords.push({
+              month: currentDate.toLocaleString("default", {
+                month: "long",
+              }),
+              year: currentDate.getFullYear(),
+              start_date: currentDate.toISOString().slice(0, 10),
+              end_date: lastDayOfMonth.toISOString().slice(0, 10),
+              contract_type: req.query.contract[0].contract_type,
+              contract_id: req.query.contract[0].contract_id,
+              user_id: req.query.contract[0].user_id,
+              rate: monthlyRate,
+              netto_rate: monthlyNettoRate,
+            });
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          }
+          if (currentDate >= endDate) {
+            res.send(monthlyRecords);
+          }
+        }
+      }
+    );
   } else if (req.query.contract[0].contract_type === "Umowa zlecenie") {
     db.query(
       "SELECT * FROM jobs WHERE job_id IN (SELECT job_id FROM jobs_assigment WHERE contract_id IN (?) AND contract_id NOT IN (SELECT contract_id FROM salaries) ORDER BY add_date DESC)",

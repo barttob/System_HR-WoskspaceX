@@ -35,6 +35,7 @@ import Profil from "./pages/pracownik/Profil";
 import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
 import Wnioski from "./pages/wnioski/Wnioski";
 import Podopieczni from "./pages/podopieczni/Podopieczni";
+import Wynagrodzenie from "./pages/pracownik/Wynagrodzenie";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -242,6 +243,20 @@ function App() {
             {
               path: "/profil",
               element: <Profil />,
+            },
+          ],
+        },
+        {
+          path: "/wynagrodzenie",
+          element: (
+            <ProtectedRoute allowedRoles={["emp"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/wynagrodzenie",
+              element: <Wynagrodzenie />,
             },
           ],
         },
