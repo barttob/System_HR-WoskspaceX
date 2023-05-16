@@ -18,7 +18,7 @@ const Rozliczenia = () => {
       axios
         .get(`http://localhost:3001/settlement/${id}`)
         .then((response) => {
-          // console.log(response.data);
+          console.log(response.data);
           setSettle(response.data);
         })
         .catch((err) => {
@@ -43,12 +43,14 @@ const Rozliczenia = () => {
     }
   };
 
-  const makeSettle = async () => {
+  const makeSettle = async (val) => {
+    console.log(val)
     try {
       const response = await axios.post(
         "http://localhost:3001/settlement/settle",
         {
-          settle,
+          user_id: id,
+          settle: val,
         }
       );
       console.log(response);
@@ -92,13 +94,12 @@ const Rozliczenia = () => {
       <div className="pracaInfo__content">
         {settle.map((val, key) => {
           return (
-            <div key={key} className="pracaInfo__content">
+            <div key={key} className="pracaInfo__content--border">
               <div className="pracaInfo__content__desc">
                 <div className="pracaInfo__content__main">
                   Okres rozliczenia
                 </div>
-                {printDate(val.start_date)} -{" "}
-                {printDate(val.end_date)}
+                {printDate(val.start_date)} - {printDate(val.end_date)}
               </div>
               <div className="pracaInfo__content__desc">
                 <div className="pracaInfo__content__main">Rodzaj umowy</div>
@@ -113,7 +114,11 @@ const Rozliczenia = () => {
                 {val.netto_rate} zł
               </div>
               <div className="pracaAdd__form__inputs pracaAdd__submit--double">
-                <input type="submit" onClick={makeSettle} value="Rozlicz" />
+                <input
+                  type="submit"
+                  onClick={() => makeSettle(val)}
+                  value="Rozlicz"
+                />
                 <input type="submit" onClick={generatePdf} value="Raport PDF" />
               </div>
             </div>

@@ -128,6 +128,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+INSERT INTO `clients` VALUES (1,'Test','Test','example@exaple.com','595959595'),(2,'Test2','Test2','example@exaple.com','595959595');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,8 +144,8 @@ CREATE TABLE `contracts` (
   `user_id` int unsigned NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `rate` int NOT NULL,
-  `user_role` varchar(255) NOT NULL,
+  `rate` float NOT NULL,
+  -- `user_role` varchar(255) NOT NULL,
   `contract_type` varchar(255) NOT NULL,
   PRIMARY KEY (`contract_id`),
   KEY `contracts_user_id_foreign` (`user_id`),
@@ -176,6 +177,7 @@ CREATE TABLE `documents` (
   `add_date` datetime NOT NULL,
   `exp_date` datetime NOT NULL,
   `file_link` varchar(255) NOT NULL,
+  `confirmation` boolean NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`doc_id`),
   KEY `documents_user_id_foreign` (`user_id`),
   CONSTRAINT `documents_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
@@ -205,7 +207,7 @@ CREATE TABLE `jobs` (
   `description` varchar(255) NOT NULL,
   `emp_quantity` INT NOT NULL,
   `emp_rate` FLOAT NOT NULL,
-  `add_date` DATETIME NOT NULL,
+  `start_date` DATETIME NOT NULL,
   `end_date` DATETIME NOT NULL,
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`job_id`),
@@ -220,6 +222,7 @@ CREATE TABLE `jobs` (
 
 LOCK TABLES `jobs` WRITE;
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+INSERT INTO `jobs` VALUES (1,1,'Praca testowa','Testowy opis',12,45,'2023-04-20 00:00:00','2023-06-20 00:00:00','active'),(2,2,'Praca testowa2','Testowy opis2',12,45,'2023-04-20 00:00:00','2023-06-20 00:00:00','active');
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,12 +237,13 @@ CREATE TABLE `jobs_assigment` (
   `jobassg_id` int unsigned NOT NULL AUTO_INCREMENT,
   `job_id` int unsigned NOT NULL,
   `user_id` int unsigned NOT NULL,
-  -- `contract_id` int unsigned NOT NULL,
+  `add_date` DATETIME NOT NULL,
+  `contract_id` int unsigned NOT NULL,
   PRIMARY KEY (`jobassg_id`),
   KEY `jobs_assigment_job_id_foreign` (`job_id`),
-  -- KEY `jobs_assigment_contract_id_foreign` (`contract_id`),
+  KEY `jobs_assigment_contract_id_foreign` (`contract_id`),
   KEY `jobs_assigment_user_id_foreign` (`user_id`),
-  -- CONSTRAINT `jobs_assigment_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`),
+  CONSTRAINT `jobs_assigment_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`),
   CONSTRAINT `jobs_assigment_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`),
   CONSTRAINT `jobs_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -264,12 +268,16 @@ DROP TABLE IF EXISTS `salaries`;
 CREATE TABLE `salaries` (
   `salary_id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
+  `contract_id` int unsigned NOT NULL,
   `from_date` datetime NOT NULL,
   `to_date` datetime NOT NULL,
-  `salary` int NOT NULL,
+  `salary_gross` int NOT NULL,
+  `salary_net` int NOT NULL,
   PRIMARY KEY (`salary_id`),
   KEY `salaries_user_id_foreign` (`user_id`),
-  CONSTRAINT `salaries_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  KEY `salaries_contract_id_foreign` (`contract_id`),
+  CONSTRAINT `salaries_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `salaries_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -325,8 +333,8 @@ CREATE TABLE emp_applications (
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-INSERT INTO emp_applications VALUES (DEFAULT, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, DEFAULT),
-  (DEFAULT, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, TRUE);
+INSERT INTO emp_applications VALUES (0, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, DEFAULT),
+  (1, 'L4', NOW(), '2023-05-29 13:07:31', 'Choroba popromienna', 101, TRUE);
 
 DROP TABLE IF EXISTS `user_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -398,3 +406,22 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-04-06 22:54:06
+
+
+DROP VIEW IF EXISTS `user_address`;
+
+CREATE VIEW user_address AS 
+SELECT u.user_id, u.login, u.password, u.user_role, u.first_name, u.last_name, u.email, 
+a.address_id, a.address1, a.address2, a.postal_code, a.country, a.city, u.phone, u.birth_date, u.img_url 
+FROM users u 
+JOIN address a ON u.address_id = a.address_id;
+
+
+
+DROP VIEW IF EXISTS `user_doc`;
+
+CREATE VIEW user_doc AS 
+SELECT u.user_id, u.login, u.password, u.user_role, u.first_name, u.last_name, u.email, 
+d.doc_id, d.document_type, d.document_name, d.exp_date, d.add_date, d.file_link, d.confirmation, u.phone, u.birth_date, u.img_url 
+FROM users u 
+JOIN documents d ON u.user_id = d.user_id;
