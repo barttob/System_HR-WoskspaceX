@@ -6,6 +6,7 @@ import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+//import { getApplications } from "../../../../server/controllers/applications";
 
 const messages = {
   week: "Tydzień",
@@ -21,18 +22,19 @@ const messages = {
 };
 
 const Harmonogram = () => {
+
   const currentUser = JSON.parse(localStorage.getItem("user"));
-
   const id = currentUser.user_id;
-
   const localizer = momentLocalizer(moment);
-
   const [eventList, setEventList] = useState([]);
 
   useEffect(() => {
     getEvents();
+    getApplications();
+    //getEventData();
   }, []);
 
+  
   const getEvents = () => {
     Axios.get(`http://localhost:3001/schedule/${id}`)
       .then((response) => {
@@ -40,12 +42,69 @@ const Harmonogram = () => {
           title: element.event_name.concat(" - ", element.event_desc),
           start: new Date(element.event_date_start),
           end: new Date(element.event_date_end),
+          source: "calendar",
         }));
         setEventList(tempEvents);
       })
       .catch((error) => {
         console.log(error);
+    });
+  };
+
+  const getApplications = () => {
+    Axios.get(`http://localhost:3001/schedule/${id}`)
+      .then((response) => {
+        const tempApplications = response.data.map((element) => ({
+          title: element.app_type.concat(" - ", element.app_desc),
+          start: new Date(element.from_date),
+          end: new Date(element.to_date),
+          source: "applications",
+        }));
+        setEventList((prevEvents) => [...prevEvents, ...tempApplications]);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+    });
+  };
+
+  /*
+  const getEventData = () => {
+    Axios.get(`http://localhost:3001/schedule/${id}`)
+      .then((response) => {
+        const eventData = response.data.map((element) => ({
+          title: element.app_type ? element.app_type.concat(" - ", element.app_desc) : element.event_name.concat(" - ", element.event_desc),
+          start: element.app_type ? new Date(element.from_date) : new Date(element.event_date_start),
+          end: element.app_type ? new Date(element.to_date) : new Date(element.event_date_end),
+          source: element.app_type ? "applications" : "calendar",
+        }));
+        setEventList(eventData);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
+  };
+  */
+  const eventStyleGetter = (event) => {
+    let backgroundColor = "#FF0000"; // Kolor dla wydarzeń z tabeli emp_applications
+
+    if (event.source === "calendar") {
+      backgroundColor = "#00FF00"; // Kolor dla wydarzeń z tabeli calendar
+    }
+
+    const style = {
+      backgroundColor,
+      borderRadius: "0px",
+      opacity: 0.8,
+      color: "#000000",
+      border: "0px",
+      display: "block",
+    };
+
+    return {
+      style,
+    };
   };
 
   return (
@@ -61,6 +120,7 @@ const Harmonogram = () => {
           step={60}
           defaultDate={new Date()}
           messages={messages}
+          eventPropGetter={eventStyleGetter}
         />
       </div>
     </div>
