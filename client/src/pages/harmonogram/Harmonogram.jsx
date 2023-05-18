@@ -35,7 +35,7 @@ const Harmonogram = () => {
 
   const getEvents = () => {
     axios
-      .get(`http://localhost:3001/schedule/${id}`)
+      .get(`http://localhost:3001/calendar/${id}`)
       .then((response) => {
         const tempEvents = response.data.map((element) => ({
           title: element.event_name.concat(" - ", element.event_desc),
@@ -71,6 +71,7 @@ const Harmonogram = () => {
           end: new Date(element.to_date),
           source: "applications",
         }));
+        console.log(response)
         setEventList((prevEvents) => {
           const newEvents = tempApplications.filter((tempEvent) => {
             return !prevEvents.some(

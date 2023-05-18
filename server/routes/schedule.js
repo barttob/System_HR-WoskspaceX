@@ -4,7 +4,6 @@ import { aclAuth } from "../controllers/aclAuth.js";
 
 const router = express.Router();
 
-//router.get("/:id", getEvents);
 router.get("/:id", getApplications);
 router.post("/zwolnienie", dodZwolnienie);
 router.post("/addschedule/:id", addSchedule);

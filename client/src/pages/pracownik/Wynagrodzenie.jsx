@@ -47,11 +47,9 @@ const Wynagrodzenie = () => {
           },
         })
         .then((response) => {
-          // console.log(response.data);
           setSettle(response.data);
         })
         .catch((err) => {
-          // toast.error("Brak")
           setSettle([]);
         });
     } catch {
@@ -94,8 +92,6 @@ const Wynagrodzenie = () => {
   return (
     <div className="prace">
       <div className="pracaAdd__header">
-        {/* <BackButton /> */}
-        {/* <button onClick={getSettle}>test</button> */}
         <div>
           {currentUser.first_name} {currentUser.last_name} - rozliczenie
         </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "./DodajPracownika.css";
 import BackButton from "../../components/backButton/BackButton";
+import { toast } from "react-toastify";
 
 const DodajPracownika = () => {
   const [first_name, setFirst_Name] = useState("");
@@ -11,11 +11,6 @@ const DodajPracownika = () => {
   const [email, setEmail] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  //const [isLogged, setIsLogged] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
-  //const navigate = useNavigate();
 
   const sendRegisterData = async () => {
     try {
@@ -31,12 +26,12 @@ const DodajPracownika = () => {
       );
 
       if (response.data.success) {
-        setShowSuccessMessage(true);
+        toast.success("Pomyślnie dodano pracownika");
       } else {
-        setErrorMessage("Nie dodano pracownika. Spróbuj ponownie.");
+        toast.error("Nie dodano pracownika. Spróbuj ponownie.");
       }
     } catch (error) {
-      setErrorMessage("Coś poszło nie tak.");
+      toast.error("Coś poszło nie tak.");
       console.log(error);
     }
   };
@@ -85,10 +80,6 @@ const DodajPracownika = () => {
               setPassword(e.target.value);
             }}
           />
-          <div className="error-message">{errorMessage}</div>
-          {showSuccessMessage && (
-            <div className="success-message">Pomyślnie dodano pracownika</div>
-          )}
         </div>
         <div className="logo__window__buttons">
           <button onClick={sendRegisterData}>Zarejestruj</button>

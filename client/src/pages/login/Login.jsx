@@ -9,10 +9,8 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  //const [isLogged, setIsLogged] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [currentUser, setCurrentUser] = useState(
-    // null
     JSON.parse(localStorage.getItem("user")) || null
   );
 
@@ -68,7 +66,9 @@ const Login = () => {
             }}
           />
           <div className="message">
-            {showSuccessMessage ? "Zalogowano poprawnie. Witamy!" : errorMessage}
+            {showSuccessMessage
+              ? "Zalogowano poprawnie. Witamy!"
+              : errorMessage}
           </div>
         </div>
         <div className="logo__window__buttons">

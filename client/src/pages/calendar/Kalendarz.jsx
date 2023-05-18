@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { useState, useEffect } from "react";
 
-import Axios from "axios";
+import axios from "axios";
 
 import "./Kalendarz.css";
 import "./react-big-calendar.css";
@@ -35,18 +35,17 @@ const Kalendarz = () => {
   }, []);
 
   const getEvents = () => {
-    Axios.get(`http://localhost:3001/calendar/${id}`).then((response) => {
-      const tempEvents = [];
-      response.data.forEach((element) => {
-        tempEvents.push({
-          title: element.event_name.concat(" - ", element.event_desc),
-          // allDay: true,
-          start: new Date(element.event_date_start),
-          end: new Date(element.event_date_end),
-        });
+    axios
+      .get(`http://localhost:3001/calendar/get/allevents`)
+      .then((response) => {
+        setEventList(response.data);
       });
-      setEventList(tempEvents);
-    });
+  };
+
+  const printDate = (exp_date) => {
+    const date = new Date(exp_date);
+    const formattedDate = date.toLocaleString("pl-PL");
+    return formattedDate;
   };
 
   return (
@@ -55,14 +54,44 @@ const Kalendarz = () => {
         Kalendarz
         <Link to="/kalendarz/dodaj">Dodaj wydarzenie</Link>
       </div>
-      <div className="kalendarz__content">
-        <Calendar
+      <div className="pracownicy__list">
+        <table style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              <th>Nazwa</th>
+              <th>Opis</th>
+              <th>Data</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody>
+            {eventList.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.event_name}</td>
+                  <td>{val.event_desc}</td>
+                  <td>{printDate(val.event_date_start)}</td>
+
+                  <td
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <button>Usuń</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {/* <Calendar
           events={eventList}
           localizer={localizer}
           step={60}
           defaultDate={new Date()}
           messages={messages}
-        />
+        /> */}
       </div>
     </div>
   );

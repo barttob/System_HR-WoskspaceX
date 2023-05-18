@@ -42,9 +42,6 @@ export const countJobs = (req, res) => {
 };
 
 export const addJob = (req, res) => {
-  // console.log(req.body.clientId);
-  const date = new Date();
-  const now = date.toISOString().slice(0, 19).replace("T", " ");
   db.query(
     "INSERT INTO jobs (name, description, emp_quantity, emp_rate, start_date, end_date, client_id, status) VALUES (?,?,?,?,?,?,?,?)",
     [

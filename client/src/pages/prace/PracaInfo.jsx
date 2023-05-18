@@ -83,10 +83,10 @@ const PracaInfo = () => {
           <div className="pracaInfo__content__main">Ilość prac</div>
           {arrNum}/{job.emp_quantity}
         </div>
-        <div className="pracaInfo__content__status">
+        {/* <div className="pracaInfo__content__status">
           <div className="pracaInfo__content__main">Stawka</div>
           {job.emp_rate}
-        </div>
+        </div> */}
         <div className="pracaInfo__content__pracownicy">
           <div className="pracaInfo__content__main">Pracownicy</div>
           <div className="pracaInfo__content__pracownicy--content">

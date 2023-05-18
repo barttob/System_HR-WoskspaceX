@@ -2,7 +2,7 @@ import { db } from "../connect.js";
 
 export const getApplications = (req, res) => {
   db.query(
-    "SELECT c.event_name, c.event_desc, c.event_date_start, c.event_date_end, a.app_type, a.app_desc, a.from_date, a.to_date FROM emp_applications AS a LEFT JOIN calendar AS c ON c.user_id = a.user_id WHERE a.user_id = ? AND a.approved = TRUE",
+    "SELECT * FROM emp_applications WHERE user_id = ? AND approved = TRUE",
     [req.params.id],
     (err, result) => {
       if (err) {

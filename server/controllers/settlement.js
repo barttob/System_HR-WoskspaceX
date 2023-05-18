@@ -41,11 +41,15 @@ export const getSettlement = (req, res) => {
         const existingSalaries = salaryResult;
 
         while (currentDate < endDate) {
-          const lastDayOfMonth = new Date(
+          let lastDayOfMonth = new Date(
             currentDate.getFullYear(),
             currentDate.getMonth() + 1,
             currentDate.getDate()
           );
+
+          lastDayOfMonth > endDate
+            ? (lastDayOfMonth = endDate)
+            : (lastDayOfMonth = lastDayOfMonth);
 
           const daysInMonth = getBusinessDays(currentDate, lastDayOfMonth);
           const dailyRate = req.query.contract[0].rate;
@@ -105,13 +109,16 @@ export const getSettlement = (req, res) => {
         const existingSalaries = salaryResult;
 
         while (currentDate < endDate) {
-          const lastDayOfMonth = new Date(
+          let lastDayOfMonth = new Date(
             currentDate.getFullYear(),
             currentDate.getMonth() + 1,
             currentDate.getDate()
           );
 
-          // const daysInMonth = getBusinessDays(currentDate, lastDayOfMonth);
+          lastDayOfMonth > endDate
+            ? (lastDayOfMonth = endDate)
+            : (lastDayOfMonth = lastDayOfMonth);
+
           const monthlyRate = req.query.contract[0].rate;
           const monthlyNettoRate =
             Math.floor(
@@ -152,72 +159,131 @@ export const getSettlement = (req, res) => {
       }
     );
   } else if (req.query.contract[0].contract_type === "Umowa zlecenie") {
+    const existingSalaryQuery = "SELECT * FROM salaries WHERE user_id = ?";
+    const existingSalaryParams = [req.params.id];
+
     db.query(
-      "SELECT * FROM jobs WHERE job_id IN (SELECT job_id FROM jobs_assigment WHERE contract_id IN (?) AND contract_id NOT IN (SELECT contract_id FROM salaries) ORDER BY add_date DESC)",
-      [req.query.contract.map((contract) => contract.contract_id)],
-      // "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE contract_id = ? AND contract_id NOT IN (SELECT contract_id FROM salaries) ORDER BY add_date DESC LIMIT 1) ",
-      // [req.query.contract[0].contract_id],
-      (err, subResult) => {
-        if (err || subResult[0] == null) {
-          res.status(500).send({ error: err });
-        } else {
-          const records = [];
-          let i = 0;
-          subResult.forEach((element) => {
-            i = 0;
-            const rate =
-              element.emp_rate *
-              getBusinessDays(
-                new Date(element.start_date),
-                new Date(element.end_date)
-              ) *
-              8;
-            records.push({
-              start_date: startDate.toISOString().slice(0, 10),
-              end_date: endDate.toISOString().slice(0, 10),
-              contract_type: req.query.contract[i].contract_type,
-              contract_id: req.query.contract[i].contract_id,
-              user_id: req.query.contract[i].user_id,
-              rate: rate,
-              netto_rate:
-                Math.floor((rate - rate * 0.12 - rate * 0.0775) * 100) / 100,
-            });
-            i++;
+      existingSalaryQuery,
+      existingSalaryParams,
+      (salaryErr, salaryResult) => {
+        if (salaryErr) {
+          res.status(500).send({ error: salaryErr });
+          return;
+        }
+        const existingSalaries = salaryResult;
+
+        while (currentDate < endDate) {
+          let lastDayOfMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            currentDate.getDate()
+          );
+
+          lastDayOfMonth > endDate
+            ? (lastDayOfMonth = endDate)
+            : (lastDayOfMonth = lastDayOfMonth);
+
+          const daysInMonth = getBusinessDays(currentDate, lastDayOfMonth);
+          const dailyRate = req.query.contract[0].rate;
+          const monthlyRate = dailyRate * daysInMonth * 8;
+          const monthlyNettoRate =
+            Math.floor(
+              (monthlyRate - monthlyRate * 0.12 - monthlyRate * 0.0775) * 100
+            ) / 100;
+
+          const existingSalary = existingSalaries.find((salary) => {
+            const salaryStartDate = new Date(salary.from_date);
+            const salaryEndDate = new Date(salary.to_date);
+
+            return (
+              salaryStartDate <= currentDate && currentDate <= salaryEndDate
+            );
           });
-          res.send(records);
+
+          if (existingSalary) {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          } else {
+            monthlyRecords.push({
+              month: currentDate.toLocaleString("default", {
+                month: "long",
+              }),
+              year: currentDate.getFullYear(),
+              start_date: currentDate.toISOString().slice(0, 10),
+              end_date: lastDayOfMonth.toISOString().slice(0, 10),
+              contract_type: req.query.contract[0].contract_type,
+              contract_id: req.query.contract[0].contract_id,
+              user_id: req.query.contract[0].user_id,
+              rate: monthlyRate,
+              netto_rate: monthlyNettoRate,
+            });
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          }
+          if (currentDate >= endDate) {
+            res.send(monthlyRecords);
+          }
         }
       }
     );
   } else if (req.query.contract[0].contract_type === "Umowa o dzieło") {
+    const existingSalaryQuery = "SELECT * FROM salaries WHERE user_id = ?";
+    const existingSalaryParams = [req.params.id];
+
     db.query(
-      "SELECT * FROM jobs WHERE job_id IN (SELECT job_id FROM jobs_assigment WHERE contract_id IN (?) AND contract_id NOT IN (SELECT contract_id FROM salaries) ORDER BY add_date DESC)",
-      [req.query.contract.map((contract) => contract.contract_id)],
-      (err, subResult) => {
-        if (err) {
-          res.status(500).send({ error: err.message });
-        } else {
-          const records = [];
-          let i = 0;
-          subResult.forEach((element) => {
-            const rate =
-              element.emp_rate *
-              getBusinessDays(
-                new Date(element.start_date),
-                new Date(element.end_date)
-              ) *
-              8;
-            records.push({
-              start_date: startDate.toISOString().slice(0, 10),
-              end_date: endDate.toISOString().slice(0, 10),
-              contract_type: req.query.contract[i].contract_type,
-              contract_id: req.query.contract[i].contract_id,
-              user_id: req.query.contract[i].user_id,
-              rate: rate,
-              netto_rate: rate,
-            });
-            i++;
+      existingSalaryQuery,
+      existingSalaryParams,
+      (salaryErr, salaryResult) => {
+        if (salaryErr) {
+          res.status(500).send({ error: salaryErr });
+          return;
+        }
+        const existingSalaries = salaryResult;
+
+        while (currentDate < endDate) {
+          let lastDayOfMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            currentDate.getDate()
+          );
+
+          lastDayOfMonth > endDate
+            ? (lastDayOfMonth = endDate)
+            : (lastDayOfMonth = lastDayOfMonth);
+
+          const daysInMonth = getBusinessDays(currentDate, lastDayOfMonth);
+          const dailyRate = req.query.contract[0].rate;
+          const monthlyRate = dailyRate * daysInMonth * 8;
+          const monthlyNettoRate = monthlyRate;
+
+          const existingSalary = existingSalaries.find((salary) => {
+            const salaryStartDate = new Date(salary.from_date);
+            const salaryEndDate = new Date(salary.to_date);
+
+            return (
+              salaryStartDate <= currentDate && currentDate <= salaryEndDate
+            );
           });
-          res.send(records);
+
+          if (existingSalary) {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          } else {
+            monthlyRecords.push({
+              month: currentDate.toLocaleString("default", {
+                month: "long",
+              }),
+              year: currentDate.getFullYear(),
+              start_date: currentDate.toISOString().slice(0, 10),
+              end_date: lastDayOfMonth.toISOString().slice(0, 10),
+              contract_type: req.query.contract[0].contract_type,
+              contract_id: req.query.contract[0].contract_id,
+              user_id: req.query.contract[0].user_id,
+              rate: monthlyRate,
+              netto_rate: monthlyNettoRate,
+            });
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          }
+          if (currentDate >= endDate) {
+            res.send(monthlyRecords);
+          }
         }
       }
     );

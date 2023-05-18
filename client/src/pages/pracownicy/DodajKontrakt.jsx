@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./DodajKontrakt.css";
 import BackButton from "../../components/backButton/BackButton";
@@ -12,8 +12,6 @@ const DodajKontrakt = () => {
   const [start_date, setStart_Date] = useState(new Date());
   const [end_date, setEnd_Date] = useState(new Date());
   const [contract_type, setContract_Type] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,17 +34,17 @@ const DodajKontrakt = () => {
     }));
   };
 
-  useEffect(() => {
-    if (
-      inputs.contract_type == "Umowa zlecenie" ||
-      inputs.contract_type == "Umowa o dzieło"
-    ) {
-      setInputs((prevInputs) => ({
-        ...prevInputs,
-        rate: "-1",
-      }));
-    }
-  }, [inputs.contract_type]);
+  // useEffect(() => {
+  //   if (
+  //     inputs.contract_type == "Umowa zlecenie" ||
+  //     inputs.contract_type == "Umowa o dzieło"
+  //   ) {
+  //     setInputs((prevInputs) => ({
+  //       ...prevInputs,
+  //       rate: "-1",
+  //     }));
+  //   }
+  // }, [inputs.contract_type]);
 
   const sendContractData = async () => {
     if (inputs.contract_type == "-") {
@@ -64,7 +62,7 @@ const DodajKontrakt = () => {
           .toISOString()
           .slice(0, 19)
           .replace("T", " ");
-        const response = await Axios.post(
+        const response = await axios.post(
           "http://localhost:3001/pracownicy/contracts/addcontract",
           {
             inputs,
@@ -75,14 +73,11 @@ const DodajKontrakt = () => {
 
         if (response.data.success) {
           toast.success("Dodano kontrakt.")
-          // setShowSuccessMessage(true);
           navigate(-1);
         } else {
-          // setErrorMessage("Nie dodano kontraktu. Spróbuj ponownie.");
           toast.error("Nie dodano kontraktu.")
         }
       } catch (error) {
-        // setErrorMessage("Coś poszło nie tak.");
         toast.error("Nie dodano kontraktu.")
         console.log(error);
       }
@@ -111,7 +106,7 @@ const DodajKontrakt = () => {
                   <option value="Umowa zlecenie">Umowa zlecenie</option>
                   <option value="Umowa o dzieło">Umowa o dzieło</option>
                 </select>
-                {inputs.contract_type == "Umowa o pracę tymczasową" && (
+                {inputs.contract_type != "Umowa o pracę na czas określony" && (
                   <input
                     type="text"
                     placeholder="Stawka godzinowa brutto"

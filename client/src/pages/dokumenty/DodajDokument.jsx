@@ -26,7 +26,6 @@ const DodajDokument = () => {
     );
   }, [dateValue]);
 
-  // const [uploaded, setUploaded] = useState();
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [docType, setDocType] = useState("CV");

@@ -49,11 +49,9 @@ const Rozliczenia = () => {
           },
         })
         .then((response) => {
-          // console.log(response.data);
           setSettle(response.data);
         })
         .catch((err) => {
-          // toast.error("Brak")
           setSettle([]);
         });
     } catch {
@@ -70,7 +68,6 @@ const Rozliczenia = () => {
   };
 
   const makeSettle = async (val) => {
-    // console.log(val);
     let dateFormat = new Date(
       new Date(val.start_date).getTime() -
         new Date(val.start_date).getTimezoneOffset() * 60000
@@ -91,12 +88,10 @@ const Rozliczenia = () => {
           end_date: dateEndFormat,
         }
       );
-      // console.log(response);
       toast.success("Rozliczono pomyślnie.");
       getSettle();
     } catch (error) {
       toast.error("Rozliczenie nie powiodło się.");
-      // console.log(error);
     }
   };
 
@@ -128,7 +123,6 @@ const Rozliczenia = () => {
     <div className="prace">
       <div className="pracaAdd__header">
         <BackButton />
-        {/* <button onClick={getSettle}>test</button> */}
         <div>
           {first_name} {last_name} - rozliczenie
         </div>

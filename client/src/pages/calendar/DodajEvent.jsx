@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BackButton from "../../components/backButton/BackButton";
 import DateTimePicker from "react-datetime-picker";
-import Axios from "axios";
+import axios from "axios";
 import { toast } from "react-toastify";
 
 import "./Kalendarz.css";
@@ -32,7 +32,7 @@ const DodajEvent = () => {
     const dateEndFormat = dateEnd.toISOString().slice(0, 19).replace("T", " ");
 
     try {
-      const response = await Axios.post(
+      const response = await axios.post(
         "http://localhost:3001/calendar/dodaj",
         {
           eventInputs,
@@ -42,10 +42,8 @@ const DodajEvent = () => {
       );
       if (response.data) {
         toast.success("Pomyślnie dodano!");
-        // setShowSuccessMessage(true);
       } else {
         toast.error("Nie dodano!");
-        // setErrorMessage("Nie dodano pracownika. Spróbuj ponownie.");
       }
     } catch (error) {
       toast.error("Nie dodano!");

@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Zwolnienie.css";
 import BackButton from "../../components/backButton/BackButton";
-import DateTimePicker from "react-datetime-picker";
+import DatePicker from "react-date-picker";
 import { toast } from "react-toastify";
 
 import "./DateTimePicker.css";
 
 const Zwolnienie = () => {
-  //const [dateValue, setDateValue] = useState(new Date());
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [fromDateValue, setFromDateValue] = useState(new Date());
   const [toDateValue, setToDateValue] = useState(new Date());
   const [appInputs, setAppInputs] = useState({
@@ -28,14 +25,6 @@ const Zwolnienie = () => {
       ...state,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const clearSuccessMessage = () => {
-    setSuccessMessage("");
-  };
-
-  const clearErrorMessage = () => {
-    setErrorMessage("");
   };
 
   const dodZwolnienie = async () => {
@@ -55,21 +44,11 @@ const Zwolnienie = () => {
 
       if (response.data.affectedRows > 0) {
         toast.success("Wniosek został wysłany pomyślnie!");
-        // setSuccessMessage('Wniosek został wysłany pomyślnie');
-        // setErrorMessage('');
-        // setTimeout(clearSuccessMessage, 5000);
       } else {
         toast.error("Nie wysłano wniosku. Spróbuj ponownie.");
-        // setErrorMessage('Nie wysłano wniosku. Spróbuj ponownie.');
-        // setSuccessMessage('');
-        // setTimeout(clearErrorMessage, 5000);
       }
     } catch (error) {
       toast.error("Wystąpił błąd podczas wysyłania wniosku.");
-      // console.log(error);
-      // setErrorMessage('Wystąpił błąd podczas wysyłania wniosku.');
-      // setSuccessMessage('');
-      // setTimeout(clearErrorMessage, 5000);
     }
   };
 
@@ -96,19 +75,11 @@ const Zwolnienie = () => {
                 maxLength="250"
                 onChange={handleAppChange}
               />
-{/* 
-              <input
-                type="text"
-                placeholder="Twoje id pracownika"
-                name="user_id"
-                onChange={handleAppChange}
-              /> */}
-
               <div className="zwolnienieAdd__form__inputs__date">
                 <div className="zwolnienieAdd__form__inputs__date--label">
                   Od dnia:{" "}
                 </div>
-                <DateTimePicker
+                <DatePicker
                   onChange={setFromDateValue}
                   value={fromDateValue}
                   clearIcon={null}
@@ -118,7 +89,7 @@ const Zwolnienie = () => {
                 <div className="zwolnienieAdd__form__inputs__date--label">
                   Do dnia:{" "}
                 </div>
-                <DateTimePicker
+                <DatePicker
                   onChange={setToDateValue}
                   value={toDateValue}
                   clearIcon={null}
@@ -128,14 +99,6 @@ const Zwolnienie = () => {
           </div>
         </div>
         <div className="zwolnienieAdd__form__inputs zwolnienieAdd__submit">
-          {/* <div className="message-container">
-            {successMessage && (
-              <div className="success-message">{successMessage}</div>
-            )}
-            {errorMessage && (
-              <div className="error-message">{errorMessage}</div>
-            )}
-          </div> */}
           <input type="submit" onClick={dodZwolnienie} value="Wyślij" />
         </div>
       </div>

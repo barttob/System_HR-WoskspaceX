@@ -14,6 +14,16 @@ export const getEvents = (req, res) => {
   );
 };
 
+export const getAllEvents = (req, res) => {
+  db.query("SELECT * FROM calendar", (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err.message });
+    } else {
+      res.send(result);
+    }
+  });
+};
+
 export const addEvent = (req, res) => {
   db.query(
     "INSERT INTO calendar (user_id, event_date_start, event_date_end, event_name, event_desc) VALUES (?,?,?,?,?)",

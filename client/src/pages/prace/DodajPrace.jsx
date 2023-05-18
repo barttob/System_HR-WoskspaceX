@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 import DatePicker from "react-date-picker";
 import "./Prace.css";
 import "./DatePicker.css";
@@ -64,17 +64,14 @@ const DodajPrace = () => {
       ...jobInputs,
       [fieldName]: filteredValue,
     });
-    // setJobInputs((state) => ({
-    //   ...state,
-    //   [e.target.name]: e.target.value,
-    // }));
   };
 
-  const handleClientChange = (e) => {
-    setClientInputs((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
-    }));
+  const handleClientChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setClientInputs({
+      ...clientInputs,
+      [fieldName]: filteredValue,
+    });
   };
 
   useEffect(() => {
@@ -89,13 +86,13 @@ const DodajPrace = () => {
   }, [clientSite]);
 
   const countClients = () => {
-    Axios.get("http://localhost:3001/clients/").then((response) => {
+    axios.get("http://localhost:3001/clients/").then((response) => {
       setClientNumber(response.data[0].client_count);
     });
   };
 
   const getClients = () => {
-    Axios.get(`http://localhost:3001/clients/${clientSite}`).then(
+    axios.get(`http://localhost:3001/clients/${clientSite}`).then(
       (response) => {
         setClientList(response.data);
       }
@@ -115,7 +112,7 @@ const DodajPrace = () => {
     }
     try {
       if (client == "dodaj") {
-        const responseClient = await Axios.post(
+        const responseClient = await axios.post(
           "http://localhost:3001/clients/dodaj",
           {
             clientInputs,
@@ -150,7 +147,7 @@ const DodajPrace = () => {
       .slice(0, 19)
       .replace("T", " ");
     try {
-      const responseJob = await Axios.post("http://localhost:3001/jobs/dodaj", {
+      const responseJob = await axios.post("http://localhost:3001/jobs/dodaj", {
         jobInputs,
         start_date: start_date,
         end_date: end_date,
@@ -169,16 +166,6 @@ const DodajPrace = () => {
     }
   };
 
-  const onInputChange = (value, regex, fieldName) => {
-    const filteredValue = (value.match(regex) || []).join("");
-    setJobInputs({
-      ...jobInputs,
-      [fieldName]: filteredValue,
-    });
-    console.log(jobInputs);
-    console.log(fieldName);
-    console.log(filteredValue);
-  };
 
   return (
     <div className="prace">
@@ -219,21 +206,22 @@ const DodajPrace = () => {
                 }
                 value={jobInputs.desc}
               />
-              <div className="pracaAdd__form__inputs__divs">
-                <input
-                  type="text"
-                  placeholder="Ilość pracowników"
-                  name="emp_quantity"
-                  onChange={(event) =>
-                    handleJobChange(
-                      event.target.value,
-                      /[0-9]/g,
-                      event.target.name
-                    )
-                  }
-                  value={jobInputs.emp_quantity}
-                />
-                <input
+              <input
+                type="text"
+                placeholder="Ilość pracowników"
+                name="emp_quantity"
+                onChange={(event) =>
+                  handleJobChange(
+                    event.target.value,
+                    /[0-9]/g,
+                    event.target.name
+                  )
+                }
+                value={jobInputs.emp_quantity}
+                maxLength="8"
+              />
+              {/*<div className="pracaAdd__form__inputs__divs">
+                 <input
                   type="text"
                   placeholder="Stawka pracownika"
                   name="emp_rate"
@@ -245,8 +233,9 @@ const DodajPrace = () => {
                     )
                   }
                   value={jobInputs.emp_rate}
-                />
-              </div>
+                  maxLength="8"
+                /> 
+              </div>*/}
               <div className="pracaAdd__form__inputs__date">
                 <div className="pracaAdd__form__inputs__date--label">
                   Start pracy:{" "}
@@ -302,25 +291,57 @@ const DodajPrace = () => {
                     type="text"
                     placeholder="Imię klienta"
                     name="first_name"
-                    onChange={handleClientChange}
+                    onChange={(event) =>
+                      handleClientChange(
+                        event.target.value,
+                        /[A-Za-z0-9]/g,
+                        event.target.name
+                      )
+                    }
+                    value={clientInputs.first_name}
+                    maxLength="50"
                   />
                   <input
                     type="text"
                     placeholder="Nazwisko klienta"
                     name="last_name"
-                    onChange={handleClientChange}
+                    onChange={(event) =>
+                      handleClientChange(
+                        event.target.value,
+                        /[A-Za-z0-9]/g,
+                        event.target.name
+                      )
+                    }
+                    value={clientInputs.last_name}
+                    maxLength="50"
                   />
                   <input
                     type="text"
                     placeholder="Telefon klienta"
                     name="phone"
-                    onChange={handleClientChange}
+                    onChange={(event) =>
+                      handleClientChange(
+                        event.target.value,
+                        /[0-9- +()]/g,
+                        event.target.name
+                      )
+                    }
+                    value={clientInputs.phone}
+                    maxLength="20"
                   />
                   <input
                     type="text"
                     placeholder="E-mail klienta"
                     name="email"
-                    onChange={handleClientChange}
+                    onChange={(event) =>
+                      handleClientChange(
+                        event.target.value,
+                        /[A-Za-z0-9@_+-.]/g,
+                        event.target.name
+                      )
+                    }
+                    value={clientInputs.email}
+                    maxLength="100"
                   />
                 </form>
               </div>
