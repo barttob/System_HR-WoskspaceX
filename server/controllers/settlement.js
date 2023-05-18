@@ -164,6 +164,7 @@ export const getSettlement = (req, res) => {
           const records = [];
           let i = 0;
           subResult.forEach((element) => {
+            i = 0;
             const rate =
               element.emp_rate *
               getBusinessDays(

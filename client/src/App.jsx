@@ -36,6 +36,7 @@ import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
 import Wnioski from "./pages/wnioski/Wnioski";
 import Podopieczni from "./pages/podopieczni/Podopieczni";
 import Wynagrodzenie from "./pages/pracownik/Wynagrodzenie";
+import PracaHarmonogram from "./pages/prace/PracaHarmonogram";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -171,6 +172,10 @@ function App() {
             {
               path: "/prace/:id/info",
               element: <PracaInfo />,
+            },
+            {
+              path: "/prace/:id/harmonogram",
+              element: <PracaHarmonogram />,
             },
           ],
         },

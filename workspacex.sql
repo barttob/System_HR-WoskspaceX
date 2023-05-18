@@ -407,32 +407,46 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `user_schedule`
+-- Table structure for table `job_schedule`
 --
 
-DROP TABLE IF EXISTS `user_schedule`;
+DROP TABLE IF EXISTS `job_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_schedule` (
-  `day_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
-  `day_status` varchar(255) NOT NULL,
-  `event_id` int unsigned NOT NULL,
-  PRIMARY KEY (`day_id`),
-  KEY `user_schedule_event_id_foreign` (`event_id`),
-  KEY `user_schedule_user_id_foreign` (`user_id`),
-  CONSTRAINT `user_schedule_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `calendar` (`event_id`),
-  CONSTRAINT `user_schedule_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+CREATE TABLE `job_schedule` (
+  `job_schedule_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `job_id` int unsigned NOT NULL,
+  `monday_start` time, 
+  `monday_end` time, 
+  `tuesday_start` time, 
+  `tuesday_end` time, 
+  `wednesday_start` time, 
+  `wednesday_end` time, 
+  `thursday_start` time, 
+  `thursday_end` time, 
+  `friday_start` time, 
+  `friday_end` time, 
+  `saturday_start` time, 
+  `saturday_end` time, 
+  `sunday_start` time, 
+  `sunday_end` time, 
+  -- `day_status` varchar(255) NOT NULL,
+  -- `event_id` int unsigned NOT NULL,
+  PRIMARY KEY (`job_schedule_id`),
+  -- KEY `job_schedule_event_id_foreign` (`event_id`),
+  KEY `job_schedule_job_id_foreign` (`job_id`),
+  -- CONSTRAINT `job_schedule_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `calendar` (`event_id`),
+  CONSTRAINT `job_schedule_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_schedule`
+-- Dumping data for table `job_schedule`
 --
 
-LOCK TABLES `user_schedule` WRITE;
-/*!40000 ALTER TABLE `user_schedule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_schedule` ENABLE KEYS */;
+LOCK TABLES `job_schedule` WRITE;
+/*!40000 ALTER TABLE `job_schedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `job_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -516,3 +530,34 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-05-17  0:00:00
+
+
+CREATE VIEW job_schedule_view AS
+SELECT
+  j.job_id,
+  j.client_id,
+  j.name,
+  j.description,
+  j.emp_quantity,
+  j.emp_rate,
+  j.start_date,
+  j.end_date,
+  j.status,
+  js.monday_start,
+  js.monday_end,
+  js.tuesday_start,
+  js.tuesday_end,
+  js.wednesday_start,
+  js.wednesday_end,
+  js.thursday_start,
+  js.thursday_end,
+  js.friday_start,
+  js.friday_end,
+  js.saturday_start,
+  js.saturday_end,
+  js.sunday_start,
+  js.sunday_end
+FROM
+  jobs j
+INNER JOIN
+  job_schedule js ON j.job_id = js.job_id;

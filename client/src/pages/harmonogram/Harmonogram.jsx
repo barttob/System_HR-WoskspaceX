@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import "./Harmonogram.css";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -21,7 +21,6 @@ const messages = {
 };
 
 const Harmonogram = () => {
-
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const id = currentUser.user_id;
   const localizer = momentLocalizer(moment);
@@ -30,12 +29,13 @@ const Harmonogram = () => {
   useEffect(() => {
     getEvents();
     getApplications();
+    getSchedule();
     //getEventData();
   }, []);
 
-  
   const getEvents = () => {
-    Axios.get(`http://localhost:3001/schedule/${id}`)
+    axios
+      .get(`http://localhost:3001/schedule/${id}`)
       .then((response) => {
         const tempEvents = response.data.map((element) => ({
           title: element.event_name.concat(" - ", element.event_desc),
@@ -43,15 +43,26 @@ const Harmonogram = () => {
           end: new Date(element.event_date_end),
           source: "calendar",
         }));
-        setEventList(tempEvents);
+        setEventList((prevEvents) => {
+          const newEvents = tempEvents.filter((tempEvent) => {
+            return !prevEvents.some((prevEvent) => (
+              prevEvent.title === tempEvent.title &&
+              prevEvent.start.getTime() === tempEvent.start.getTime() &&
+              prevEvent.end.getTime() === tempEvent.end.getTime() &&
+              prevEvent.source === tempEvent.source
+            ));
+          });
+          return [...prevEvents, ...newEvents];
+        });
       })
       .catch((error) => {
         console.log(error);
-    });
+      });
   };
 
   const getApplications = () => {
-    Axios.get(`http://localhost:3001/schedule/${id}`)
+    axios
+      .get(`http://localhost:3001/schedule/${id}`)
       .then((response) => {
         const tempApplications = response.data.map((element) => ({
           title: element.app_type.concat(" - ", element.app_desc),
@@ -59,12 +70,50 @@ const Harmonogram = () => {
           end: new Date(element.to_date),
           source: "applications",
         }));
-        setEventList((prevEvents) => [...prevEvents, ...tempApplications]);
-        console.log(response.data);
+        setEventList((prevEvents) => {
+          const newEvents = tempApplications.filter((tempEvent) => {
+            return !prevEvents.some(
+              (prevEvent) =>
+                prevEvent.title === tempEvent.title &&
+                prevEvent.start.getTime() === tempEvent.start.getTime() &&
+                prevEvent.end.getTime() === tempEvent.end.getTime() &&
+                prevEvent.source === tempEvent.source
+            );
+          });
+          return [...prevEvents, ...newEvents];
+        });
       })
       .catch((error) => {
-        console.log(error);
-    });
+        // console.log(error);
+      });
+  };
+
+  const getSchedule = () => {
+    axios
+      .get(`http://localhost:3001/schedule/userjobschedule/${id}`)
+      .then((response) => {
+        const tempJobEvents = response.data.map((element) => ({
+          title: "Praca",
+          start: new Date(element.schedule.start),
+          end: new Date(element.schedule.end),
+          source: "job",
+        }));
+        setEventList((prevEvents) => {
+          const newEvents = tempJobEvents.filter((tempEvent) => {
+            return !prevEvents.some(
+              (prevEvent) =>
+                prevEvent.title === tempEvent.title &&
+                prevEvent.start.getTime() === tempEvent.start.getTime() &&
+                prevEvent.end.getTime() === tempEvent.end.getTime() &&
+                prevEvent.source === tempEvent.source
+            );
+          });
+          return [...prevEvents, ...newEvents];
+        });
+      })
+      .catch((error) => {
+        // console.log(error);
+      });
   };
 
   /*
@@ -90,6 +139,10 @@ const Harmonogram = () => {
 
     if (event.source === "calendar") {
       backgroundColor = "#00FF00"; // Kolor dla wydarzeń z tabeli calendar
+    }
+
+    if (event.source === "job") {
+      backgroundColor = "#0000FF"; // Kolor dla wydarzeń z tabeli calendar
     }
 
     const style = {

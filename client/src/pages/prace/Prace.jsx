@@ -87,12 +87,8 @@ const Prace = () => {
                   <td>
                     {val.client_first} {val.client_last}
                   </td>
-                  <td>
-                    {printDate(val.start_date)}
-                  </td>
-                  <td>
-                    {printDate(val.end_date)}
-                  </td>
+                  <td>{printDate(val.start_date)}</td>
+                  <td>{printDate(val.end_date)}</td>
                   <td
                     style={{
                       display: "flex",
@@ -106,6 +102,15 @@ const Prace = () => {
                       }}
                     >
                       Informacje
+                    </Link>
+                    <Link
+                      to={`/prace/${val.job_id}/harmonogram`}
+                      state={{
+                        id: val.job_id,
+                        job_name: val.name,
+                      }}
+                    >
+                      Harmonogram
                     </Link>
                   </td>
                 </tr>

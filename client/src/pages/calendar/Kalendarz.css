@@ -157,3 +157,20 @@
   padding: 2rem;
   height: 70vh;
 }
+
+.kalendarz__dayHours {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.kalendarz__dayHours--div {
+  display: flex;
+  flex-direction: column;
+}
+
+.kalendarz__dayHours--div__span{
+  font-weight: 700;
+}

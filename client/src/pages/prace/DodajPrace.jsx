@@ -47,8 +47,8 @@ const DodajPrace = () => {
   const [jobInputs, setJobInputs] = useState({
     name: "",
     desc: "",
-    emp_quantity: null,
-    emp_rate: null,
+    emp_quantity: "",
+    emp_rate: "",
   });
 
   const [clientInputs, setClientInputs] = useState({
@@ -58,11 +58,16 @@ const DodajPrace = () => {
     email: "",
   });
 
-  const handleJobChange = (e) => {
-    setJobInputs((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
-    }));
+  const handleJobChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setJobInputs({
+      ...jobInputs,
+      [fieldName]: filteredValue,
+    });
+    // setJobInputs((state) => ({
+    //   ...state,
+    //   [e.target.name]: e.target.value,
+    // }));
   };
 
   const handleClientChange = (e) => {
@@ -164,6 +169,17 @@ const DodajPrace = () => {
     }
   };
 
+  const onInputChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setJobInputs({
+      ...jobInputs,
+      [fieldName]: filteredValue,
+    });
+    console.log(jobInputs);
+    console.log(fieldName);
+    console.log(filteredValue);
+  };
+
   return (
     <div className="prace">
       <div className="pracaAdd__header">
@@ -179,27 +195,56 @@ const DodajPrace = () => {
                 type="text"
                 placeholder="Nazwa pracy"
                 name="name"
-                onChange={handleJobChange}
+                onChange={(event) =>
+                  handleJobChange(
+                    event.target.value,
+                    /[A-Za-z]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="50"
+                value={jobInputs.name}
               />
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Opis pracy - do 250 znaków"
                 name="desc"
                 maxLength="250"
-                onChange={handleJobChange}
+                onChange={(event) =>
+                  handleJobChange(
+                    event.target.value,
+                    /[A-Za-z0-9]/g,
+                    event.target.name
+                  )
+                }
+                value={jobInputs.desc}
               />
               <div className="pracaAdd__form__inputs__divs">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Ilość pracowników"
                   name="emp_quantity"
-                  onChange={handleJobChange}
+                  onChange={(event) =>
+                    handleJobChange(
+                      event.target.value,
+                      /[0-9]/g,
+                      event.target.name
+                    )
+                  }
+                  value={jobInputs.emp_quantity}
                 />
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Stawka pracownika"
                   name="emp_rate"
-                  onChange={handleJobChange}
+                  onChange={(event) =>
+                    handleJobChange(
+                      event.target.value,
+                      /[0-9]/g,
+                      event.target.name
+                    )
+                  }
+                  value={jobInputs.emp_rate}
                 />
               </div>
               <div className="pracaAdd__form__inputs__date">
