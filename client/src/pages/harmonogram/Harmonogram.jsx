@@ -6,6 +6,7 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { toast } from "react-toastify";
 
 const messages = {
   week: "Tydzień",
@@ -30,7 +31,6 @@ const Harmonogram = () => {
     getEvents();
     getApplications();
     getSchedule();
-    //getEventData();
   }, []);
 
   const getEvents = () => {
@@ -45,18 +45,19 @@ const Harmonogram = () => {
         }));
         setEventList((prevEvents) => {
           const newEvents = tempEvents.filter((tempEvent) => {
-            return !prevEvents.some((prevEvent) => (
-              prevEvent.title === tempEvent.title &&
-              prevEvent.start.getTime() === tempEvent.start.getTime() &&
-              prevEvent.end.getTime() === tempEvent.end.getTime() &&
-              prevEvent.source === tempEvent.source
-            ));
+            return !prevEvents.some(
+              (prevEvent) =>
+                prevEvent.title === tempEvent.title &&
+                prevEvent.start.getTime() === tempEvent.start.getTime() &&
+                prevEvent.end.getTime() === tempEvent.end.getTime() &&
+                prevEvent.source === tempEvent.source
+            );
           });
           return [...prevEvents, ...newEvents];
         });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -116,38 +117,23 @@ const Harmonogram = () => {
       });
   };
 
-  /*
-  const getEventData = () => {
-    Axios.get(`http://localhost:3001/schedule/${id}`)
-      .then((response) => {
-        const eventData = response.data.map((element) => ({
-          title: element.app_type ? element.app_type.concat(" - ", element.app_desc) : element.event_name.concat(" - ", element.event_desc),
-          start: element.app_type ? new Date(element.from_date) : new Date(element.event_date_start),
-          end: element.app_type ? new Date(element.to_date) : new Date(element.event_date_end),
-          source: element.app_type ? "applications" : "calendar",
-        }));
-        setEventList(eventData);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  */
   const eventStyleGetter = (event) => {
-    let backgroundColor = "#FF0000"; // Kolor dla wydarzeń z tabeli emp_applications
+    let backgroundColor = "#a0abc5";
 
     if (event.source === "calendar") {
-      backgroundColor = "#00FF00"; // Kolor dla wydarzeń z tabeli calendar
+      backgroundColor = "#a6f104"; // Kolor dla wydarzeń z tabeli calendar
+    }
+
+    if (event.source === "applications") {
+      backgroundColor = "#f1042f"; // Kolor dla wydarzeń z tabeli emp_applications
     }
 
     if (event.source === "job") {
-      backgroundColor = "#0000FF"; // Kolor dla wydarzeń z tabeli calendar
+      backgroundColor = "#03c3ab"; // Kolor dla wydarzeń z tabeli calendar
     }
 
     const style = {
       backgroundColor,
-      borderRadius: "0px",
       opacity: 0.8,
       color: "#000000",
       border: "0px",

@@ -2,6 +2,7 @@ import { useState } from "react";
 import BackButton from "../../components/backButton/BackButton";
 import DateTimePicker from "react-datetime-picker";
 import Axios from "axios";
+import { toast } from "react-toastify";
 
 import "./Kalendarz.css";
 import "./DateTimePicker.css";
@@ -39,12 +40,15 @@ const DodajEvent = () => {
           dateEndFormat,
         }
       );
-      if (response.data.success) {
+      if (response.data) {
+        toast.success("Pomyślnie dodano!");
         // setShowSuccessMessage(true);
       } else {
+        toast.error("Nie dodano!");
         // setErrorMessage("Nie dodano pracownika. Spróbuj ponownie.");
       }
     } catch (error) {
+      toast.error("Nie dodano!");
       console.log(error);
     }
   };

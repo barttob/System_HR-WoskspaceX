@@ -89,12 +89,13 @@ const PracaHarmonogram = () => {
         }
       );
       if (response.status == 200) {
-        toast.success("Dodano pracę!");
+        toast.success("Dodano plan!");
+        getSchedule();
       } else {
-        toast.error("Nie udało się dodać pracy!");
+        toast.error("Nie udało się dodać planu!");
       }
     } catch (error) {
-      toast.error("Nie udało się dodać pracy!");
+      toast.error("Nie udało się dodać planu!");
     }
   };
 

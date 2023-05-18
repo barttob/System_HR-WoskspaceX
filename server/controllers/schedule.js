@@ -1,19 +1,4 @@
 import { db } from "../connect.js";
-/*
-export const getEvents = (req, res) => {
-  db.query(
-    "SELECT * FROM calendar WHERE user_id = ?",
-    [req.params.id],
-    (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err.message });
-      } else {
-        res.send(result);
-      }
-    }
-  );
-};
-*/
 
 export const getApplications = (req, res) => {
   db.query(
@@ -21,7 +6,7 @@ export const getApplications = (req, res) => {
     [req.params.id],
     (err, result) => {
       if (err) {
-        res.status(500).send({ error: err.message });
+        res.status(500).send({ error: err });
       } else {
         res.send(result);
       }
@@ -41,7 +26,7 @@ export const dodZwolnienie = (req, res) => {
     ],
     (err, result) => {
       if (err) {
-        res.status(500).send({ error: err.message });
+        res.status(500).send({ error: err });
       } else {
         res.send(result);
       }
@@ -71,7 +56,7 @@ export const addSchedule = (req, res) => {
     ],
     (err, result) => {
       if (err) {
-        res.status(500).send({ error: err.message });
+        res.status(500).send({ error: err });
       } else {
         res.send(result);
       }
@@ -84,10 +69,11 @@ export const getJobSchedule = (req, res) => {
     "SELECT * FROM job_schedule_view WHERE job_id = ?",
     [req.params.id],
     (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err.message });
+      if (err || result[0] == null) {
+        res.status(500).send({ error: err });
       } else {
-        const { start_date, end_date } = result[0];
+        const start_date = result[0].start_date;
+        const end_date = result[0].end_date;
         const jobSchedule = [];
         let currentDate = new Date(start_date);
         const endDate = new Date(end_date);
@@ -131,8 +117,8 @@ export const getUserJobSchedule = (req, res) => {
     "SELECT * FROM job_schedule_view WHERE job_id = (SELECT job_id FROM jobs_assigment WHERE user_id = ? ORDER BY add_date DESC LIMIT 1)",
     [req.params.id],
     (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err.message });
+      if (err || result[0] == null) {
+        res.status(500).send({ error: err });
       } else {
         const { start_date, end_date } = result[0];
         const jobSchedule = [];

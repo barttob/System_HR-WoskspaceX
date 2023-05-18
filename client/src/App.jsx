@@ -17,7 +17,6 @@ import DodajDokument from "./pages/dokumenty/DodajDokument";
 import Prace from "./pages/prace/Prace";
 import DodajPrace from "./pages/prace/DodajPrace";
 import PracaInfo from "./pages/prace/PracaInfo";
-import UsunPracownika from "./pages/pracownicy/UsunPracownika";
 import UpdatePracownika from "./pages/pracownicy/UpdatePracownika";
 import Kontrakty from "./pages/pracownicy/Kontrakty";
 import DodajKontrakt from "./pages/pracownicy/DodajKontrakt";
@@ -112,10 +111,6 @@ function App() {
             {
               path: "/pracownicy/dodaj",
               element: <DodajPracownika />,
-            },
-            {
-              path: "/pracownicy/usun",
-              element: <UsunPracownika />,
             },
             {
               path: "/pracownicy/update",
