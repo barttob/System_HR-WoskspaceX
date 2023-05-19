@@ -22,7 +22,7 @@ const Menu = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log("logout");
+    // console.log("logout");
     localStorage.clear();
     navigate("/login");
   };

@@ -6,6 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -40,6 +42,21 @@ import PracaHarmonogram from "./pages/prace/PracaHarmonogram";
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
+  const [auth, setAuth] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/auth/current-session").then(({ data }) => {
+      console.log(data.sessionExpired);
+      setAuth(data);
+      if (data.sessionExpired) {
+        localStorage.clear();
+        return <Navigate to="/login" />;
+      }
+    });
+  }, []);
+
+  useEffect(() => {}, []);
+
   const Layout = () => {
     return (
       <>
@@ -51,6 +68,18 @@ function App() {
     );
   };
 
+  // const ProtectedRoute = ({ children, allowedRoles }) => {
+  //   if (auth === null) {
+  //     return <Navigate to="/login" />;
+  //   }
+
+  //   // if (!allowedRoles.includes(currentUser.user_role)) {
+  //   //   return <Navigate to="/login" />;
+  //   // }
+  //   if (auth) {
+  //     return children;
+  //   }
+  // };
   const ProtectedRoute = ({ children, allowedRoles }) => {
     if (!currentUser) {
       return <Navigate to="/login" />;

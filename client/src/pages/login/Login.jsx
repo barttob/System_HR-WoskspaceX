@@ -22,12 +22,18 @@ const Login = () => {
 
   const sendLoginData = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/login", {
-        login: username,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/auth/login",
+        {
+          username: username,
+          password: password,
+        },
+        { withCredentials: true }
+      );
+      console.log(response);
 
-      if (response.data.success) {
+      if (response) {
+        console.log(response);
         setShowSuccessMessage(true);
         setCurrentUser(response.data.user);
         setTimeout(() => {
