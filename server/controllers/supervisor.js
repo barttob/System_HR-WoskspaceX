@@ -26,3 +26,22 @@ export const countSv = (req, res) => {
     }
   );
 };
+
+export const assignSv = (req, res) => {
+  const { sv_id, user_id } = req.body;
+
+  try {
+    const query = `INSERT INTO supervisor_assigment (sv_id, user_id) VALUES (?,?)`;
+    const values = [sv_id, user_id];
+
+    db.query(query, values, (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err });
+      } else {
+        res.send(result);
+      }
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};

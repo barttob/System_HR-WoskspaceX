@@ -1,29 +1,28 @@
 import React from "react";
 import { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./UpdatePracownika.css";
 import BackButton from "../../components/backButton/BackButton";
+import { toast } from "react-toastify";
 
 const UpdatePracownika = () => {
   const [first_name, setFirst_Name] = useState("");
   const [last_name, setLast_Name] = useState("");
   const [email, setEmail] = useState("");
   const [login, setLogin] = useState("");
-  //const [password, setPassword] = useState("");
   const [address_id, setAddressId] = useState("");
   const [phone, setPhone] = useState("");
   const [birth_date, setBirthDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  //const [isLogged, setIsLogged] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const sendUpdateData = async () => {
     try {
-      const response = await Axios.post(
-        "http://localhost:3001/pracownicy/update",
+      const response = await axios.post(
+        "http://localhost:3001/employees/updateEmp",
         {
           login: login,
           first_name: first_name,
@@ -35,13 +34,14 @@ const UpdatePracownika = () => {
         }
       );
 
-      if (response.data.success) {
-        setShowSuccessMessage(true);
+      if (response) {
+        toast.success(`Zaktualizowano dane!`);
+        navigate(-1);
       } else {
-        setErrorMessage("Nie zaktualizowano danych. Spróbuj ponownie.");
+        toast.error("Nie zaktualizowano danych. Spróbuj ponownie.");
       }
     } catch (error) {
-      setErrorMessage("Coś poszło nie tak.");
+      toast.error("Coś poszło nie tak.");
       console.log(error);
     }
   };

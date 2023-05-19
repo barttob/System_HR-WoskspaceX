@@ -3,8 +3,8 @@ import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { BsPersonFill, BsCalendarFill } from "react-icons/bs";
-import { HiHome, HiDocument } from "react-icons/hi";
-import { MdWork, MdOutlineAttachMoney } from "react-icons/md";
+import { HiHome, HiDocument, HiDocumentAdd } from "react-icons/hi";
+import { MdWork, MdOutlineAttachMoney, MdRequestPage } from "react-icons/md";
 import Logo from "../../assets/logo.png";
 
 const roles = {
@@ -79,7 +79,7 @@ const Menu = () => {
           />
           <NavbarButton
             name="DoZatwierdzenia"
-            icon={<HiDocument size={24} />}
+            icon={<HiDocumentAdd size={24} />}
             role={["acc", "per"]}
           />
           <NavbarButton
@@ -99,7 +99,7 @@ const Menu = () => {
           />
           <NavbarButton
             name="Wnioski"
-            icon={<HiDocument size={24} />}
+            icon={<MdRequestPage size={24} />}
             role={["per", "acc"]}
           />
           <NavbarButton

@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import "./DodajPracownika.css";
 import BackButton from "../../components/backButton/BackButton";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const DodajPracownika = () => {
   const [first_name, setFirst_Name] = useState("");
@@ -12,10 +13,12 @@ const DodajPracownika = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const sendRegisterData = async () => {
     try {
-      const response = await Axios.post(
-        "http://localhost:3001/pracownicy/dodaj",
+      const response = await axios.post(
+        "http://localhost:3001/employees/addEmp",
         {
           login: login,
           password: password,
@@ -25,8 +28,9 @@ const DodajPracownika = () => {
         }
       );
 
-      if (response.data.success) {
+      if (response) {
         toast.success("Pomyślnie dodano pracownika");
+        navigate(-1);
       } else {
         toast.error("Nie dodano pracownika. Spróbuj ponownie.");
       }

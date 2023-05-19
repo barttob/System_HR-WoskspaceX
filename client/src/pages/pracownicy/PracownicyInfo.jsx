@@ -46,7 +46,7 @@ const PracownicyInfo = () => {
   const sendDeleteData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/pracownicy/usun",
+        "http://localhost:3001/employees/deleteEmp",
         {
           id: id,
           first_name: first_name,
@@ -54,7 +54,7 @@ const PracownicyInfo = () => {
         }
       );
 
-      if (response.data.success) {
+      if (response) {
         toast.success(`Usunięto pracownika ${first_name} ${last_name}!`);
         navigate(-1);
       } else {

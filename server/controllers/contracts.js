@@ -41,3 +41,23 @@ export const getContract = (req, res) => {
     }
   );
 };
+
+export const addContract = (req, res) => {
+  const { user_id, rate, contract_type } = req.body.inputs;
+  const { dateFormat, dateEndFormat } = req.body;
+
+  try {
+    const query = `INSERT INTO contracts (user_id, start_date, end_date, rate, contract_type) VALUES (?,?,?,?,?)`;
+    const values = [user_id, dateFormat, dateEndFormat, rate, contract_type];
+
+    db.query(query, values, (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err });
+      } else {
+        res.send(result);
+      }
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};

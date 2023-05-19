@@ -63,7 +63,7 @@ const DodajKontrakt = () => {
           .slice(0, 19)
           .replace("T", " ");
         const response = await axios.post(
-          "http://localhost:3001/pracownicy/contracts/addcontract",
+          "http://localhost:3001/contracts/addcontract",
           {
             inputs,
             dateFormat,
@@ -71,7 +71,7 @@ const DodajKontrakt = () => {
           }
         );
 
-        if (response.data.success) {
+        if (response) {
           toast.success("Dodano kontrakt.")
           navigate(-1);
         } else {
