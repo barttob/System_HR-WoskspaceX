@@ -33,7 +33,6 @@ const Login = () => {
       console.log(response);
 
       if (response) {
-        console.log(response);
         setShowSuccessMessage(true);
         setCurrentUser(response.data.user);
         setTimeout(() => {
@@ -45,7 +44,6 @@ const Login = () => {
       }
     } catch (error) {
       setErrorMessage("Niepoprawny login lub hasło. Spróbuj ponownie.");
-      console.log(error);
     }
   };
 

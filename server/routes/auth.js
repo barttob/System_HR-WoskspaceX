@@ -14,11 +14,6 @@ dotenv.config({ path: path.resolve(".env") });
 const router = express.Router();
 
 router.get("/current-session", (req, res) => {
-  console.log(req.session);
-  console.log(new Date(req.session.cookie._expires).getTime());
-  console.log(new Date());
-  console.log(new Date().getTime());
-  console.log(new Date(req.session.cookie._expires).getTime() > new Date().getTime());
   if (new Date(req.session.cookie._expires).getTime() > new Date().getTime()) {
     res.send({ sessionExpired: false });
   } else {
@@ -71,18 +66,18 @@ passport.use(
   })
 );
 
-passport.use(
-  new JwtStrategy(
-    {
-      jwtFromRequest: (req) => req.session.jwt,
-      secretOrKey: process.env.JWT_SECRET_KEY,
-    },
-    (payload, done) => {
-      // TODO: add additional jwt token verification
-      return done(null, payload);
-    }
-  )
-);
+// passport.use(
+//   new JwtStrategy(
+//     {
+//       jwtFromRequest: (req) => req.session.jwt,
+//       secretOrKey: process.env.JWT_SECRET_KEY,
+//     },
+//     (payload, done) => {
+//       // TODO: add additional jwt token verification
+//       return done(null, payload);
+//     }
+//   )
+// );
 
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
@@ -93,6 +88,14 @@ passport.serializeUser(function (user, cb) {
 passport.deserializeUser(function (user, cb) {
   process.nextTick(function () {
     return cb(null, user);
+  });
+});
+
+router.post("/logout", function (req, res, next) {
+  req.session.destroy((err) => {
+    res
+      .clearCookie("workspacex-session", { domain: "localhost", path: "/" })
+      .send("cleared cookie");
   });
 });
 

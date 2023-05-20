@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 import { BsPersonFill, BsCalendarFill } from "react-icons/bs";
 import { HiHome, HiDocument, HiDocumentAdd } from "react-icons/hi";
@@ -21,10 +22,24 @@ const Menu = () => {
 
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // console.log("logout");
-    localStorage.clear();
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response) {
+        localStorage.clear();
+        navigate("/login");
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const NavbarButton = ({ name, icon, role }) => {

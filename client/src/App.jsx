@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     axios.get("http://localhost:3001/auth/current-session").then(({ data }) => {
-      console.log(data.sessionExpired);
+      // console.log(data.sessionExpired);
       setAuth(data);
       if (data.sessionExpired) {
         localStorage.clear();
@@ -54,8 +54,6 @@ function App() {
       }
     });
   }, []);
-
-  useEffect(() => {}, []);
 
   const Layout = () => {
     return (
