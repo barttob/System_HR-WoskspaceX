@@ -20,11 +20,12 @@ const Zwolnienie = () => {
   const location = useLocation();
   const { id } = location.state;
 
-  const handleAppChange = (e) => {
-    setAppInputs((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
-    }));
+  const handleAppChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setAppInputs({
+      ...appInputs,
+      [fieldName]: filteredValue,
+    });
   };
 
   const dodZwolnienie = async () => {
@@ -62,18 +63,42 @@ const Zwolnienie = () => {
         <div className="zwolnienieAdd__content">
           <div className="zwolnienieAdd__form">
             <form className="zwolnienieAdd__form__inputs">
-              <input
+              <select
+                name="contract_type"
+                onChange={(event) =>
+                  handleAppChange(event.target.value, /[]/g, event.target.name)
+                }
+              >
+                <option value="L4">L4</option>
+                <option value="Urlop">Urlop</option>
+              </select>
+              {/* <input
                 type="text"
                 placeholder="Typ zwolnienia (L4 lub Urlop)"
                 name="app_type"
-                onChange={handleAppChange}
-              />
+                onChange={(event) =>
+                  handleAppChange(
+                    event.target.value,
+                    /[A-Za-z]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="50"
+                value={appInputs.app_type}
+              /> */}
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Opis - do 250 znaków"
                 name="app_desc"
                 maxLength="250"
-                onChange={handleAppChange}
+                onChange={(event) =>
+                  handleAppChange(
+                    event.target.value,
+                    /[\w-\. ,]/g,
+                    event.target.name
+                  )
+                }
+                value={appInputs.app_desc}
               />
               <div className="zwolnienieAdd__form__inputs__date">
                 <div className="zwolnienieAdd__form__inputs__date--label">

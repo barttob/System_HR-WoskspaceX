@@ -4,7 +4,6 @@ import LocalStrategy from "passport-local";
 import db from "../connect.js";
 import bcrypt from "bcrypt";
 import { aclAuth } from "../controllers/aclAuth.js";
-import { Strategy as JwtStrategy } from "passport-jwt";
 import dotenv from "dotenv";
 import path from "path";
 import jwt from "jsonwebtoken";

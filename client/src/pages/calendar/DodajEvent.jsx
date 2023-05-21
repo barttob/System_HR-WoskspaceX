@@ -17,11 +17,12 @@ const DodajEvent = () => {
     event_time: "",
   });
 
-  const handleEventChange = (e) => {
-    setEventInputs((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
-    }));
+  const handleEventChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setEventInputs({
+      ...eventInputs,
+      [fieldName]: filteredValue,
+    });
   };
 
   const addEvent = async () => {
@@ -65,21 +66,44 @@ const DodajEvent = () => {
                 type="text"
                 placeholder="Nazwa"
                 name="event_name"
-                onChange={handleEventChange}
+                onChange={(event) =>
+                  handleEventChange(
+                    event.target.value,
+                    /[A-Za-z0-9 -/]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="50"
+                value={eventInputs.event_name}
               />
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Opis - do 250 znaków"
                 name="event_desc"
                 maxLength="250"
-                onChange={handleEventChange}
+                onChange={(event) =>
+                  handleEventChange(
+                    event.target.value,
+                    /[A-Za-z0-9 .,-/]/g,
+                    event.target.name
+                  )
+                }
+                value={eventInputs.event_desc}
               />
 
               <input
                 type="text"
                 placeholder="id użytkownika"
                 name="user_id"
-                onChange={handleEventChange}
+                maxLength="10"
+                onChange={(event) =>
+                  handleEventChange(
+                    event.target.value,
+                    /[0-9]/g,
+                    event.target.name
+                  )
+                }
+                value={eventInputs.user_id}
               />
 
               <div className="kalendarzAdd__form__inputs__date">
@@ -95,10 +119,18 @@ const DodajEvent = () => {
               <div className="kalendarzAdd__form__inputs__divs">
                 Długość wydarzenia:{" "}
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Godziny"
                   name="event_time"
-                  onChange={handleEventChange}
+                  maxLength="10"
+                  onChange={(event) =>
+                    handleEventChange(
+                      event.target.value,
+                      /[0-9]/g,
+                      event.target.name
+                    )
+                  }
+                  value={eventInputs.event_time}
                 />
               </div>
             </form>

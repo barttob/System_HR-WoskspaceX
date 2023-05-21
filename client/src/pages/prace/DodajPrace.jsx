@@ -92,11 +92,11 @@ const DodajPrace = () => {
   };
 
   const getClients = () => {
-    axios.get(`http://localhost:3001/clients/${clientSite}`).then(
-      (response) => {
+    axios
+      .get(`http://localhost:3001/clients/${clientSite}`)
+      .then((response) => {
         setClientList(response.data);
-      }
-    );
+      });
   };
 
   const setClientId = async () => {
@@ -105,6 +105,14 @@ const DodajPrace = () => {
         if (value == "") {
           return toast.error("Nie podano wszystkich danych klienta!");
         }
+      }
+      if (
+        !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(clientInputs.email) ||
+        !/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/.test(
+          clientInputs.phone
+        )
+      ) {
+        return toast.error("Błąd w danych klienta!");
       }
     }
     if (client == "wybierz" && checkedClient == null) {
@@ -129,43 +137,50 @@ const DodajPrace = () => {
 
   useEffect(() => {
     if (currClient != null) {
+      console.log(currClient);
       addJob();
     }
   }, [currClient]);
 
   const addJob = async () => {
-    const start_date = new Date(
-      dateStartValue.getTime() - dateStartValue.getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
-    const end_date = new Date(
-      dateEndValue.getTime() - dateEndValue.getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
-    try {
-      const responseJob = await axios.post("http://localhost:3001/jobs/dodaj", {
-        jobInputs,
-        start_date: start_date,
-        end_date: end_date,
-        clientId: currClient,
-      });
-      if (responseJob.status == 200) {
-        toast.success("Dodano pracę!");
-        navigate(`/prace/${responseJob.data.insertId}/info`, {
-          state: { id: responseJob.data.insertId },
-        });
-      } else {
+    if (!/[0-9]/g.test(jobInputs, rate)) {
+      return toast.error("Błąd w danych pracy!");
+    } else {
+      const start_date = new Date(
+        dateStartValue.getTime() - dateStartValue.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+      const end_date = new Date(
+        dateEndValue.getTime() - dateEndValue.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+      try {
+        const responseJob = await axios.post(
+          "http://localhost:3001/jobs/dodaj",
+          {
+            jobInputs,
+            start_date: start_date,
+            end_date: end_date,
+            clientId: currClient,
+          }
+        );
+        if (responseJob.status == 200) {
+          toast.success("Dodano pracę!");
+          navigate(`/prace/${responseJob.data.insertId}/info`, {
+            state: { id: responseJob.data.insertId },
+          });
+        } else {
+          toast.error("Nie udało się dodać pracy!");
+        }
+      } catch (error) {
         toast.error("Nie udało się dodać pracy!");
       }
-    } catch (error) {
-      toast.error("Nie udało się dodać pracy!");
     }
   };
-
 
   return (
     <div className="prace">
@@ -322,7 +337,7 @@ const DodajPrace = () => {
                     onChange={(event) =>
                       handleClientChange(
                         event.target.value,
-                        /[0-9- +()]/g,
+                        /[0-9- ()]/g,
                         event.target.name
                       )
                     }

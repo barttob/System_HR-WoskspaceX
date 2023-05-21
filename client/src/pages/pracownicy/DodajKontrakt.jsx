@@ -22,33 +22,24 @@ const DodajKontrakt = () => {
 
   const [inputs, setInputs] = useState({
     user_id: id,
-    rate: "-1",
+    rate: "",
     contract_type: "-",
     user_role: "",
   });
 
-  const handleChange = (e) => {
-    setInputs((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
-    }));
+  const handleChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setInputs({
+      ...inputs,
+      [fieldName]: filteredValue,
+    });
   };
-
-  // useEffect(() => {
-  //   if (
-  //     inputs.contract_type == "Umowa zlecenie" ||
-  //     inputs.contract_type == "Umowa o dzieło"
-  //   ) {
-  //     setInputs((prevInputs) => ({
-  //       ...prevInputs,
-  //       rate: "-1",
-  //     }));
-  //   }
-  // }, [inputs.contract_type]);
 
   const sendContractData = async () => {
     if (inputs.contract_type == "-") {
-      setEmptyType("empty");
+      toast.error("Wybierz typ kontraktu");
+    } else if (!/[0-9]/.test(inputs.rate)) {
+      toast.error("Nieprawidłowa stawka");
     } else {
       try {
         let dateFormat = new Date(
@@ -72,13 +63,13 @@ const DodajKontrakt = () => {
         );
 
         if (response) {
-          toast.success("Dodano kontrakt.")
+          toast.success("Dodano kontrakt.");
           navigate(-1);
         } else {
-          toast.error("Nie dodano kontraktu.")
+          toast.error("Nie dodano kontraktu.");
         }
       } catch (error) {
-        toast.error("Nie dodano kontraktu.")
+        toast.error("Nie dodano kontraktu.");
         console.log(error);
       }
     }
@@ -95,7 +86,12 @@ const DodajKontrakt = () => {
           <div className="kalendarzAdd__form">
             <form className="kalendarzAdd__form__inputs">
               <div>
-                <select name="contract_type" onChange={handleChange}>
+                <select
+                  name="contract_type"
+                  onChange={(event) =>
+                    handleChange(event.target.value, /[]/g, event.target.name)
+                  }
+                >
                   <option value="-">-</option>
                   <option value="Umowa o pracę tymczasową">
                     Umowa o pracę tymczasową
@@ -111,7 +107,14 @@ const DodajKontrakt = () => {
                     type="text"
                     placeholder="Stawka godzinowa brutto"
                     name="rate"
-                    onChange={handleChange}
+                    onChange={(event) =>
+                      handleChange(
+                        event.target.value,
+                        /[0-9]/g,
+                        event.target.name
+                      )
+                    }
+                    value={inputs.rate}
                     maxLength="10"
                   />
                 )}
@@ -120,7 +123,14 @@ const DodajKontrakt = () => {
                     type="text"
                     placeholder="Pensja brutto"
                     name="rate"
-                    onChange={handleChange}
+                    onChange={(event) =>
+                      handleChange(
+                        event.target.value,
+                        /[0-9]/g,
+                        event.target.name
+                      )
+                    }
+                    value={inputs.rate}
                     maxLength="10"
                   />
                 )}
@@ -151,7 +161,7 @@ const DodajKontrakt = () => {
         <div className="pracaAdd__form__inputs pracaAdd__submit">
           <input type="submit" onClick={sendContractData} value="Dodaj" />
         </div>
-        <div>{emptyType == "empty" && "Wybierz typ kontraktu"}</div>
+        {/* <div>{emptyType == "empty" && "Wybierz typ kontraktu"}</div> */}
       </div>
     </div>
   );
