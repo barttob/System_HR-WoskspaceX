@@ -44,6 +44,7 @@ const Pracownicy = () => {
   };
 
   useEffect(() => {
+    countEmployees();
     getEmployees();
   }, [
     employeeSites,
@@ -56,9 +57,16 @@ const Pracownicy = () => {
   ]);
 
   const countEmployees = () => {
-    axios.get("http://localhost:3001/employees/").then((response) => {
-      setEmployeeNumber(response.data[0].user_count);
-    });
+    axios
+      .get("http://localhost:3001/employees/", {
+        params: {
+          first_name: filterFirstName,
+          last_name: filterLastName,
+        },
+      })
+      .then((response) => {
+        setEmployeeNumber(response.data[0].user_count);
+      });
   };
   /*
   const getEmployees = () => {
@@ -70,11 +78,23 @@ const Pracownicy = () => {
   };
   */
   const getEmployees = () => {
-    const url = `http://localhost:3001/employees/${employeeSites}?firstName=${filterFirstName}&lastName=${filterLastName}&minRate=${filterMinRate}&maxRate=${filterMaxRate}&contractType=${filterContractType}&contractDate=${filterContractDate}`;
-    axios.get(url).then((response) => {
-      setEmployeeList(response.data);
-    });
+    axios
+      .get(`http://localhost:3001/employees/${employeeSites}`, {
+        params: {
+          first_name: filterFirstName,
+          last_name: filterLastName,
+        },
+      })
+      .then((response) => {
+        setEmployeeList(response.data);
+      });
   };
+  // const getEmployees = () => {
+  //   const url = `http://localhost:3001/employees/${employeeSites}?firstName=${filterFirstName}&lastName=${filterLastName}&minRate=${filterMinRate}&maxRate=${filterMaxRate}&contractType=${filterContractType}&contractDate=${filterContractDate}`;
+  //   axios.get(url).then((response) => {
+  //     setEmployeeList(response.data);
+  //   });
+  // };
 
   const handleFilterChange = (event, setterFunction) => {
     setterFunction(event.target.value);
@@ -111,7 +131,7 @@ const Pracownicy = () => {
             onChange={(event) => handleFilterChange(event, setFilterLastName)}
           />
         </div>
-        <div className="pracownicy__filter">
+        {/* <div className="pracownicy__filter">
           <label htmlFor="filterMinRate">Minimalna stawka:</label>
           <input
             type="number"
@@ -142,7 +162,6 @@ const Pracownicy = () => {
             <option value="Permanent">Permanent</option>
             <option value="Fixed">Fixed time</option>
             <option value="Fixed">Temporary</option>
-            {/* Dodaj kolejne opcje */}
           </select>
         </div>
         <div className="pracownicy__filter">
@@ -155,10 +174,10 @@ const Pracownicy = () => {
               handleFilterChange(event, setFilterContractDate)
             }
           />
-        </div>
-        <button className="pracownicy__filter-button" onClick={getEmployees}>
+        </div> */}
+        {/* <button className="pracownicy__filter-button" onClick={getEmployees}>
           Filtruj
-        </button>
+        </button> */}
       </div>
       <div className="pracownicy__list">
         <table style={{ width: "100%" }}>

@@ -36,9 +36,8 @@ export const dodZwolnienie = (req, res) => {
 
 export const addSchedule = (req, res) => {
   db.query(
-    "INSERT INTO job_schedule (job_id, monday_start, monday_end, tuesday_start, tuesday_end, wednesday_start, wednesday_end, thursday_start, thursday_end, friday_start, friday_end, saturday_start, saturday_end, sunday_start, sunday_end) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    "UPDATE job_schedule SET monday_start = ?, monday_end = ?, tuesday_start = ?, tuesday_end = ?, wednesday_start = ?, wednesday_end = ?, thursday_start = ?, thursday_end = ?, friday_start = ?, friday_end = ?, saturday_start = ?, saturday_end = ?, sunday_start = ?, sunday_end = ? WHERE job_id = ?",
     [
-      req.params.id,
       req.body.monday_start,
       req.body.monday_end,
       req.body.tuesday_start,
@@ -53,6 +52,7 @@ export const addSchedule = (req, res) => {
       req.body.saturday_end,
       req.body.sunday_start,
       req.body.sunday_end,
+      req.params.id,
     ],
     (err, result) => {
       if (err) {

@@ -89,7 +89,7 @@ const PracaHarmonogram = () => {
         }
       );
       if (response.status == 200) {
-        toast.success("Dodano plan!");
+        toast.success("Zaktualizowano plan!");
         getSchedule();
       } else {
         toast.error("Nie udało się dodać planu!");

@@ -2,9 +2,11 @@ import { db } from "../connect.js";
 import bcrypt from "bcrypt";
 
 export const getEmployees = (req, res) => {
+  const first_name = req.query.first_name.concat("%");
+  const last_name = req.query.last_name.concat("%");
   db.query(
-    "SELECT * FROM users WHERE user_role = 'emp' LIMIT 50 OFFSET ?",
-    [(req.params.site - 1) * 50],
+    "SELECT * FROM users WHERE user_role = 'emp' AND first_name LIKE ? AND last_name LIKE ? LIMIT 50 OFFSET ?",
+    [first_name, last_name, (req.params.site - 1) * 50],
     (err, result) => {
       if (err) {
         res.status(500).send({ error: err.message });
@@ -16,8 +18,11 @@ export const getEmployees = (req, res) => {
 };
 
 export const countEmployees = (req, res) => {
+  const first_name = req.query.first_name.concat("%");
+  const last_name = req.query.last_name.concat("%");
   db.query(
-    "SELECT COUNT(user_id) AS user_count FROM users WHERE user_role = 'emp'",
+    "SELECT COUNT(user_id) AS user_count FROM users WHERE user_role = 'emp' AND first_name LIKE ? AND last_name LIKE ?",
+    [first_name, last_name],
     (err, result) => {
       if (err) {
         res.status(500).send({ error: err.message });
@@ -92,12 +97,11 @@ export const updateEmp = async (req, res) => {
 };
 
 export const deleteEmp = async (req, res) => {
-  const {id, first_name, last_name } = req.body;
+  const { id, first_name, last_name } = req.body;
 
   try {
     const query = `DELETE FROM users WHERE user_id = ? AND first_name = ? AND last_name = ?`;
     const values = [id, first_name, last_name];
-
 
     db.query(query, values, (err, result) => {
       if (err) {

@@ -48,7 +48,7 @@ const DodajPrace = () => {
     name: "",
     desc: "",
     emp_quantity: "",
-    emp_rate: "",
+    // emp_rate: "",
   });
 
   const [clientInputs, setClientInputs] = useState({
@@ -137,13 +137,12 @@ const DodajPrace = () => {
 
   useEffect(() => {
     if (currClient != null) {
-      console.log(currClient);
       addJob();
     }
   }, [currClient]);
 
   const addJob = async () => {
-    if (!/[0-9]/g.test(jobInputs, rate)) {
+    if (!/[0-9]/g.test(jobInputs.emp_quantity)) {
       return toast.error("Błąd w danych pracy!");
     } else {
       const start_date = new Date(
