@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import BackButton from "../../components/backButton/BackButton";
 import axios from "axios";
 import { toast } from "react-toastify";
+
+import "../../styles/main.css";
 
 const Rozliczenia = () => {
   const location = useLocation();
@@ -18,6 +20,7 @@ const Rozliczenia = () => {
   useEffect(() => {
     if (contract.length > 0) {
       getSettle();
+    } else {
     }
   }, [contract]);
 
@@ -120,11 +123,21 @@ const Rozliczenia = () => {
   };
 
   return (
-    <div className="prace">
-      <div className="pracaAdd__header">
+    <div className="wrapper">
+      <div className="header--backBtn">
         <BackButton />
         <div>
           {first_name} {last_name} - rozliczenie
+        </div>
+        <div className="header__btns">
+          <Link
+            to={`/pracownicy/${id}/rozliczenie/historia`}
+            state={{
+              id: id,
+            }}
+          >
+            Historia
+          </Link>
         </div>
       </div>
       <div className="pracaInfo__content">

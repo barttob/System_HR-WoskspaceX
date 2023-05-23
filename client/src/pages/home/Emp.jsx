@@ -2,7 +2,7 @@ import React from 'react'
 
 const Emp = () => {
   return (
-    <div>Emp</div>
+    <div></div>
   )
 }
 

@@ -48,21 +48,54 @@ export const getUser = (req, res) => {
 };
 
 export const addEmp = async (req, res) => {
-  const { login, password, first_name, last_name, email } = req.body;
+  const {
+    login,
+    password,
+    first_name,
+    last_name,
+    email,
+    phone,
+    address1,
+    address2,
+    city,
+    postal_code,
+    country,
+  } = req.body.inputs;
+  const dateValue = req.body.date;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date, img_url) VALUES (?,?,?,?,?,'emp',101,'500500500',NOW(),'test')`;
-    const values = [login, hashedPassword, first_name, last_name, email];
+    db.query(
+      `INSERT INTO address (address1, address2, postal_code, country, city, type) VALUES (?,?,?,?,?,'own')`,
+      [address1, address2, postal_code, country, city],
+      (err, addressResult) => {
 
-    const results = db.query(query, values, (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err });
-      } else {
-        res.send(result);
+        if (err) {
+          res.status(500).send({ error: err });
+        } else {
+          const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date, img_url) VALUES (?,?,?,?,?,'emp',?,?,?,'test')`;
+          const values = [
+            login,
+            hashedPassword,
+            first_name,
+            last_name,
+            email,
+            addressResult.insertId,
+            phone,
+            dateValue,
+          ];
+
+          const results = db.query(query, values, (err, result) => {
+            if (err) {
+              res.status(500).send({ error: err });
+            } else {
+              res.send(result);
+            }
+          });
+        }
       }
-    });
+    );
   } catch (error) {
     res.status(500).send(error);
   }

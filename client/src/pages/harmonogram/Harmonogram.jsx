@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./Harmonogram.css";
 import { Link } from "react-router-dom";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { toast } from "react-toastify";
+
+import "../../styles/main.css";
 
 const messages = {
   week: "Tydzień",
@@ -71,7 +72,7 @@ const Harmonogram = () => {
           end: new Date(element.to_date),
           source: "applications",
         }));
-        console.log(response)
+        console.log(response);
         setEventList((prevEvents) => {
           const newEvents = tempApplications.filter((tempEvent) => {
             return !prevEvents.some(
@@ -147,19 +148,21 @@ const Harmonogram = () => {
   };
 
   return (
-    <div className="harmonogram">
-      <div className="harmonogram__header">
+    <div className="wrapper">
+      <div className="header">
         Harmonogram
-        <Link
-          to="/harmonogram/zwolnienie"
-          state={{
-            id: id,
-          }}
-        >
-          Złóż wniosek o zwolnienie lekarskie lub urlop
-        </Link>
+        <div className="header__btns">
+          <Link
+            to="/harmonogram/zwolnienie"
+            state={{
+              id: id,
+            }}
+          >
+            Złóż wniosek o zwolnienie lekarskie lub urlop
+          </Link>
+        </div>
       </div>
-      <div className="harmonogram__content">
+      <div className="calendar__content">
         <Calendar
           events={eventList}
           localizer={localizer}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./Pracownicy.css";
+import "../../styles/main.css"
+import "../../styles/tables.css"
 import { Link } from "react-router-dom";
 
 const Pracownicy = () => {
@@ -68,15 +69,7 @@ const Pracownicy = () => {
         setEmployeeNumber(response.data[0].user_count);
       });
   };
-  /*
-  const getEmployees = () => {
-    axios
-      .get(`http://localhost:3001/employees/${employeeSites}`)
-      .then((response) => {
-        setEmployeeList(response.data);
-      });
-  };
-  */
+
   const getEmployees = () => {
     axios
       .get(`http://localhost:3001/employees/${employeeSites}`, {
@@ -89,49 +82,47 @@ const Pracownicy = () => {
         setEmployeeList(response.data);
       });
   };
-  // const getEmployees = () => {
-  //   const url = `http://localhost:3001/employees/${employeeSites}?firstName=${filterFirstName}&lastName=${filterLastName}&minRate=${filterMinRate}&maxRate=${filterMaxRate}&contractType=${filterContractType}&contractDate=${filterContractDate}`;
-  //   axios.get(url).then((response) => {
-  //     setEmployeeList(response.data);
-  //   });
-  // };
 
-  const handleFilterChange = (event, setterFunction) => {
-    setterFunction(event.target.value);
+  const handleFilterChange = (event, setterFunction, regex) => {
+    const filteredValue = (event.target.value.match(regex) || []).join("");
+    setterFunction(filteredValue);
   };
 
   return (
-    <div className="pracownicy">
-      <div className="pracownicy__header">
+    <div className="wrapper">
+      <div className="header">
         Pracownicy
-        <div className="pracownicy__header__btns">
+        <div className="header__btns">
           <Link to="/pracownicy/dodaj">Dodaj pracownika</Link>
-          {/* <Link to="/pracownicy/usun">Usuń pracownika</Link> */}
-          {/* <Link to="/pracownicy/update">Aktualizuj dane</Link> */}
-          {/* <Link to="/pracownicy/contracts">Kontrakty</Link> */}
           <Link to="/pracownicy/supervisor">Przypisz opiekuna</Link>
         </div>
       </div>
-      <div className="pracownicy__filters">
-        <div className="pracownicy__filter">
+      <div className="filters">
+        <div className="filter">
           <label htmlFor="filterFirstName">Imię:</label>
           <input
             type="text"
             id="filterFirstName"
             value={filterFirstName}
-            onChange={(event) => handleFilterChange(event, setFilterFirstName)}
+            onChange={(event) =>
+              handleFilterChange(event, setFilterFirstName, /[A-Za-z]/g)
+            }
+            maxLength="25"
           />
         </div>
-        <div className="pracownicy__filter">
+        <div className="filter">
           <label htmlFor="filterLastName">Nazwisko:</label>
           <input
             type="text"
             id="filterLastName"
             value={filterLastName}
-            onChange={(event) => handleFilterChange(event, setFilterLastName)}
+            onChange={(event) =>
+              handleFilterChange(event, setFilterLastName, /[A-Za-z]/g)
+            }
+            maxLength="25"
           />
         </div>
-        {/* <div className="pracownicy__filter">
+        {/* <div className="filter">
           <label htmlFor="filterMinRate">Minimalna stawka:</label>
           <input
             type="number"
@@ -140,7 +131,7 @@ const Pracownicy = () => {
             onChange={(event) => handleFilterChange(event, setFilterMinRate)}
           />
         </div>
-        <div className="pracownicy__filter">
+        <div className="filter">
           <label htmlFor="filterMaxRate">Maksymalna stawka:</label>
           <input
             type="number"
@@ -149,7 +140,7 @@ const Pracownicy = () => {
             onChange={(event) => handleFilterChange(event, setFilterMaxRate)}
           />
         </div>
-        <div className="pracownicy__filter">
+        <div className="filter">
           <label htmlFor="filterContractType">Typ kontraktu:</label>
           <select
             id="filterContractType"
@@ -164,7 +155,7 @@ const Pracownicy = () => {
             <option value="Fixed">Temporary</option>
           </select>
         </div>
-        <div className="pracownicy__filter">
+        <div className="filter">
           <label htmlFor="filterContractDate">Data zawarcia kontraktu:</label>
           <input
             type="date"
@@ -175,11 +166,11 @@ const Pracownicy = () => {
             }
           />
         </div> */}
-        {/* <button className="pracownicy__filter-button" onClick={getEmployees}>
+        {/* <button className="filter-button" onClick={getEmployees}>
           Filtruj
         </button> */}
       </div>
-      <div className="pracownicy__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
@@ -241,7 +232,7 @@ const Pracownicy = () => {
           </tbody>
         </table>
       </div>
-      <div className="pracownicy__buttons">
+      <div className="site-buttons">
         <SiteButtons />
       </div>
     </div>

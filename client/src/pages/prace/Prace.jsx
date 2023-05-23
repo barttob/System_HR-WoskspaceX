@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import "./Prace.css";
+import "../../styles/main.css";
+import "../../styles/tables.css";
 
 const Prace = () => {
   const [jobList, setJobList] = useState([]);
@@ -61,12 +62,12 @@ const Prace = () => {
   };
 
   return (
-    <div className="prace">
-      <div className="prace__header">
+    <div className="wrapper">
+      <div className="header">
         Prace/projekty
         <Link to="/prace/dodaj">Dodaj pracę</Link>
       </div>
-      <div className="prace__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
@@ -119,7 +120,7 @@ const Prace = () => {
           </tbody>
         </table>
       </div>
-      <div className="prace__buttons">
+      <div className="site-buttons">
         <SiteButtons />
       </div>
     </div>

@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 
 import "./DatePicker.css";
 
-import "./Dokumenty.css";
+import "../../styles/main.css";
+import "../../styles/add.css";
 import BackButton from "../../components/backButton/BackButton";
 
 const DodajDokument = () => {
@@ -25,7 +26,6 @@ const DodajDokument = () => {
       dateValue.getTime() - dateValue.getTimezoneOffset() * 60000
     );
   }, [dateValue]);
-
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [docType, setDocType] = useState("CV");
@@ -66,12 +66,12 @@ const DodajDokument = () => {
   };
 
   return (
-    <div className="dokumenty">
-      <div className="dokumentyAdd__header">
+    <div className="wrapper">
+      <div className="header--backBtn--solo">
         <BackButton />
         Dodaj dokument
       </div>
-      <div className="dokumenty__form">
+      <div className="add-form--docs">
         <form onSubmit={sendDocument}>
           <label htmlFor="">
             Rodzaj dokumentu:
@@ -92,14 +92,16 @@ const DodajDokument = () => {
               <option value="Inne">Inne</option>
             </select>
           </label>
-          <label htmlFor="fileSubmit" className="dokumenty__label">
-            <input
-              type="file"
-              name="fileSubmit"
-              onChange={(e) => setSelectedFile(e.target.files[0])}
-            />
-          </label>
-          <div className="dokumenty__datePick">
+          <div className="add-form__file">
+            <label htmlFor="fileSubmit" className="add-label">
+              <input
+                type="file"
+                name="fileSubmit"
+                onChange={(e) => setSelectedFile(e.target.files[0])}
+              />
+            </label>
+          </div>
+          <div className="add-datePick">
             Czy dokument posiada datę ważności?
             <input
               type="radio"
@@ -125,11 +127,7 @@ const DodajDokument = () => {
               />
             </div>
           </div>
-          <input
-            type="submit"
-            value="Prześlij plik"
-            className="dokumenty__button"
-          />
+          <input type="submit" value="Prześlij plik" className="add-button" />
         </form>
       </div>
     </div>

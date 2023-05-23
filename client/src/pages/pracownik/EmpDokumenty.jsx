@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+import "../../styles/main.css"
+import "../../styles/tables.css"
+
 const EmpDokumenty = () => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -48,14 +51,14 @@ const EmpDokumenty = () => {
   };
 
   return (
-    <div className="dokumenty">
-      <div className="dokumenty__header">
+    <div className="wrapper">
+      <div className="header">
         <div>Dokumenty</div>
         <Link to={`/dokumenty/dodaj`} state={{ id: currentUser.user_id }}>
           Dodaj dokument
         </Link>
       </div>
-      <div className="pracownicy__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>

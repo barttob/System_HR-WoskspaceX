@@ -1,10 +1,10 @@
 
 .backButton button {
-    padding: 1rem;
+    padding: 0.8rem;
     color: #000000;
     margin-right: 1rem;
     font-weight: 700;
-    font-size: 4rem;
+    font-size: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
