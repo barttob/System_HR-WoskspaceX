@@ -22,6 +22,7 @@ import scheduleRoutes from "./routes/schedule.js";
 import settlementRoutes from "./routes/settlement.js";
 import applicationsRoutes from "./routes/applications.js";
 import chargesRoutes from "./routes/charges.js";
+import logsRoutes from "./routes/logs.js";
 
 import authRoutes from "./routes/auth.js";
 
@@ -75,6 +76,7 @@ app.use("/schedule", scheduleRoutes);
 app.use("/settlement", settlementRoutes);
 app.use("/applications", applicationsRoutes);
 app.use("/charges", chargesRoutes);
+app.use("/logs", logsRoutes);
 
 app.use("/auth", authRoutes);
 

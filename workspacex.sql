@@ -534,6 +534,153 @@ CREATE TABLE `users` (
   KEY `users_address_id_foreign` (`address_id`),
   CONSTRAINT `users_address_id_foreign` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `workspacex_log`;
+
+CREATE TABLE `workspacex_log` (
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    by_user INT UNSIGNED NOT NULL, 
+    timestamp_log TIMESTAMP NOT NULL, 
+    action_type VARCHAR(255) NOT NULL, 
+    log_details TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--TRIGGERY-
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_accomodation
+AFTER INSERT ON accomodation
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (NEW.sv_id, NOW(), 'INSERT', CONCAT('Przypisano mieszkanie przez opiekuna: acc_id = ', NEW.acc_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_calendar
+AFTER INSERT ON calendar
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano wydarzenie przez kadrowego: event_id = ', NEW.event_id, 'dla pracownika: user_id = ', NEW.user_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_clients
+AFTER INSERT ON clients
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano klienta przez kadrowego: client_id = ', NEW.client_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_contracts
+AFTER INSERT ON contracts
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano kontrakt przez kadrowego: contract_id = ', NEW.contract_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_documents
+AFTER INSERT ON documents
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano dokument przez kadrowego: doc_id = ', NEW.doc_id, ' dotyczacy pracownika user_id = ', NEW.user_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_applications
+AFTER INSERT ON emp_applications
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (NEW.user_id, NOW(), 'INSERT', CONCAT('Wyslano wniosek: app_id = ', NEW.app_id, ' przez pracownika user_id = ', NEW.user_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_jobs
+AFTER INSERT ON jobs
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano nowy etat przez kadrowego: job_id = ', NEW.job_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_job_assign
+AFTER INSERT ON jobs_assigment
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Przypisano przez kadrowego pracownika: user_id = ', NEW.user_id, ' do etatu: jobassg_id: ', NEW.jobassg_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_salaries
+AFTER INSERT ON salaries
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano wyplate: salary_id = ', NEW.user_id, ' pracownika: user_id = ', NEW.user_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_sv_assign
+AFTER INSERT ON supervisor_assigment
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Przypisano przez kadrowego opiekuna: sv_id = ', NEW.sv_id, ' pracownikowi: user_id = ', NEW.user_id));
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_users
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
+    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano przez kadrowego pracownika: user_id = ', NEW.user_id));
+END //
+
+DELIMITER ;
+
+--KONIEC TRIGGEROW
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

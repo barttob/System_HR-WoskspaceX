@@ -6,6 +6,7 @@ import axios from "axios";
 import { BsPersonFill, BsCalendarFill } from "react-icons/bs";
 import { HiHome, HiDocument, HiDocumentAdd } from "react-icons/hi";
 import { MdWork, MdOutlineAttachMoney, MdRequestPage } from "react-icons/md";
+import { VscTerminalCmd, VscAccount } from "react-icons/vsc";
 import Logo from "../../assets/logo.png";
 
 const roles = {
@@ -126,6 +127,16 @@ const Menu = () => {
             name="Wynagrodzenie"
             icon={<MdOutlineAttachMoney size={24} />}
             role={["emp"]}
+          />
+          <NavbarButton
+            name="Logi"
+            icon={<VscTerminalCmd size={24} />}
+            role={["adm"]}
+          />
+          <NavbarButton
+            name="Uzytkownicy"
+            icon={<VscAccount size={24} />}
+            role={["adm"]}
           />
         </div>
       </div>

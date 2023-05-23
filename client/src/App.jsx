@@ -38,6 +38,9 @@ import Wnioski from "./pages/wnioski/Wnioski";
 import Podopieczni from "./pages/podopieczni/Podopieczni";
 import Wynagrodzenie from "./pages/pracownik/Wynagrodzenie";
 import PracaHarmonogram from "./pages/prace/PracaHarmonogram";
+import Logi from "./pages/logi/Logi";
+import Uzytkownicy from "./pages/uzytkownicy/Uzytkownicy";
+
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -312,6 +315,34 @@ function App() {
             {
               path: "/podopieczni",
               element: <Podopieczni />,
+            },
+          ],
+        },
+        {
+          path: "/logi",
+          element: (
+            <ProtectedRoute allowedRoles={["adm"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/logi",
+              element: <Logi />,
+            },
+          ],
+        },
+        {
+          path: "/uzytkownicy",
+          element: (
+            <ProtectedRoute allowedRoles={["adm"]}>
+              <Outlet />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: "/uzytkownicy",
+              element: <Uzytkownicy />,
             },
           ],
         },
