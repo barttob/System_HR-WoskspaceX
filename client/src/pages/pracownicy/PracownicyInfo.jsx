@@ -4,8 +4,8 @@ import axios from "axios";
 import BackButton from "../../components/backButton/BackButton";
 import { toast } from "react-toastify";
 
-import "../../styles/main.css"
-import "../../styles/info.css"
+import "../../styles/main.css";
+import "../../styles/info.css";
 
 const PracownicyInfo = () => {
   const location = useLocation();
@@ -86,7 +86,24 @@ const PracownicyInfo = () => {
           {first_name} {last_name}
         </div>
         <div className="header__btns">
-          <Link to="/pracownicy/update">Aktualizuj dane</Link>
+          <Link
+            to="/pracownicy/update"
+            state={{
+              id: id,
+              first_name: first_name,
+              last_name: last_name,
+              email: user.email,
+              phone: user.phone,
+              address1: user.address1,
+              address2: user.address2,
+              postal_code: user.postal_code,
+              city: user.city,
+              country: user.country,
+              birth_date: user.birth_date,
+            }}
+          >
+            Aktualizuj dane
+          </Link>
           <button onClick={sendDeleteData}>Usuń pracownika</button>
         </div>
       </div>

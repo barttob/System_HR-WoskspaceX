@@ -1,36 +1,68 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./UpdatePracownika.css";
 import BackButton from "../../components/backButton/BackButton";
 import { toast } from "react-toastify";
+import DatePicker from "react-date-picker";
+
+import "../../styles/main.css";
+import "../../styles/add.css";
+import "./DatePicker.css";
 
 const UpdatePracownika = () => {
-  const [first_name, setFirst_Name] = useState("");
-  const [last_name, setLast_Name] = useState("");
-  const [email, setEmail] = useState("");
-  const [login, setLogin] = useState("");
-  const [address_id, setAddressId] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birth_date, setBirthDate] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const location = useLocation();
+  const {
+    id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    address1,
+    address2,
+    postal_code,
+    city,
+    country,
+    birth_date,
+  } = location.state;
+  const [dateValue, setDateValue] = useState(new Date(birth_date));
+  const [inputs, setInputs] = useState({
+    id: id,
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    phone: phone,
+    address1: address1,
+    address2: address2,
+    postal_code: postal_code,
+    city: city,
+    country: country,
+  });
+
+  const handleChange = (value, regex, fieldName) => {
+    const filteredValue = (value.match(regex) || []).join("");
+    setInputs({
+      ...inputs,
+      [fieldName]: filteredValue,
+    });
+  };
 
   const navigate = useNavigate();
 
   const sendUpdateData = async () => {
+    const date = new Date(
+      dateValue.getTime() - dateValue.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
     try {
       const response = await axios.post(
         "http://localhost:3001/employees/updateEmp",
         {
-          login: login,
-          first_name: first_name,
-          last_name: last_name,
-          email: email,
-          address_id: address_id,
-          phone: phone,
-          birth_date: birth_date,
+          inputs: inputs,
+          birth_date: date,
         }
       );
 
@@ -47,70 +79,137 @@ const UpdatePracownika = () => {
   };
 
   return (
-    <div className="update">
-      <div className="update__window">
+    <div className="wrapper">
+      <div className="header--backBtn--solo">
         <BackButton />
-        <div className="logo__window__header">
-          <img src="../logo.png" alt="logo" />
-          <span>WorkspaceX</span>
+        Dodaj pracownika
+      </div>
+      <div className="site-content">
+        <div className="site-content--half">
+          <div className="add-form">
+            <form className="add-form__inputs">
+              <input
+                type="text"
+                placeholder="Imię"
+                name="first_name"
+                onChange={(event) =>
+                  handleChange(
+                    event.target.value,
+                    /[A-Za-z]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="25"
+                value={inputs.first_name}
+              />
+              <input
+                type="text"
+                placeholder="Nazwisko"
+                name="last_name"
+                onChange={(event) =>
+                  handleChange(
+                    event.target.value,
+                    /[A-Za-z]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="25"
+                value={inputs.last_name}
+              />
+              <input
+                type="text"
+                placeholder="Email"
+                name="email"
+                onChange={(event) =>
+                  handleChange(
+                    event.target.value,
+                    /[A-Za-z0-9@_+-.]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="50"
+                value={inputs.email}
+              />
+              <input
+                type="text"
+                placeholder="Telefon"
+                name="phone"
+                onChange={(event) =>
+                  handleChange(
+                    event.target.value,
+                    /[0-9()+]/g,
+                    event.target.name
+                  )
+                }
+                maxLength="50"
+                value={inputs.phone}
+              />
+              <div className="add-form__inputs__date">
+                <DatePicker
+                  onChange={setDateValue}
+                  value={dateValue}
+                  clearIcon={null}
+                />
+              </div>
+            </form>
+          </div>
+          <div className="add-form">
+            <form className="add-form__inputs">
+              <input
+                type="text"
+                placeholder="Adres 1"
+                name="address1"
+                onChange={(event) =>
+                  handleChange(event.target.value, /./g, event.target.name)
+                }
+                maxLength="50"
+                value={inputs.address1}
+              />
+              <input
+                type="text"
+                placeholder="Adres 2"
+                name="address2"
+                onChange={(event) =>
+                  handleChange(event.target.value, /./g, event.target.name)
+                }
+                maxLength="50"
+                value={inputs.address2}
+              />
+              <input
+                type="text"
+                placeholder="Miasto"
+                name="city"
+                onChange={(event) =>
+                  handleChange(event.target.value, /[\w]/g, event.target.name)
+                }
+                maxLength="50"
+                value={inputs.city}
+              />
+              <input
+                type="text"
+                placeholder="Kod pocztowy"
+                name="postal_code"
+                onChange={(event) =>
+                  handleChange(event.target.value, /[0-9-]/g, event.target.name)
+                }
+                maxLength="50"
+                value={inputs.postal_code}
+              />
+              <input
+                type="text"
+                placeholder="Kraj"
+                name="country"
+                onChange={(event) =>
+                  handleChange(event.target.value, /[\w]/g, event.target.name)
+                }
+                maxLength="50"
+                value={inputs.country}
+              />
+            </form>
+          </div>
         </div>
-        <div className="updateprac__window__inputs">
-          <input
-            type="text"
-            placeholder="Imię"
-            onChange={(e) => {
-              setFirst_Name(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Nazwisko"
-            onChange={(e) => {
-              setLast_Name(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Login"
-            onChange={(e) => {
-              setLogin(e.target.value);
-            }}
-          />
-          <input
-            type="address_id"
-            placeholder="Nr adresu"
-            onChange={(e) => {
-              setAddressId(e.target.value);
-            }}
-          />
-          <input
-            type="phone"
-            placeholder="Nr telefonu"
-            onChange={(e) => {
-              setPhone(e.target.value);
-            }}
-          />
-          <input
-            type="birth_date"
-            placeholder="Data urodzenia"
-            onChange={(e) => {
-              setBirthDate(e.target.value);
-            }}
-          />
-          <div className="error-message">{errorMessage}</div>
-          {showSuccessMessage && (
-            <div className="success-message">Pomyślnie zaktualizowano dane</div>
-          )}
-        </div>
-        <div className="logo__window__buttons">
-          <button onClick={sendUpdateData}>Aktualizuj dane</button>
+        <div className="add-form__inputs add-submit">
+          <input type="submit" onClick={sendUpdateData} value="Uaktualnij" />
         </div>
       </div>
     </div>

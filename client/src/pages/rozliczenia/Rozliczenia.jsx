@@ -140,31 +140,31 @@ const Rozliczenia = () => {
           </Link>
         </div>
       </div>
-      <div className="pracaInfo__content">
+      <div className="info__content">
         {settle == []
           ? console.log("Brak")
           : settle.map((val, key) => {
               return (
-                <div key={key} className="pracaInfo__content--border">
-                  <div className="pracaInfo__content__desc">
-                    <div className="pracaInfo__content__main">
+                <div key={key} className="info__content--border">
+                  <div className="info__content__desc">
+                    <div className="info__content__main">
                       Okres rozliczenia
                     </div>
                     {printDate(val.start_date)} - {printDate(val.end_date)}
                   </div>
-                  <div className="pracaInfo__content__desc">
-                    <div className="pracaInfo__content__main">Rodzaj umowy</div>
+                  <div className="info__content__desc">
+                    <div className="info__content__main">Rodzaj umowy</div>
                     {val.contract_type}
                   </div>
-                  <div className="pracaInfo__content__desc">
-                    <div className="pracaInfo__content__main">Wyn. brutto</div>
+                  <div className="info__content__desc">
+                    <div className="info__content__main">Wyn. brutto</div>
                     {val.rate} zł
                   </div>
-                  <div className="pracaInfo__content__desc">
-                    <div className="pracaInfo__content__main">Wyn. netto</div>
+                  <div className="info__content__desc">
+                    <div className="info__content__main">Wyn. netto</div>
                     {val.netto_rate} zł
                   </div>
-                  <div className="pracaAdd__form__inputs pracaAdd__submit--double">
+                  <div className="add-form__inputs add-submit--double">
                     <input
                       type="submit"
                       onClick={() => makeSettle(val)}

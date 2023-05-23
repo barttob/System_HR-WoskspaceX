@@ -70,7 +70,6 @@ export const addEmp = async (req, res) => {
       `INSERT INTO address (address1, address2, postal_code, country, city, type) VALUES (?,?,?,?,?,'own')`,
       [address1, address2, postal_code, country, city],
       (err, addressResult) => {
-
         if (err) {
           res.status(500).send({ error: err });
         } else {
@@ -102,28 +101,43 @@ export const addEmp = async (req, res) => {
 };
 
 export const updateEmp = async (req, res) => {
-  const { first_name, last_name, login, email, address_id, phone, birth_date } =
-    req.body;
+  const {
+    id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    address1,
+    address2,
+    city,
+    postal_code,
+    country,
+  } = req.body.inputs;
+  const birth_date = req.body.birth_date;
 
   try {
-    const query = `UPDATE users SET first_name = ?, last_name = ?, email = ?, address_id = ?, phone = ?, birth_date = NOW() WHERE login = ?`;
-    const values = [
-      first_name,
-      last_name,
-      email,
-      address_id,
-      phone,
-      birth_date,
-      login,
-    ];
+    const query = `UPDATE user_address SET first_name = ?, last_name = ?, email = ?, phone = ?, birth_date = ? WHERE user_id = ?`;
+    const values = [first_name, last_name, email, phone, birth_date, id];
 
-    db.query(query, values, (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err });
-      } else {
-        res.send(result);
+    db.query(
+      "UPDATE user_address SET address1 = ?, address2 = ?, postal_code = ?, city = ?, country = ? WHERE user_id = ?",
+      [address1, address2, postal_code, city, country, id],
+      (err, result) => {
+        console.log(err);
+        if (err) {
+          res.status(500).send({ error: err });
+        } else {
+          db.query(query, values, (err, result) => {
+            console.log(err);
+            if (err) {
+              res.status(500).send({ error: err });
+            } else {
+              res.send(result);
+            }
+          });
+        }
       }
-    });
+    );
   } catch (error) {
     res.status(500).send(error);
   }
