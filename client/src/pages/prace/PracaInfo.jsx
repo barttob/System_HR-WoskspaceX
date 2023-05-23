@@ -2,15 +2,18 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import BackButton from "../../components/backButton/BackButton";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-import "./Prace.css";
+import "../../styles/main.css";
+import "../../styles/info.css"
 
 const PracaInfo = () => {
   const location = useLocation();
   const { id } = location.state;
 
   const [job, setJob] = useState([]);
-  const [empAdd, setEmpAdd] = useState("");
+  const [empAddName, setEmpAddName] = useState("");
+  const [empAddLast, setEmpAddLast] = useState("");
 
   const [arrNum, setArrNum] = useState(0);
 
@@ -30,7 +33,7 @@ const PracaInfo = () => {
   const getEmps = () => {
     axios.get(`http://localhost:3001/jobs/${id}/emps`).then((response) => {
       setEmpList(response.data);
-      setArrNum(response.data.length)
+      setArrNum(response.data.length);
     });
   };
 
@@ -40,17 +43,23 @@ const PracaInfo = () => {
         "http://localhost:3001/jobs/emp/dodaj",
         {
           job_id: id,
-          emp_id: empAdd,
+          // emp_id: empAdd,
+          first_name: empAddName,
+          last_name: empAddLast,
         }
       );
-      if (response.status == 200) {
+      if (response.status == 401) {
+        toast.error("Pracownik nie ma kontraktu.");
+      } else if (response.status == 200) {
+        toast.success("Dodano pracownika do pracy.");
       } else {
-        console.log("Nie dodano");
+        toast.error("Nie dodano. Spróbuj ponownie.");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Nie dodano. Spróbuj ponownie.");
     }
-    setEmpAdd("");
+    setEmpAddName("");
+    setEmpAddLast("");
     getEmps();
   };
 
@@ -61,49 +70,57 @@ const PracaInfo = () => {
   };
 
   return (
-    <div className="prace">
-      <div className="pracaAdd__header">
+    <div className="wrapper">
+      <div className="header--backBtn--solo">
         <BackButton />
         {job.name}
       </div>
-      <div className="pracaInfo__content">
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Opis </div>
+      <div className="info__content">
+        <div className="info__content__desc">
+          <div className="info__content__main">Opis </div>
           {job.description}
         </div>
-        <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Początek</div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Początek</div>
           {printDate(job.start_date)}
         </div>
-        <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Koniec</div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Koniec</div>
           {printDate(job.end_date)}
         </div>
-        <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Ilość prac</div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Ilość prac</div>
           {arrNum}/{job.emp_quantity}
         </div>
-        {/* <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Stawka</div>
-          {job.emp_rate}
-        </div> */}
-        <div className="pracaInfo__content__pracownicy">
-          <div className="pracaInfo__content__main">Pracownicy</div>
-          <div className="pracaInfo__content__pracownicy--content">
+        <div className="info__content__pracownicy">
+          <div className="info__content__main">Pracownicy</div>
+          <div className="info__content__pracownicy--content">
             {empList.map((val, key) => {
-              return <div key={key}>{val.first_name} {val.last_name}</div>;
+              return (
+                <div key={key}>
+                  {val.first_name} {val.last_name}
+                </div>
+              );
             })}
           </div>
           <div
-            className="pracaInfo__content__pracownicy--add"
+            className="info__content__pracownicy--add"
             style={{ display: "flex", flexDirection: "column" }}
           >
             Dodaj pracownika do projektu
             <input
               type="text"
-              placeholder="id"
-              value={empAdd}
-              onChange={(e) => setEmpAdd(e.target.value)}
+              placeholder="imie"
+              name="first_name"
+              value={empAddName}
+              onChange={(e) => setEmpAddName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="nazwisko"
+              name="last_name"
+              value={empAddLast}
+              onChange={(e) => setEmpAddLast(e.target.value)}
             />
             <button onClick={addEmp}>Dodaj</button>
           </div>

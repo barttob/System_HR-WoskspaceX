@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./Wnioski.css";
 import { Link } from "react-router-dom";
-import BackButton from "../../components/backButton/BackButton";
 import { toast } from "react-toastify";
+
+import "../../styles/main.css";
+import "../../styles/tables.css";
 
 const Wnioski = () => {
   const [applicationList, setApplicationList] = useState([]);
@@ -76,12 +77,11 @@ const Wnioski = () => {
   };
 
 	return (
-    <div className="wnioski">
-      <div className="wnioski__header">
-      {/* <BackButton /> */}
+    <div className="wrapper">
+      <div className="header">
         Wnioski pracowników
       </div>
-      <div className="wnioski__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
@@ -139,7 +139,7 @@ const Wnioski = () => {
           </tbody>
         </table>
       </div>
-      <div className="wnioski__buttons">
+      <div className="site-buttons">
         <SiteButtons />
       </div>
     </div>

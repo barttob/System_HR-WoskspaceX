@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DatePicker from "react-date-picker";
-import "./Prace.css";
 import "./DatePicker.css";
 import { toast } from "react-toastify";
 
 import BackButton from "../../components/backButton/BackButton";
+import "../../styles/main.css";
+import "../../styles/add.css";
 
 const DodajPrace = () => {
   const [client, setClient] = useState("dodaj");
@@ -182,16 +183,16 @@ const DodajPrace = () => {
   };
 
   return (
-    <div className="prace">
-      <div className="pracaAdd__header">
+    <div className="wrapper">
+      <div className="header--backBtn--solo">
         <BackButton />
         Dodaj pracę
       </div>
-      <div className="pracaAdd__wrapper">
-        <div className="pracaAdd__content">
-          <div className="pracaAdd__form">
+      <div className="site-content">
+        <div className="site-content--half">
+          <div className="add-form">
             <h2>Praca</h2>
-            <form className="pracaAdd__form__inputs">
+            <form className="add-form__inputs">
               <input
                 type="text"
                 placeholder="Nazwa pracy"
@@ -234,24 +235,8 @@ const DodajPrace = () => {
                 value={jobInputs.emp_quantity}
                 maxLength="8"
               />
-              {/*<div className="pracaAdd__form__inputs__divs">
-                 <input
-                  type="text"
-                  placeholder="Stawka pracownika"
-                  name="emp_rate"
-                  onChange={(event) =>
-                    handleJobChange(
-                      event.target.value,
-                      /[0-9]/g,
-                      event.target.name
-                    )
-                  }
-                  value={jobInputs.emp_rate}
-                  maxLength="8"
-                /> 
-              </div>*/}
-              <div className="pracaAdd__form__inputs__date">
-                <div className="pracaAdd__form__inputs__date--label">
+              <div className="add-form__inputs__date">
+                <div className="add-form__inputs__date--label">
                   Start pracy:{" "}
                 </div>
                 <DatePicker
@@ -260,8 +245,8 @@ const DodajPrace = () => {
                   clearIcon={null}
                 />
               </div>
-              <div className="pracaAdd__form__inputs__date">
-                <div className="pracaAdd__form__inputs__date--label">
+              <div className="add-form__inputs__date">
+                <div className="add-form__inputs__date--label">
                   Koniec pracy:{" "}
                 </div>
                 <DatePicker
@@ -272,10 +257,10 @@ const DodajPrace = () => {
               </div>
             </form>
           </div>
-          <div className="pracaAdd__client">
-            <div className="pracaAdd__form__klient">
+          <div className="add-client">
+            <div className="add-form__klient">
               <h2>Klient</h2>
-              <div className="pracaAdd__client__option">
+              <div className="add-client__option">
                 <div>
                   <input
                     type="radio"
@@ -299,8 +284,8 @@ const DodajPrace = () => {
               </div>
             </div>
             {client == "dodaj" ? (
-              <div className="pracaAdd__client">
-                <form className="pracaAdd__client__add pracaAdd__form__inputs">
+              <div className="add-client">
+                <form className="add-client__add add-form__inputs">
                   <input
                     type="text"
                     placeholder="Imię klienta"
@@ -360,11 +345,11 @@ const DodajPrace = () => {
                 </form>
               </div>
             ) : (
-              <div className="pracaAdd__client">
+              <div className="add-client">
                 {clientList.map((val, key) => {
                   return (
-                    <div className="praceAdd__client__list" key={key}>
-                      <div className="praceAdd__client__list__element">
+                    <div className="add__client__list" key={key}>
+                      <div className="add__client__list__element">
                         <label htmlFor={val.client_id}>
                           {val.first_name} {val.last_name}
                         </label>
@@ -379,14 +364,14 @@ const DodajPrace = () => {
                     </div>
                   );
                 })}
-                <div className="prace__buttons" style={{ marginTop: "10px" }}>
+                <div className="site-buttons" style={{ marginTop: "10px" }}>
                   <SiteButtons />
                 </div>
               </div>
             )}
           </div>
         </div>
-        <div className="pracaAdd__form__inputs pracaAdd__submit">
+        <div className="add-form__inputs add-submit">
           <input type="submit" onClick={setClientId} />
         </div>
       </div>

@@ -20,7 +20,6 @@ import Prace from "./pages/prace/Prace";
 import DodajPrace from "./pages/prace/DodajPrace";
 import PracaInfo from "./pages/prace/PracaInfo";
 import UpdatePracownika from "./pages/pracownicy/UpdatePracownika";
-import Kontrakty from "./pages/pracownicy/Kontrakty";
 import DodajKontrakt from "./pages/pracownicy/DodajKontrakt";
 import Opiekunowie from "./pages/pracownicy/Opiekunowie";
 import PrzypiszOpiekuna from "./pages/pracownicy/PrzypiszOpiekuna";
@@ -29,7 +28,6 @@ import DodajEvent from "./pages/calendar/DodajEvent";
 import Harmonogram from "./pages/harmonogram/Harmonogram";
 import PracownicyInfo from "./pages/pracownicy/PracownicyInfo";
 import Rozliczenia from "./pages/rozliczenia/Rozliczenia";
-import Urlop from "./pages/harmonogram/Urlop";
 import Zwolnienie from "./pages/harmonogram/Zwolnienie";
 import EmpDokumenty from "./pages/pracownik/EmpDokumenty";
 import Profil from "./pages/pracownik/Profil";
@@ -41,6 +39,7 @@ import PracaHarmonogram from "./pages/prace/PracaHarmonogram";
 import Logi from "./pages/logi/Logi";
 import Uzytkownicy from "./pages/uzytkownicy/Uzytkownicy";
 
+import RozliczeniaHistoria from "./pages/rozliczenia/RozliczeniaHistoria";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -131,6 +130,10 @@ function App() {
               element: <Rozliczenia />,
             },
             {
+              path: "/pracownicy/:id/rozliczenie/historia",
+              element: <RozliczeniaHistoria />,
+            },
+            {
               path: "/pracownicy/:id/dokumenty",
               element: <Dokumenty />,
             },
@@ -145,10 +148,6 @@ function App() {
             {
               path: "/pracownicy/update",
               element: <UpdatePracownika />,
-            },
-            {
-              path: "/pracownicy/contracts",
-              element: <Kontrakty />,
             },
             {
               path: "/pracownicy/contracts/addcontract",
@@ -233,10 +232,6 @@ function App() {
             {
               path: "/harmonogram",
               element: <Harmonogram />,
-            },
-            {
-              path: "/harmonogram/urlop",
-              element: <Urlop />,
             },
             {
               path: "/harmonogram/zwolnienie",

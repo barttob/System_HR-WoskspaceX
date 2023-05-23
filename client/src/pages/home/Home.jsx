@@ -1,18 +1,18 @@
 import React from "react";
-import "./Home.css";
+import "../../styles/main.css";
 
-import Acc from "./acc/Acc";
-import Adm from "./adm/Adm";
-import Emp from "./emp/Emp";
-import Per from "./per/Per";
-import Sv from "./sv/Sv";
+import Acc from "./Acc";
+import Adm from "./Adm";
+import Emp from "./Emp";
+import Per from "./Per";
+import Sv from "./Sv";
 
 const Home = () => {
   const userRole = JSON.parse(localStorage.getItem("user")).user_role;
 
   return (
-    <div className="home">
-      <div className="home__header">
+    <div className="wrapper">
+      <div className="header header--solo">
         <span>Witaj w systemie WorkspaceX</span>
         {/* <img src="logo.png" alt="logo" /> */}
       </div>

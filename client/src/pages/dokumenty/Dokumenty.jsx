@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
-import "./Dokumenty.css";
+import "../../styles/main.css";
+import "../../styles/tables.css";
 import BackButton from "../../components/backButton/BackButton";
 
 const Dokumenty = () => {
@@ -49,17 +50,19 @@ const Dokumenty = () => {
   };
 
   return (
-    <div className="dokumenty">
-      <div className="dokumenty__header">
+    <div className="wrapper">
+      <div className="header--backBtn">
         <BackButton />
         <div>
           {first_name} {last_name}
         </div>
-        <Link to={`/pracownicy/${id}/dokumenty/dodaj`} state={{ id: id }}>
-          Dodaj dokument
-        </Link>
+        <div className="header__btns">
+          <Link to={`/pracownicy/${id}/dokumenty/dodaj`} state={{ id: id }}>
+            Dodaj dokument
+          </Link>
+        </div>
       </div>
-      <div className="pracownicy__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
@@ -82,7 +85,9 @@ const Dokumenty = () => {
                       : printDate(val.exp_date)}
                   </td>
                   <td>
-                    {val.confirmation == false ? "Niezatwierdzony" : "Zatwierdzony"}
+                    {val.confirmation == false
+                      ? "Niezatwierdzony"
+                      : "Zatwierdzony"}
                   </td>
                   <td
                     style={{
@@ -90,7 +95,9 @@ const Dokumenty = () => {
                       justifyContent: "space-around",
                     }}
                   >
-                    <button onClick={() => downloadDoc(val.doc_id, val.document_name)}>
+                    <button
+                      onClick={() => downloadDoc(val.doc_id, val.document_name)}
+                    >
                       Pobierz
                     </button>
                   </td>

@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 
 import axios from "axios";
 
+import "../../styles/main.css";
+
 const messages = {
   week: "Tydzień",
   work_week: "Tydzień pracy",
@@ -100,9 +102,9 @@ const PracaHarmonogram = () => {
   };
 
   return (
-    <div className="kalendarz">
-      <div className="kalendarz__header">Harmonogram pracy</div>
-      <div className="kalendarz__content">
+    <div className="wrapper">
+      <div className="header">Harmonogram pracy</div>
+      <div className="calendar__content">
         <Calendar
           events={eventList}
           localizer={localizer}
@@ -111,10 +113,10 @@ const PracaHarmonogram = () => {
           messages={messages}
         />
       </div>
-      <form className="pracaAdd__form__inputs--small">
-        <div className="kalendarz__dayHours">
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Poniedziałek</span>
+      <form className="add-form__inputs--small">
+        <div className="calendar__dayHours">
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Poniedziałek</span>
             Start:
             <TimePicker
               onChange={setMonday_start}
@@ -134,8 +136,8 @@ const PracaHarmonogram = () => {
               max={max_time}
             />
           </div>
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Wtorek</span>
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Wtorek</span>
             Start:
             <TimePicker
               onChange={setTuesday_start}
@@ -155,8 +157,8 @@ const PracaHarmonogram = () => {
               max={max_time}
             />
           </div>
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Środa</span>
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Środa</span>
             Start:
             <TimePicker
               onChange={setWednesday_start}
@@ -176,8 +178,8 @@ const PracaHarmonogram = () => {
               max={max_time}
             />
           </div>
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Czwartek</span>
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Czwartek</span>
             Start:
             <TimePicker
               onChange={setThursday_start}
@@ -197,8 +199,8 @@ const PracaHarmonogram = () => {
               max={max_time}
             />
           </div>
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Piątek</span>
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Piątek</span>
             Start:
             <TimePicker
               onChange={setFriday_start}
@@ -218,8 +220,8 @@ const PracaHarmonogram = () => {
               max={max_time}
             />
           </div>
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Sobota</span>
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Sobota</span>
             Start:
             <TimePicker
               onChange={setSaturday_start}
@@ -239,8 +241,8 @@ const PracaHarmonogram = () => {
               max={max_time}
             />
           </div>
-          <div className="kalendarz__dayHours--div">
-            <span className="kalendarz__dayHours--div__span">Niedziela</span>
+          <div className="calendar__dayHours--div">
+            <span className="calendar__dayHours--div__span">Niedziela</span>
             Start:
             <TimePicker
               onChange={setSunday_start}
@@ -262,7 +264,7 @@ const PracaHarmonogram = () => {
           </div>
         </div>
       </form>
-      <div className="pracaAdd__form__inputs pracaAdd__submit">
+      <div className="add-form__inputs add-submit">
         <input type="submit" onClick={addSchedule} />
       </div>
     </div>

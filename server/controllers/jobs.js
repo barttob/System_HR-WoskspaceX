@@ -78,10 +78,18 @@ export const addJob = (req, res) => {
 
 export const addEmp = (req, res) => {
   db.query(
-    "INSERT INTO jobs_assigment (job_id, user_id, add_date, contract_id) VALUES (?,?,NOW(),(SELECT contract_id FROM contracts WHERE user_id = ? ORDER BY start_date DESC LIMIT 1))",
-    [req.body.job_id, req.body.emp_id, req.body.emp_id],
+    "INSERT INTO jobs_assigment (job_id, user_id, add_date, contract_id) VALUES (?,(SELECT user_id FROM users WHERE first_name = ? AND last_name = ? LIMIT 1),NOW(),(SELECT contract_id FROM contracts WHERE user_id = (SELECT user_id FROM users WHERE first_name = ? AND last_name = ? LIMIT 1) ORDER BY start_date DESC LIMIT 1))",
+    [
+      req.body.job_id,
+      req.body.first_name,
+      req.body.last_name,
+      req.body.first_name,
+      req.body.last_name,
+    ],
     (err, result) => {
-      if (err) {
+      if (err.errno == 1048) {
+        res.status(401).send({ error: "Pracownik nie ma kontraktu" });
+      } else if (err) {
         res.status(500).send({ error: err.message });
       } else {
         res.send(result);

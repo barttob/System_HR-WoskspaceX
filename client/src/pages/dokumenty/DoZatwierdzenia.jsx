@@ -3,8 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import "./Dokumenty.css";
-import BackButton from "../../components/backButton/BackButton";
+import "../../styles/main.css";
+import "../../styles/tables.css";
 
 const DoZatwierdzenia = () => {
   //   const location = useLocation();
@@ -80,12 +80,11 @@ const DoZatwierdzenia = () => {
   };
 
   return (
-    <div className="dokumenty">
-      <div className="dokumenty__header">
-        {/* <BackButton /> */}
+    <div className="wrapper">
+      <div className="header">
         <div>Dokumenty do zatwierdzenia</div>
       </div>
-      <div className="pracownicy__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>

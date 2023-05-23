@@ -48,49 +48,96 @@ export const getUser = (req, res) => {
 };
 
 export const addEmp = async (req, res) => {
-  const { login, password, first_name, last_name, email } = req.body;
+  const {
+    login,
+    password,
+    first_name,
+    last_name,
+    email,
+    phone,
+    address1,
+    address2,
+    city,
+    postal_code,
+    country,
+  } = req.body.inputs;
+  const dateValue = req.body.date;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date, img_url) VALUES (?,?,?,?,?,'emp',101,'500500500',NOW(),'test')`;
-    const values = [login, hashedPassword, first_name, last_name, email];
+    db.query(
+      `INSERT INTO address (address1, address2, postal_code, country, city, type) VALUES (?,?,?,?,?,'own')`,
+      [address1, address2, postal_code, country, city],
+      (err, addressResult) => {
+        if (err) {
+          res.status(500).send({ error: err });
+        } else {
+          const query = `INSERT INTO users (login, password, first_name, last_name, email, user_role, address_id, phone, birth_date, img_url) VALUES (?,?,?,?,?,'emp',?,?,?,'test')`;
+          const values = [
+            login,
+            hashedPassword,
+            first_name,
+            last_name,
+            email,
+            addressResult.insertId,
+            phone,
+            dateValue,
+          ];
 
-    const results = db.query(query, values, (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err });
-      } else {
-        res.send(result);
+          const results = db.query(query, values, (err, result) => {
+            if (err) {
+              res.status(500).send({ error: err });
+            } else {
+              res.send(result);
+            }
+          });
+        }
       }
-    });
+    );
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
 export const updateEmp = async (req, res) => {
-  const { first_name, last_name, login, email, address_id, phone, birth_date } =
-    req.body;
+  const {
+    id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    address1,
+    address2,
+    city,
+    postal_code,
+    country,
+  } = req.body.inputs;
+  const birth_date = req.body.birth_date;
 
   try {
-    const query = `UPDATE users SET first_name = ?, last_name = ?, email = ?, address_id = ?, phone = ?, birth_date = NOW() WHERE login = ?`;
-    const values = [
-      first_name,
-      last_name,
-      email,
-      address_id,
-      phone,
-      birth_date,
-      login,
-    ];
+    const query = `UPDATE user_address SET first_name = ?, last_name = ?, email = ?, phone = ?, birth_date = ? WHERE user_id = ?`;
+    const values = [first_name, last_name, email, phone, birth_date, id];
 
-    db.query(query, values, (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err });
-      } else {
-        res.send(result);
+    db.query(
+      "UPDATE user_address SET address1 = ?, address2 = ?, postal_code = ?, city = ?, country = ? WHERE user_id = ?",
+      [address1, address2, postal_code, city, country, id],
+      (err, result) => {
+        console.log(err);
+        if (err) {
+          res.status(500).send({ error: err });
+        } else {
+          db.query(query, values, (err, result) => {
+            console.log(err);
+            if (err) {
+              res.status(500).send({ error: err });
+            } else {
+              res.send(result);
+            }
+          });
+        }
       }
-    });
+    );
   } catch (error) {
     res.status(500).send(error);
   }

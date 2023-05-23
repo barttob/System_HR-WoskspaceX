@@ -4,6 +4,9 @@ import axios from "axios";
 import BackButton from "../../components/backButton/BackButton";
 import { toast } from "react-toastify";
 
+import "../../styles/main.css";
+import "../../styles/info.css";
+
 const PracownicyInfo = () => {
   const location = useLocation();
   const { id, first_name, last_name } = location.state;
@@ -76,37 +79,54 @@ const PracownicyInfo = () => {
   };
 
   return (
-    <div className="prace">
-      <div className="pracownicy__header">
+    <div className="wrapper">
+      <div className="header--backBtn">
         <BackButton />
         <div>
           {first_name} {last_name}
         </div>
-        <div className="pracownicy__header__btns">
-          <Link to="/pracownicy/update">Aktualizuj dane</Link>
+        <div className="header__btns">
+          <Link
+            to="/pracownicy/update"
+            state={{
+              id: id,
+              first_name: first_name,
+              last_name: last_name,
+              email: user.email,
+              phone: user.phone,
+              address1: user.address1,
+              address2: user.address2,
+              postal_code: user.postal_code,
+              city: user.city,
+              country: user.country,
+              birth_date: user.birth_date,
+            }}
+          >
+            Aktualizuj dane
+          </Link>
           <button onClick={sendDeleteData}>Usuń pracownika</button>
         </div>
       </div>
-      <div className="pracaInfo__content">
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">E-mail </div>
+      <div className="info__content">
+        <div className="info__content__desc">
+          <div className="info__content__main">E-mail </div>
           {user.email}
         </div>
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Telefon </div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Telefon </div>
           {user.phone}
         </div>
-        <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Data urodzenia</div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Data urodzenia</div>
           {printDate(user.birth_date)}
         </div>
-        <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Adres</div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Adres</div>
           Ulica: {user.address1} {user.address2} <br /> Miasto: {user.city}{" "}
           <br /> Kraj: {user.country}
         </div>
-        <div className="pracaInfo__content__desc">
-          <div className="pracaInfo__content__main">Opiekun </div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Opiekun </div>
           {user.sv_name == null ? (
             <>Brak opiekuna</>
           ) : (
@@ -115,8 +135,8 @@ const PracownicyInfo = () => {
             </>
           )}
         </div>
-        <div className="pracaInfo__content__status">
-          <div className="pracaInfo__content__main">Kontrakt</div>
+        <div className="info__content__desc">
+          <div className="info__content__main">Kontrakt</div>
           {contract == null ? (
             <>
               Brak aktywnego kontraktu{" "}

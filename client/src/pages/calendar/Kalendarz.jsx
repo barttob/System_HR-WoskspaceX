@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import "./Kalendarz.css";
 import "./react-big-calendar.css";
+import "../../styles/main.css";
+import "../../styles/tables.css";
 
 const messages = {
   week: "Tydzień",
@@ -49,12 +50,12 @@ const Kalendarz = () => {
   };
 
   return (
-    <div className="kalendarz">
-      <div className="kalendarz__header">
+    <div className="wrapper">
+      <div className="header">
         Kalendarz
         <Link to="/kalendarz/dodaj">Dodaj wydarzenie</Link>
       </div>
-      <div className="pracownicy__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>

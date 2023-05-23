@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./Podopieczni.css";
 import { Link } from "react-router-dom";
+
+import "../../styles/main.css";
+import "../../styles/tables.css";
 
 const Podopieczni = () => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -57,14 +59,14 @@ const Podopieczni = () => {
   };
 
   return (
-    <div className="podopieczni">
-      <div className="podopieczni__header">
-        <div className="podopieczni__header__title">Podopieczni</div>
-        <div className="podopieczni__header__btns">
+    <div className="wrapper">
+      <div className="header">
+        Podopieczni
+        <div className="header__btns">
           <Link to="/podopieczni/mieszkania">Przypisz mieszkanie</Link>
         </div>
       </div>
-      <div className="podopieczni__list">
+      <div className="table-list">
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
@@ -109,7 +111,7 @@ const Podopieczni = () => {
           </tbody>
         </table>
       </div>
-      <div className="podopieczni__buttons">
+      <div className="site-buttons">
         <SiteButtons />
       </div>
     </div>

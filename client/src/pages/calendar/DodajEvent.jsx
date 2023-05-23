@@ -4,8 +4,9 @@ import DateTimePicker from "react-datetime-picker";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import "./Kalendarz.css";
 import "./DateTimePicker.css";
+import "../../styles/main.css";
+import "../../styles/add.css";
 
 const DodajEvent = () => {
   const [dateValue, setDateValue] = useState(new Date());
@@ -53,48 +54,74 @@ const DodajEvent = () => {
   };
 
   return (
-    <div className="kalendarz">
-      <div className="kalendarzAdd__header">
+    <div className="wrapper">
+      <div className="header--backBtn--solo">
         <BackButton />
         Dodaj wydarzenie
       </div>
-      <div className="kalendarzAdd__wrapper">
-        <div className="kalendarzAdd__content">
-          <div className="kalendarzAdd__form">
-            <form className="kalendarzAdd__form__inputs">
-              <input
-                type="text"
-                placeholder="Nazwa"
-                name="event_name"
-                onChange={(event) =>
-                  handleEventChange(
-                    event.target.value,
-                    /[A-Za-z0-9 -/]/g,
-                    event.target.name
-                  )
-                }
-                maxLength="50"
-                value={eventInputs.event_name}
-              />
-              <textarea
-                style={{ resize: "none" }}
-                placeholder="Opis - do 250 znaków"
-                name="event_desc"
-                maxLength="250"
-                onChange={(event) =>
-                  handleEventChange(
-                    event.target.value,
-                    /[A-Za-z0-9 .,-/]/g,
-                    event.target.name
-                  )
-                }
-                value={eventInputs.event_desc}
-              />
+      <div className="site-content">
+        <div className="add-form">
+          <form className="add-form__inputs">
+            <input
+              type="text"
+              placeholder="Nazwa"
+              name="event_name"
+              onChange={(event) =>
+                handleEventChange(
+                  event.target.value,
+                  /[A-Za-z0-9 -/]/g,
+                  event.target.name
+                )
+              }
+              maxLength="50"
+              value={eventInputs.event_name}
+            />
+            <textarea
+              style={{ resize: "none" }}
+              placeholder="Opis - do 250 znaków"
+              name="event_desc"
+              maxLength="250"
+              onChange={(event) =>
+                handleEventChange(
+                  event.target.value,
+                  /[A-Za-z0-9 .,-/]/g,
+                  event.target.name
+                )
+              }
+              value={eventInputs.event_desc}
+            />
 
+            <input
+              type="text"
+              placeholder="id użytkownika"
+              name="user_id"
+              maxLength="10"
+              onChange={(event) =>
+                handleEventChange(
+                  event.target.value,
+                  /[0-9]/g,
+                  event.target.name
+                )
+              }
+              value={eventInputs.user_id}
+            />
+
+            <div className="add-form__inputs__date">
+              <div className="add-form__inputs__date--label">
+                Data wydarzenia:{" "}
+              </div>
+              <DateTimePicker
+                onChange={setDateValue}
+                value={dateValue}
+                clearIcon={null}
+              />
+            </div>
+            <div className="add-form__inputs__divs">
+              Długość wydarzenia:{" "}
               <input
                 type="text"
-                placeholder="id użytkownika"
-                name="user_id"
+                placeholder="Godziny"
+                name="event_time"
                 maxLength="10"
                 onChange={(event) =>
                   handleEventChange(
@@ -103,40 +130,13 @@ const DodajEvent = () => {
                     event.target.name
                   )
                 }
-                value={eventInputs.user_id}
+                value={eventInputs.event_time}
               />
-
-              <div className="kalendarzAdd__form__inputs__date">
-                <div className="kalendarzAdd__form__inputs__date--label">
-                  Data wydarzenia:{" "}
-                </div>
-                <DateTimePicker
-                  onChange={setDateValue}
-                  value={dateValue}
-                  clearIcon={null}
-                />
-              </div>
-              <div className="kalendarzAdd__form__inputs__divs">
-                Długość wydarzenia:{" "}
-                <input
-                  type="text"
-                  placeholder="Godziny"
-                  name="event_time"
-                  maxLength="10"
-                  onChange={(event) =>
-                    handleEventChange(
-                      event.target.value,
-                      /[0-9]/g,
-                      event.target.name
-                    )
-                  }
-                  value={eventInputs.event_time}
-                />
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-        <div className="pracaAdd__form__inputs pracaAdd__submit">
+
+        <div className="add-form__inputs add-submit">
           <input type="submit" onClick={addEvent} value="Dodaj" />
         </div>
       </div>

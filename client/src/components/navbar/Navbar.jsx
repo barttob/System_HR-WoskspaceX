@@ -81,7 +81,7 @@ const Menu = () => {
           <NavbarButton
             name="Pracownicy"
             icon={<BsPersonFill size={24} />}
-            role={["sv", "acc", "per"]}
+            role={["acc", "per"]}
           />
           <NavbarButton
             name="Prace"

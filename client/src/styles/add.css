@@ -1,0 +1,233 @@
+.add-form {
+    padding: 2rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}
+
+.add-form--docs {
+    padding: 2rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+    width: 100%;
+    flex: 1;
+}
+
+.add-client {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.add-form form {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.add-form__inputs input,
+.add-form__inputs textarea {
+    width: 50%;
+    background: #f1f2f6;
+    border: none;
+    border-radius: 10px;
+    height: 3rem;
+    color: #000000;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.4rem 2rem;
+    margin-bottom: 1rem;
+}
+
+.add-form__file {
+    padding: 1rem 0;
+}
+
+.add-form__inputs__divs {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    font-weight: 700;
+    justify-content: center;
+}
+
+.add-form__inputs__divs input {
+    width: 50%;
+}
+
+.add-form__inputs__divs input::placeholder {
+    font-size: 0.8rem;
+}
+
+.add-form__inputs textarea {
+    padding: 1rem 2rem;
+    height: 15rem;
+}
+
+.add-form__inputs input::placeholder,
+.add-form__inputs textarea::placeholder {
+    color: #a0abc5;
+    font-size: 1rem;
+    font-weight: 700;
+    /* padding-left: 2rem; */
+}
+
+.add-form__inputs input:focus,
+.add-form__inputs textarea:focus {
+    color: #000000;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding-left: 2rem;
+}
+
+.add-form__inputs__date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    width: 50%;
+    margin-bottom: 1rem;
+}
+
+.add-form__inputs__date--label {
+    width: 50%;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+
+.add-form__inputs__date input,
+.add-form__inputs__date input:focus {
+    font-size: 1rem;
+    font-weight: normal;
+    height: 1rem;
+    padding: 0.4rem;
+    margin: 0;
+}
+
+.add-form__klient {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.add-client__option {
+    margin-top: 1rem;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-client__option div {
+    width: 50%;
+}
+
+.add-client__option input {
+    margin-right: 0.5rem;
+}
+
+.add-client__add {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add__client__list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add__client__list__element {
+    border-bottom: 4px solid #f1f2f6;
+    padding: 4px 10px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-submit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+
+.add-submit--double {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    gap: 2rem;
+}
+
+.add-submit input,
+.add-submit--double input {
+    cursor: pointer;
+}
+
+.add-wrapper {
+    height: calc(100vh - 256px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-form select,
+.add-form--docs select {
+    width: 50%;
+    font-size: 1rem;
+    background: none;
+    color: #000000;
+    border-radius: 5px;
+    padding: 4px;
+    margin-bottom: 1rem;
+}
+.add-form--docs select {
+    margin-left: 1rem;
+}
+
+.add-button {
+    padding: 0.8rem 1.4rem;
+    font-weight: 700;
+    font-size: 1rem;
+    background-color: #03c3ab;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+}
+
+.add-datePick {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    height: 4rem;
+}
