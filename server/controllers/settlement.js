@@ -443,7 +443,7 @@ export const getSettlement = (req, res) => {
 
 export const setSettle = (req, res) => {
   db.query(
-    "INSERT INTO salaries (user_id, contract_id, from_date, to_date, salary_gross, salary_net) VALUES (?,?,?,?,?,?)",
+    "INSERT INTO salaries (user_id, contract_id, from_date, to_date, salary_gross, salary_net, contract_type) VALUES (?,?,?,?,?,?,?)",
     [
       req.body.settle.user_id,
       req.body.settle.contract_id,
@@ -451,6 +451,7 @@ export const setSettle = (req, res) => {
       new Date(req.body.end_date),
       req.body.settle.rate,
       req.body.settle.netto_rate,
+      req.body.settle.contract_type,
     ],
     (err, result) => {
       if (err) {
@@ -509,4 +510,18 @@ export const generatePdf = (req, res) => {
 
   const stream = doc.pipe(res.type("application/pdf").attachment("raport.pdf"));
   doc.end();
+};
+
+export const getSalaries = (req, res) => {
+  db.query(
+    "SELECT * FROM salaries WHERE user_id = ? ORDER BY to_date DESC",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
 };

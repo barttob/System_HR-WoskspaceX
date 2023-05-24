@@ -97,6 +97,18 @@ const Wynagrodzenie = () => {
         <div>
           {currentUser.first_name} {currentUser.last_name} - rozliczenie
         </div>
+        <div className="header__btns">
+          <Link
+            to={`/wynagrodzenie/historia`}
+            state={{
+              id: currentUser.user_id,
+              first_name: currentUser.first_name,
+              last_name: currentUser.last_name,
+            }}
+          >
+            Historia
+          </Link>
+        </div>
       </div>
       <div className="site-content">
         {settle == []

@@ -41,6 +41,7 @@ import Uzytkownicy from "./pages/uzytkownicy/Uzytkownicy";
 import ZmienDane from "./pages/uzytkownicy/ZmienDane";
 
 import RozliczeniaHistoria from "./pages/rozliczenia/RozliczeniaHistoria";
+import WynagrodzenieHistoria from "./pages/pracownik/WynagrodzenieHistoria";
 
 function App() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -283,6 +284,10 @@ function App() {
             {
               path: "/wynagrodzenie",
               element: <Wynagrodzenie />,
+            },
+            {
+              path: "/wynagrodzenie/historia",
+              element: <WynagrodzenieHistoria />,
             },
           ],
         },
