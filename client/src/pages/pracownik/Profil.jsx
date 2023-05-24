@@ -86,10 +86,7 @@ const Profil = () => {
               <br />
               Koniec umowy: {printDate(contract.end_date)}
               <br />
-              {contract.contract_type != "Umowa zlecenie" &&
-                contract.contract_type != "Umowa o dzieło" && (
-                  <>Stawka brutto: {contract.rate}zł</>
-                )}
+              Stawka brutto: {contract.rate}zł
             </>
           )}
         </div>

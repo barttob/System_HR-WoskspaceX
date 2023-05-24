@@ -134,6 +134,8 @@ const Rozliczenia = () => {
             to={`/pracownicy/${id}/rozliczenie/historia`}
             state={{
               id: id,
+              first_name: first_name,
+              last_name: last_name,
             }}
           >
             Historia
@@ -147,9 +149,7 @@ const Rozliczenia = () => {
               return (
                 <div key={key} className="info__content--border">
                   <div className="info__content__desc">
-                    <div className="info__content__main">
-                      Okres rozliczenia
-                    </div>
+                    <div className="info__content__main">Okres rozliczenia</div>
                     {printDate(val.start_date)} - {printDate(val.end_date)}
                   </div>
                   <div className="info__content__desc">

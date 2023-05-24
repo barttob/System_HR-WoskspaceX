@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
-
-import "../../styles/main.css";
 import BackButton from "../../components/backButton/BackButton";
 
-const RozliczeniaHistoria = () => {
+const WynagrodzenieHistoria = () => {
   const location = useLocation();
   const { id, first_name, last_name } = location.state;
 
@@ -61,7 +57,6 @@ const RozliczeniaHistoria = () => {
       console.error(error);
     }
   };
-
   return (
     <div className="wrapper">
       <div className="header--backBtn--solo">
@@ -107,4 +102,4 @@ const RozliczeniaHistoria = () => {
   );
 };
 
-export default RozliczeniaHistoria;
+export default WynagrodzenieHistoria;
