@@ -38,6 +38,7 @@ import Wynagrodzenie from "./pages/pracownik/Wynagrodzenie";
 import PracaHarmonogram from "./pages/prace/PracaHarmonogram";
 import Logi from "./pages/logi/Logi";
 import Uzytkownicy from "./pages/uzytkownicy/Uzytkownicy";
+import ZmienDane from "./pages/uzytkownicy/ZmienDane";
 
 import RozliczeniaHistoria from "./pages/rozliczenia/RozliczeniaHistoria";
 
@@ -338,6 +339,10 @@ function App() {
             {
               path: "/uzytkownicy",
               element: <Uzytkownicy />,
+            },
+            {
+              path: "/uzytkownicy/:id/userdata",
+              element: <ZmienDane />,
             },
           ],
         },
