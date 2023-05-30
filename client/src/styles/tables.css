@@ -9,6 +9,17 @@
     text-align: left;
 }
 
+.table-list--home {
+    width: 100%;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #f1f2f6;
+    border-radius: 16px;
+    overflow-x: auto;
+    text-align: left;
+}
+
 .table-list table {
     table-layout: auto;
 }

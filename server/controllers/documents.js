@@ -14,6 +14,24 @@ export const getDocuments = (req, res) => {
   );
 };
 
+export const getExpDocuments = (req, res) => {
+  const today = new Date();
+  const twoWeeksFromNow = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
+  const twoWeeksAgo = new Date(today.getTime() - 14 * 24 * 60 * 60 * 1000);
+
+  db.query(
+    "SELECT * FROM documents WHERE user_id = ? AND exp_date >= ? AND exp_date <= ? ORDER BY add_date DESC",
+    [req.params.id, twoWeeksAgo, twoWeeksFromNow],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
 export const addDocument = (req, res) => {
   // console.log(req.file, req.body)
   const date = new Date();

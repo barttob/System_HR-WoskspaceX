@@ -71,6 +71,15 @@
     border: 2px solid #03c3ab;
 }
 
+.home-content {
+    margin-top: 100px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .site-content {
     width: 100%;
     display: flex;
