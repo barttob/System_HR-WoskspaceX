@@ -66,9 +66,7 @@ const PracownicyInfo = () => {
       }
     } catch (error) {
       if (error.response.status == 401) {
-        toast.error(
-          `Pracownik ma aktywny kontrakt!`
-        );
+        toast.error(`Pracownik ma aktywny kontrakt!`);
       } else {
         toast.error(
           `Nie udało się usunąć pracownika ${first_name} ${last_name}!`

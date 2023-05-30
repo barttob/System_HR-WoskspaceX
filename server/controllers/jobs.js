@@ -111,3 +111,17 @@ export const getEmps = (req, res) => {
     }
   );
 };
+
+export const endJob = (req, res) => {
+  db.query(
+    "UPDATE jobs SET status = 'finished' WHERE job_id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};

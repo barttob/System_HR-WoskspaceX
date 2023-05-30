@@ -44,10 +44,13 @@
   .uzytkownicy__form-group select {
     display: block;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
     margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    color: #333;
+    background-color: #ffffff;
   }
   
   .uzytkownicy__form-group button {

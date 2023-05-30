@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../../components/backButton/BackButton";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 import "../../styles/main.css";
-import "../../styles/info.css"
+import "../../styles/info.css";
 
 const PracaInfo = () => {
   const location = useLocation();
   const { id } = location.state;
+
+  const navigate = useNavigate();
 
   const [job, setJob] = useState([]);
   const [empAddName, setEmpAddName] = useState("");
@@ -63,6 +65,22 @@ const PracaInfo = () => {
     getEmps();
   };
 
+  const endJob = async () => {
+    try {
+      const response = await axios.post(`http://localhost:3001/jobs/endjob/${id}`, {
+        job_id: id,
+      });
+      if (response) {
+        navigate(-1);
+        toast.success("Zakończono pracę.");
+      } else {
+        toast.error("Nie udało się zakończyć pracy. Spróbuj ponownie.");
+      }
+    } catch (error) {
+      toast.error("Nie udało się zakończyć pracy. Spróbuj ponownie.");
+    }
+  };
+
   const printDate = (end_date) => {
     const date = new Date(end_date);
     const formattedDate = date.toLocaleDateString("pl-PL");
@@ -71,9 +89,12 @@ const PracaInfo = () => {
 
   return (
     <div className="wrapper">
-      <div className="header--backBtn--solo">
+      <div className="header--backBtn">
         <BackButton />
         {job.name}
+        <div className="header__btns">
+          <button onClick={endJob}>Zakończ pracę</button>
+        </div>
       </div>
       <div className="info__content">
         <div className="info__content__desc">
