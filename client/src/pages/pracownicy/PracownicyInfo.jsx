@@ -56,7 +56,6 @@ const PracownicyInfo = () => {
           last_name: last_name,
         }
       );
-
       if (response) {
         toast.success(`Usunięto pracownika ${first_name} ${last_name}!`);
         navigate(-1);
@@ -66,9 +65,15 @@ const PracownicyInfo = () => {
         );
       }
     } catch (error) {
-      toast.error(
-        `Nie udało się usunąć pracownika ${first_name} ${last_name}!`
-      );
+      if (error.response.status == 401) {
+        toast.error(
+          `Pracownik ma aktywny kontrakt!`
+        );
+      } else {
+        toast.error(
+          `Nie udało się usunąć pracownika ${first_name} ${last_name}!`
+        );
+      }
     }
   };
 
