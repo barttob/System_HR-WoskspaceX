@@ -75,6 +75,8 @@ const Podopieczni = () => {
               <th>Imię i nazwisko opiekuna</th>
               <th>Imię i nazwisko podopiecznego</th>
               <th>Id zakwaterowania</th>
+              <th>Zamieszkałe od</th>
+              <th>Zamieszkałe do</th>
             </tr>
           </thead>
           <tbody>
@@ -89,22 +91,9 @@ const Podopieczni = () => {
                   <td>
                     {val["imie podopiecznego"]} {val["nazwisko podopiecznego"]}
                   </td>
-                  <td>{val["id zakwaterowania"]}</td>
-                  <td
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                    }}
-                  >
-                    <Link
-                      to={`/charges/${val.user_id}/info`}
-                      state={{
-                        id: val.user_id,
-                      }}
-                    >
-                      Informacje o podopiecznym
-                    </Link>
-                  </td>
+                  <td>{val["address_id"]}</td>
+                  <td>{val["start_date"]}</td>
+                  <td>{val["end_date"]}</td>
                 </tr>
               );
             })}
