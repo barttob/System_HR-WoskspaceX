@@ -107,12 +107,7 @@ const DodajPrace = () => {
           return toast.error("Nie podano wszystkich danych klienta!");
         }
       }
-      if (
-        !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(clientInputs.email) ||
-        !/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/.test(
-          clientInputs.phone
-        )
-      ) {
+      if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(clientInputs.email)) {
         return toast.error("Błąd w danych klienta!");
       }
     }
