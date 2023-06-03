@@ -34,6 +34,8 @@ import Profil from "./pages/pracownik/Profil";
 import DoZatwierdzenia from "./pages/dokumenty/DoZatwierdzenia";
 import Wnioski from "./pages/wnioski/Wnioski";
 import Podopieczni from "./pages/podopieczni/Podopieczni";
+import Mieszkanie from "./pages/podopieczni/Mieszkanie";
+import Info from "./pages/podopieczni/Info";
 import Wynagrodzenie from "./pages/pracownik/Wynagrodzenie";
 import PracaHarmonogram from "./pages/prace/PracaHarmonogram";
 import Logi from "./pages/logi/Logi";
@@ -316,6 +318,14 @@ function App() {
             {
               path: "/podopieczni",
               element: <Podopieczni />,
+            },
+            {
+              path: "/podopieczni/:id/mieszkania",
+              element: <Mieszkanie />,
+            },
+            {
+              path: "/podopieczni/:id/info",
+              element: <Info />,
             },
           ],
         },

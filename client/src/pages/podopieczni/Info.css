@@ -1,0 +1,68 @@
+.podopieczny {
+    padding: 20px;
+  }
+  
+  .podopieczny__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .podopieczny__header__title {
+    flex: 1;
+    font-size: 24px;
+  }
+  
+  .podopieczny__header__name {
+    font-size: 18px;
+    color: #2eb5a4;
+    margin-left: 20px;
+  }
+  
+  .podopieczny__content {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .podopieczny__form-group {
+    margin-bottom: 20px;
+  }
+  
+  .podopieczny__form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .podopieczny__form-group span {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #2eb5a4;
+  }
+  
+  .podopieczny__form-group input,
+  .podopieczny__form-group select {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    color: #333;
+    background-color: #ffffff;
+  }
+  
+  .podopieczny__form-group button {
+    background-color: #2eb5a4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .podopieczny__form-group button:hover {
+    background-color: #269c8e;
+  }

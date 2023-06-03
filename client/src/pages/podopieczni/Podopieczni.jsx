@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import "../../styles/main.css";
 import "../../styles/tables.css";
@@ -58,13 +59,25 @@ const Podopieczni = () => {
     });
   };
 
+  const handleDelete = (podopiecznyId) => {
+    axios.delete(`http://localhost:3001/charges/${podopiecznyId}`)
+      .then((response) => {
+        if (response.data.message === "Pracownik został pomyślnie usunięty z mieszkania.") {
+          toast.success("Pracownik został usunięty z mieszkania.");
+        } else if (response.data.message === "Pracownik już jest usunięty z mieszkania.") {
+          toast.info("Pracownik już jest usunięty z mieszkania.");
+        }
+      })
+      .catch((error) => {
+        toast.error("Wystąpił błąd podczas usuwania rekordu.");
+        console.error("Wystąpił błąd podczas usuwania rekordu.", error);
+      });
+  };
+
   return (
     <div className="wrapper">
       <div className="header">
-        Podopieczni
-        <div className="header__btns">
-          <Link to="/podopieczni/mieszkania">Przypisz mieszkanie</Link>
-        </div>
+        Twoi podopieczni
       </div>
       <div className="table-list">
         <table style={{ width: "100%" }}>
@@ -77,6 +90,7 @@ const Podopieczni = () => {
               <th>Id zakwaterowania</th>
               <th>Zamieszkałe od</th>
               <th>Zamieszkałe do</th>
+              <th>Akcje</th>
             </tr>
           </thead>
           <tbody>
@@ -94,6 +108,64 @@ const Podopieczni = () => {
                   <td>{val["address_id"]}</td>
                   <td>{val["start_date"]}</td>
                   <td>{val["end_date"]}</td>
+                  <td
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Link
+                      to={`/podopieczni/${val["id podopiecznego"]}/mieszkania`}
+                      state={{
+                        id: val["id podopiecznego"],
+                      }}
+                      style={{
+                        display: "inline-block",
+                        padding: "10px 20px",
+                        backgroundColor: "#03c3ab",
+                        color: "white",
+                        textDecoration: "none",
+                        borderRadius: "10px",
+                        fontSize: "10px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Przypisz mieszkanie
+                    </Link>
+                    <button
+                      style={{
+                      display: "inline-block",
+                      padding: "10px 20px",
+                      backgroundColor: "#e53935",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "10px",
+                      fontSize: "10px",
+                      fontWeight: "700",
+                    }}
+                      onClick={() => handleDelete(val["id podopiecznego"])}
+                    >
+                     Usuń z mieszkania
+                   </button>
+                   <Link
+                      to={`/podopieczni/${val["id podopiecznego"]}/info`}
+                      state={{
+                        id: val["id podopiecznego"],
+                      }}
+                      style={{
+                        display: "inline-block",
+                        padding: "10px 20px",
+                        backgroundColor: "#673147",
+                        color: "white",
+                        textDecoration: "none",
+                        borderRadius: "10px",
+                        fontSize: "10px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Info
+                    </Link>
+                  </td>
                 </tr>
               );
             })}
