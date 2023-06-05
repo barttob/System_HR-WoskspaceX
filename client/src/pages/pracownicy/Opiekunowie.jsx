@@ -87,7 +87,7 @@ const Opiekunowie = () => {
                   <td>{val["id opiekuna"]}</td>
                   <td>{val["imie opiekuna"]}</td>
                   <td>{val["nazwisko opiekuna"]}</td>
-                  <td
+                  {/* <td
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
@@ -101,7 +101,7 @@ const Opiekunowie = () => {
                     >
                       Informacje
                     </Link>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}

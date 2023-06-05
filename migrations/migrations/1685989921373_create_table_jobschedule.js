@@ -1,0 +1,4 @@
+module.exports = {
+  up: "CREATE TABLE `job_schedule` (`job_schedule_id` int unsigned NOT NULL AUTO_INCREMENT,`job_id` int unsigned NOT NULL,`monday_start` time DEFAULT NULL,`monday_end` time DEFAULT NULL,`tuesday_start` time DEFAULT NULL,`tuesday_end` time DEFAULT NULL,`wednesday_start` time DEFAULT NULL,`wednesday_end` time DEFAULT NULL,`thursday_start` time DEFAULT NULL,`thursday_end` time DEFAULT NULL,`friday_start` time DEFAULT NULL,`friday_end` time DEFAULT NULL,`saturday_start` time DEFAULT NULL,`saturday_end` time DEFAULT NULL,`sunday_start` time DEFAULT NULL,`sunday_end` time DEFAULT NULL,PRIMARY KEY (`job_schedule_id`),KEY `job_schedule_job_id_foreign` (`job_id`),CONSTRAINT `job_schedule_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`))",
+  down: "DROP TABLE IF EXISTS `job_schedule`;",
+};

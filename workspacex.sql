@@ -39,7 +39,7 @@ CREATE TABLE `accomodation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `accomodation` VALUES (DEFAULT, 101,102,'2023-05-23 18:27:06', '2024-05-23 18:27:06', 125);
+INSERT INTO `accomodation` VALUES (1, 101,102,'2023-05-23 18:27:06', '2024-05-23 18:27:06', 125);
 
 --
 -- Dumping data for table `accomodation`
@@ -605,7 +605,7 @@ CREATE TABLE `supervisor_assigment` (
   CONSTRAINT `supervisor_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `supervisor_assigment` VALUES (DEFAULT, 125, 101), (DEFAULT, 125, 102), (DEFAULT, 125, 103), (DEFAULT, 125, 104), (DEFAULT, 125, 105);
+
 
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -615,7 +615,7 @@ INSERT INTO `supervisor_assigment` VALUES (DEFAULT, 125, 101), (DEFAULT, 125, 10
 
 LOCK TABLES `supervisor_assigment` WRITE;
 /*!40000 ALTER TABLE `supervisor_assigment` DISABLE KEYS */;
-INSERT INTO `supervisor_assigment` VALUES (1,125,101),(2,125,103);
+INSERT INTO `supervisor_assigment` VALUES (1, 125, 101),(2, 125, 102),(3, 125, 103),(4, 125, 104),(5, 125, 105);
 /*!40000 ALTER TABLE `supervisor_assigment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
