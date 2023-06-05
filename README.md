@@ -40,15 +40,14 @@ After the packages have been installed start server
 
 ### Database 
 
-First install all client packages
+Manually create the database named 'workspacex', then install for migrations packages
 
     cd migrations
+    npm i
 
-After the packages have been installed start server
+After the packages have been installed run migrations
 
     node migration.js up --migrate-all
-
-
 
 ## Authors
 
