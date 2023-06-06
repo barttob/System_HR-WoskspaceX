@@ -77,17 +77,14 @@ export const addJob = (req, res) => {
 // INSERT INTO `job_schedule` VALUES (2,'00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00','00:00:00')
 
 export const addEmp = (req, res) => {
+  console.log(req.body.emp_id);
   db.query(
-    "INSERT INTO jobs_assigment (job_id, user_id, add_date, contract_id) VALUES (?,(SELECT user_id FROM users WHERE first_name = ? AND last_name = ? LIMIT 1),NOW(),(SELECT contract_id FROM contracts WHERE user_id = (SELECT user_id FROM users WHERE first_name = ? AND last_name = ? LIMIT 1) ORDER BY start_date DESC LIMIT 1))",
-    [
-      req.body.job_id,
-      req.body.first_name,
-      req.body.last_name,
-      req.body.first_name,
-      req.body.last_name,
-    ],
+    "INSERT INTO jobs_assigment (job_id, user_id, add_date, contract_id) VALUES (?,?,NOW(),(SELECT contract_id FROM contracts WHERE user_id = ?))",
+    [req.body.job_id, req.body.emp_id, req.body.emp_id],
     (err, result) => {
-      if (err.errno == 1048) {
+      if (result) {
+        res.send(result);
+      } else if (err.errno == 1048) {
         res.status(401).send({ error: "Pracownik nie ma kontraktu" });
       } else if (err) {
         res.status(500).send({ error: err.message });
@@ -102,6 +99,20 @@ export const getEmps = (req, res) => {
   db.query(
     "SELECT * FROM users WHERE users.user_id IN (SELECT user_id FROM jobs_assigment WHERE job_id = ?)",
     [req.params.id],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+export const searchEmps = (req, res) => {
+  db.query(
+    "SELECT * FROM users WHERE (CONCAT(first_name, ' ', last_name) LIKE ?) OR (CONCAT(last_name, ' ', first_name) LIKE ?) LIMIT 100",
+    [req.query.search.concat("%"), req.query.search.concat("%")],
     (err, result) => {
       if (err) {
         res.status(500).send({ error: err.message });

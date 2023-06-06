@@ -43,9 +43,11 @@
 
 .table-list a,
 .table-list button {
-    background: none;
+    background: #03c3ab;
     border: none;
-    color: #000;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 5px;
     cursor: pointer;
 }
 

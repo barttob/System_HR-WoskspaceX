@@ -40,7 +40,7 @@ After the packages have been installed start server
 
 ### Database 
 
-Manually create the database named 'workspacex', then install for migrations packages
+Manually create the database named 'workspacex', then install packages for migrations 
 
     cd migrations
     npm i

@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../../components/backButton/BackButton";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 import "../../styles/main.css";
 import "../../styles/info.css";
@@ -11,11 +13,32 @@ const PracaInfo = () => {
   const location = useLocation();
   const { id } = location.state;
 
+  const [suggestions, setSuggestions] = useState([
+    { label: "initial", value: 0 },
+  ]);
+  const [sugValue, setSugValue] = useState("");
+
+  // simulate async updating of options
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3001/jobs/search/Emps/${""}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       const suggestions = response.data.map((user) => ({
+  //         label: `${user.user_id} ${user.first_name} ${user.last_name}`,
+  //         value: user.user_id,
+  //       }));
+
+  //       setSuggestions(suggestions);
+  //     });
+  // }, []);
+
   const navigate = useNavigate();
 
   const [job, setJob] = useState([]);
-  const [empAddName, setEmpAddName] = useState("");
-  const [empAddLast, setEmpAddLast] = useState("");
+  const [empAddId, setEmpAddId] = useState(null);
+  // const [empAddName, setEmpAddName] = useState("");
+  // const [empAddLast, setEmpAddLast] = useState("");
 
   const [arrNum, setArrNum] = useState(0);
 
@@ -24,7 +47,31 @@ const PracaInfo = () => {
   useEffect(() => {
     getJob();
     getEmps();
+    getSuggestions();
   }, []);
+
+  useEffect(() => {
+    // console.log(sugValue);
+    getSuggestions();
+  }, [sugValue]);
+
+  const getSuggestions = () => {
+    axios
+      .get(`http://localhost:3001/jobs/search/emps`, {
+        params: {
+          search: sugValue,
+        },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        const suggestions = response.data.map((user) => ({
+          label: `${user.user_id} ${user.first_name} ${user.last_name}`,
+          value: user.user_id,
+        }));
+
+        setSuggestions(suggestions);
+      });
+  };
 
   const getJob = () => {
     axios.get(`http://localhost:3001/jobs/job/${id}`).then((response) => {
@@ -40,14 +87,15 @@ const PracaInfo = () => {
   };
 
   const addEmp = async () => {
+    console.log(empAddId);
     try {
       const response = await axios.post(
         "http://localhost:3001/jobs/emp/dodaj",
         {
           job_id: id,
-          // emp_id: empAdd,
-          first_name: empAddName,
-          last_name: empAddLast,
+          emp_id: empAddId,
+          // first_name: empAddName,
+          // last_name: empAddLast,
         }
       );
       if (response.status == 401) {
@@ -60,16 +108,18 @@ const PracaInfo = () => {
     } catch (error) {
       toast.error("Nie dodano. Spróbuj ponownie.");
     }
-    setEmpAddName("");
-    setEmpAddLast("");
+    setEmpAddId(null);
     getEmps();
   };
 
   const endJob = async () => {
     try {
-      const response = await axios.post(`http://localhost:3001/jobs/endjob/${id}`, {
-        job_id: id,
-      });
+      const response = await axios.post(
+        `http://localhost:3001/jobs/endjob/${id}`,
+        {
+          job_id: id,
+        }
+      );
       if (response) {
         navigate(-1);
         toast.success("Zakończono pracę.");
@@ -129,19 +179,16 @@ const PracaInfo = () => {
             style={{ display: "flex", flexDirection: "column" }}
           >
             Dodaj pracownika do projektu
-            <input
-              type="text"
-              placeholder="imie"
-              name="first_name"
-              value={empAddName}
-              onChange={(e) => setEmpAddName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="nazwisko"
-              name="last_name"
-              value={empAddLast}
-              onChange={(e) => setEmpAddLast(e.target.value)}
+            <Autocomplete
+              freeSolo
+              disableClearable
+              id="combo-box-demo"
+              options={suggestions}
+              getOptionLabel={(option) => option.label.toString()}
+              style={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} />}
+              onChange={(event, value) => setEmpAddId(value.value)}
+              onInputChange={(event, value) => setSugValue(value)}
             />
             <button onClick={addEmp}>Dodaj</button>
           </div>
