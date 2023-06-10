@@ -18,11 +18,17 @@ const Mieszkanie = () => {
 	const [flatList, setFlatList] = useState([]);
   const [flatSites, setFlatSites] = useState(1);
   const [flatNumber, setFlatNumber] = useState(0);
+  const [isAccommodationAssigned, setIsAccommodationAssigned] = useState(false);
 
 	useEffect(() => {
     countFlats();
     getFlats();
   }, []);
+
+  useEffect(() => {
+    checkAccommodationAssignment();
+  }, []);
+  
 
 	const SiteButtons = () => {
     return (
@@ -85,12 +91,12 @@ const Mieszkanie = () => {
   };
 
   const przypMieszkanie = async () => {
-		const currentUser = JSON.parse(localStorage.getItem("user"));
-		const sv_id = currentUser.user_id;
-		const user_id = location.state.id;
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+    const sv_id = currentUser.user_id;
+    const user_id = location.state.id;
     const start_date = fromDateValue.toISOString().slice(0, 19).replace("T", " ");
     const end_date = toDateValue.toISOString().slice(0, 19).replace("T", " ");
-
+  
     try {
       const response = await axios.post(
         `http://localhost:3001/charges/mieszkania/${user_id}`,
@@ -98,18 +104,33 @@ const Mieszkanie = () => {
           appInputs,
           start_date,
           end_date,
-					sv_id,
+          sv_id,
         }
       );
-
+  
       if (response.data.affectedRows > 0) {
+        setIsAccommodationAssigned(true);
         toast.success("Mieszkanie zostało przypisane pomyślnie!");
       } else {
-        toast.error("Nie przypisano mieszkania. Spróbuj ponownie.");
+        toast.error("Nie przypisano mieszkania. Upewnij się, że pracownik nie ma już przypisanego mieszkania.");
       }
     } catch (error) {
-      toast.error("Wystąpił błąd podczas przypisywania mieszkania.");
+      toast.error("Wystąpił błąd podczas przypisywania mieszkania. Upewnij się, że pracownik nie ma już przypisanego mieszkania.");
     }
+  };
+
+  const checkAccommodationAssignment = () => {
+    const user_id = location.state.id;
+    axios
+      .get(`http://localhost:3001/charges/mieszkania/${user_id}`)
+      .then((response) => {
+        if (response.data.length > 0) {
+          setIsAccommodationAssigned(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Błąd podczas sprawdzania przypisanego mieszkania:", error);
+      });
   };
 
   return (
@@ -119,6 +140,9 @@ const Mieszkanie = () => {
         Przypisz mieszkanie pracownikowi
       </div>
       <div className="site-content">
+      {isAccommodationAssigned ? (
+        <div>Mieszkanie zostało już przypisane temu pracownikowi.</div>
+      ) : (
         <div className="add-form">
           <form className="add-form__inputs">
           <input
@@ -153,6 +177,7 @@ const Mieszkanie = () => {
             </div>
           </form>
         </div>
+      )}
         <div className="add-form__inputs add-submit">
           <input type="submit" onClick={przypMieszkanie} value="Przypisz" />
         </div>
