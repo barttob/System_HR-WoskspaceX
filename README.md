@@ -22,7 +22,7 @@ First install all server packages
     cd server
     npm i
 
-After the packages have been installed start server
+After the packages have been installed start the server
 
     npm start
 
@@ -34,7 +34,7 @@ First install all client packages
     cd client
     npm i
 
-After the packages have been installed start server
+After the packages have been installed start the client
 
     npm run dev
 
@@ -48,6 +48,7 @@ Manually create the database named 'workspacex', then install packages for migra
 After the packages have been installed run migrations
 
     node migration.js up --migrate-all
+
 
 ## Authors
 

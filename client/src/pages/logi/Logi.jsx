@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Logi.css";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Logi = () => {
 
     const [logList, setLogList] = useState([]);
     const [logSites, setLogSites] = useState(1);
     const [logNumber, setLogNumber] = useState(0);
+    const [deletedLogId, setDeletedLogId] = useState(null);
 
     useEffect(() => {
         countLogs();
@@ -55,6 +57,19 @@ const Logi = () => {
         });
     };
 
+    const handleDeleteLog = (id) => {
+      axios
+        .delete(`http://localhost:3001/logs/${id}`)
+        .then((response) => {
+          setDeletedLogId(id);
+          toast.success("Log został pomyślnie usunięty.");
+        })
+        .catch((error) => {
+          console.error("Błąd podczas usuwania logu:", error);
+          toast.error("Wystąpił błąd podczas usuwania logu.");
+        });
+    };
+
     return (
         <div className="logi">
           <div className="logi__header">
@@ -83,20 +98,13 @@ const Logi = () => {
                       <td>{val["action_type"]}</td>
                       <td>{val["log_details"]}</td>
                       <td
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-around",
+                       style={{
+                           display: "flex",
+                         justifyContent: "space-around",
                         }}
-                      >
-                        <Link
-                          to={`/logs/${val.id}/logdel`}
-                          state={{
-                            id: val.id,
-                          }}
-                        >
-                          Usuń log
-                        </Link>
-                      </td>
+                       >
+                         <button className="delete-button" onClick={() => handleDeleteLog(val.id)}>Usuń log</button>
+                       </td>
                     </tr>
                   );
                 })}

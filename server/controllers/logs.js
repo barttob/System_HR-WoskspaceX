@@ -26,3 +26,19 @@ export const countLogs = (req, res) => {
     }
   );
 };
+
+export const deleteLog = (req, res) => {
+  const logId = req.params.id;
+
+  db.query(
+    "DELETE FROM workspacex_log WHERE id = ?",
+    [logId],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send({ message: "Log został pomyślnie usunięty." });
+      }
+    }
+  );
+};
