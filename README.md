@@ -22,7 +22,7 @@ First install all server packages
     cd server
     npm i
 
-After the packages have been installed start server
+After the packages have been installed start the server
 
     npm start
 
@@ -34,7 +34,7 @@ First install all client packages
     cd client
     npm i
 
-After the packages have been installed start server
+After the packages have been installed start the client
 
     npm run dev
 
@@ -50,6 +50,7 @@ Create database, use your own folder path
 
     cd migrations
     mysql -u root -p -t < /path/to/System_HR-WoskspaceX/workspacex.sql
+
 
 ## Authors
 

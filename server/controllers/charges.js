@@ -58,23 +58,42 @@ export const countFlats = (req, res) => {
 
 export const przypMieszkanie = (req, res) => {
   const user_id = req.params.user_id;
-  db.query(
-    "INSERT INTO accomodation (acc_id, user_id, address_id, start_date, end_date, sv_id) VALUES (DEFAULT,?,?,?,?,?)",
-    [
-      user_id,
-      req.body.appInputs.address_id,
-      req.body.start_date,
-      req.body.end_date,
-      req.body.sv_id,
-    ],
-    (err, result) => {
-      if (err) {
-        res.status(500).send({ error: err });
+
+  const checkQuery = "SELECT * FROM accomodation WHERE user_id = ?";
+  db.query(checkQuery, [user_id], (checkErr, checkResult) => {
+    if (checkErr) {
+      res.status(500).send({ error: checkErr });
+    } else {
+      if (checkResult.length > 0) {
+        // Jeśli już istnieje przypisane mieszkanie, zwróć odpowiednią odpowiedź
+        res.status(400).send({ message: "Pracownik ma już przypisane mieszkanie." });
       } else {
-        res.send(result);
+        // Kontynuuj proces przypisywania mieszkania
+        const insertQuery = "INSERT INTO accomodation (acc_id, user_id, address_id, start_date, end_date, sv_id) VALUES (DEFAULT,?,?,?,?,?)";
+        db.query(
+          insertQuery,
+          [
+            user_id,
+            req.body.appInputs.address_id,
+            req.body.start_date,
+            req.body.end_date,
+            req.body.sv_id,
+          ],
+          (insertErr, insertResult) => {
+            if (insertErr) {
+              res.status(500).send({ error: insertErr });
+            } else {
+              if (insertResult.affectedRows > 0) {
+                res.send({ message: "Przypisanie mieszkania zostało zapisane.", affectedRows: insertResult.affectedRows });
+              } else {
+                res.status(400).send({ error: "Nie udało się przypisać mieszkania. Spróbuj ponownie." });
+              }
+            }
+          }
+        );
       }
     }
-  );
+  });
 };
 
 export const usunzMieszkania = (req, res) => {
