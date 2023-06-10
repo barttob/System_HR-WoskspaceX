@@ -15,6 +15,27 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+DROP DATABASE IF EXISTS workspacex;
+CREATE DATABASE IF NOT EXISTS workspacex;
+USE workspacex;
+
+DROP TABLE IF EXISTS accomodation,
+                     address,
+                     calendar,
+                     clients, 
+                     contracts, 
+                     documents, 
+                     emp_applications, 
+                     job_schedule, 
+                     jobs, 
+                     jobs_assigment, 
+                     salaries, 
+                     sessions, 
+                     supervisor_assigment, 
+                     user_schedule, 
+                     users, 
+                     workspacex_log;
+
 --
 -- Table structure for table `accomodation`
 --
@@ -865,141 +886,3 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-05-31 11:35:15
-
-
-
---TRIGGERY-
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_accomodation
-AFTER INSERT ON accomodation
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (NEW.sv_id, NOW(), 'INSERT', CONCAT('Przypisano mieszkanie przez opiekuna: acc_id = ', NEW.acc_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_calendar
-AFTER INSERT ON calendar
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano wydarzenie przez kadrowego: event_id = ', NEW.event_id, 'dla pracownika: user_id = ', NEW.user_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_clients
-AFTER INSERT ON clients
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano klienta przez kadrowego: client_id = ', NEW.client_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_contracts
-AFTER INSERT ON contracts
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano kontrakt przez kadrowego: contract_id = ', NEW.contract_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_documents
-AFTER INSERT ON documents
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano dokument przez kadrowego: doc_id = ', NEW.doc_id, ' dotyczacy pracownika user_id = ', NEW.user_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_applications
-AFTER INSERT ON emp_applications
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (NEW.user_id, NOW(), 'INSERT', CONCAT('Wyslano wniosek: app_id = ', NEW.app_id, ' przez pracownika user_id = ', NEW.user_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_jobs
-AFTER INSERT ON jobs
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano nowy etat przez kadrowego: job_id = ', NEW.job_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_job_assign
-AFTER INSERT ON jobs_assigment
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Przypisano przez kadrowego pracownika: user_id = ', NEW.user_id, ' do etatu: jobassg_id: ', NEW.jobassg_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_salaries
-AFTER INSERT ON salaries
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano wyplate: salary_id = ', NEW.user_id, ' pracownika: user_id = ', NEW.user_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_sv_assign
-AFTER INSERT ON supervisor_assigment
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Przypisano przez kadrowego opiekuna: sv_id = ', NEW.sv_id, ' pracownikowi: user_id = ', NEW.user_id));
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER after_insert_users
-AFTER INSERT ON users
-FOR EACH ROW
-BEGIN
-    INSERT INTO workspacex_log (by_user, timestamp_log, action_type, log_details)
-    VALUES (111, NOW(), 'INSERT', CONCAT('Dodano przez kadrowego pracownika: user_id = ', NEW.user_id));
-END //
-
-DELIMITER ;
-
---KONIEC TRIGGEROW

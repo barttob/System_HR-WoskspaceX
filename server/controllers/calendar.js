@@ -28,7 +28,7 @@ export const addEvent = (req, res) => {
   db.query(
     "INSERT INTO calendar (user_id, event_date_start, event_date_end, event_name, event_desc) VALUES (?,?,?,?,?)",
     [
-      req.body.eventInputs.user_id,
+      req.body.empAddId,
       req.body.dateFormat,
       req.body.dateEndFormat,
       req.body.eventInputs.event_name,

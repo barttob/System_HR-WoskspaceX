@@ -111,7 +111,21 @@ export const getEmps = (req, res) => {
 
 export const searchEmps = (req, res) => {
   db.query(
-    "SELECT * FROM users WHERE (CONCAT(first_name, ' ', last_name) LIKE ?) OR (CONCAT(last_name, ' ', first_name) LIKE ?) LIMIT 100",
+    "SELECT * FROM users WHERE user_role = 'emp' AND ((CONCAT(first_name, ' ', last_name) LIKE ?) OR (CONCAT(last_name, ' ', first_name) LIKE ?)) LIMIT 100",
+    [req.query.search.concat("%"), req.query.search.concat("%")],
+    (err, result) => {
+      if (err) {
+        res.status(500).send({ error: err.message });
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
+export const searchSvs = (req, res) => {
+  db.query(
+    "SELECT * FROM users WHERE user_role = 'sv' AND ((CONCAT(first_name, ' ', last_name) LIKE ?) OR (CONCAT(last_name, ' ', first_name) LIKE ?)) LIMIT 100",
     [req.query.search.concat("%"), req.query.search.concat("%")],
     (err, result) => {
       if (err) {

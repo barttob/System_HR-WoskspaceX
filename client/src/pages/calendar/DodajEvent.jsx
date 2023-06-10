@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BackButton from "../../components/backButton/BackButton";
 import DateTimePicker from "react-datetime-picker";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 import "./DateTimePicker.css";
 import "../../styles/main.css";
@@ -10,6 +12,12 @@ import "../../styles/add.css";
 
 const DodajEvent = () => {
   const [dateValue, setDateValue] = useState(new Date());
+
+  const [suggestions, setSuggestions] = useState([
+    { label: "initial", value: 0 },
+  ]);
+  const [sugValue, setSugValue] = useState("");
+  const [empAddId, setEmpAddId] = useState(null);
 
   const [eventInputs, setEventInputs] = useState({
     user_id: "",
@@ -38,6 +46,7 @@ const DodajEvent = () => {
         "http://localhost:3001/calendar/dodaj",
         {
           eventInputs,
+          empAddId,
           dateFormat,
           dateEndFormat,
         }
@@ -51,6 +60,32 @@ const DodajEvent = () => {
       toast.error("Nie dodano!");
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    getSuggestions();
+  }, []);
+
+  useEffect(() => {
+    getSuggestions();
+  }, [sugValue]);
+
+  const getSuggestions = () => {
+    axios
+      .get(`http://localhost:3001/jobs/search/emps`, {
+        params: {
+          search: sugValue,
+        },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        const suggestions = response.data.map((user) => ({
+          label: `${user.user_id} ${user.first_name} ${user.last_name}`,
+          value: user.user_id,
+        }));
+
+        setSuggestions(suggestions);
+      });
   };
 
   return (
@@ -91,7 +126,7 @@ const DodajEvent = () => {
               value={eventInputs.event_desc}
             />
 
-            <input
+            {/* <input
               type="text"
               placeholder="id użytkownika"
               name="user_id"
@@ -104,6 +139,17 @@ const DodajEvent = () => {
                 )
               }
               value={eventInputs.user_id}
+            /> */}
+            <Autocomplete
+              freeSolo
+              disableClearable
+              id="combo-box-demo"
+              options={suggestions}
+              getOptionLabel={(option) => option.label.toString()}
+              style={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} />}
+              onChange={(event, value) => setEmpAddId(value.value)}
+              onInputChange={(event, value) => setSugValue(value)}
             />
 
             <div className="add-form__inputs__date">

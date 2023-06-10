@@ -151,8 +151,10 @@ export const deleteEmp = async (req, res) => {
     const values = [id, first_name, last_name];
 
     db.query(query, values, (err, result) => {
-      if (err.errno == 1451) {
-        res.status(401).send({error : "Active contract"});
+      if (result) {
+        res.send(result);
+      } else if (err.errno == 1451) {
+        res.status(401).send({ error: "Active contract" });
       } else if (err) {
         res.status(500).send({ error: err });
       } else {

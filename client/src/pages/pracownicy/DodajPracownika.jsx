@@ -148,6 +148,7 @@ const DodajPracownika = () => {
                 value={inputs.password}
               />
               <div className="add-form__inputs__date">
+                Data urodzenia: 
                 <DatePicker
                   onChange={setDateValue}
                   value={dateValue}

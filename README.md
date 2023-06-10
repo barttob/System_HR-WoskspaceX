@@ -40,14 +40,16 @@ After the packages have been installed start the client
 
 ### Database 
 
-Manually create the database named 'workspacex', then install packages for migrations 
+Set mysql root password to 'password'.
+
+Login in to mysql database and run the following
+
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+
+Create database, use your own folder path
 
     cd migrations
-    npm i
-
-After the packages have been installed run migrations
-
-    node migration.js up --migrate-all
+    mysql -u root -p -t < /path/to/System_HR-WoskspaceX/workspacex.sql
 
 
 ## Authors
