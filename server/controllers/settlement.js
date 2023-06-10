@@ -465,15 +465,15 @@ export const setSettle = (req, res) => {
 };
 
 export const generatePdf = (req, res) => {
-  // console.log(req.query);
+  console.log(req.query.settle.start_date);
   const date = new Date();
   const currDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
 
-  const start_date_raw = new Date(req.query.settle[0].start_date);
+  const start_date_raw = new Date(req.query.settle.start_date);
   const start_date = new Date(
     start_date_raw.getTime() - start_date_raw.getTimezoneOffset() * 60000
   );
-  const end_date_raw = new Date(req.query.settle[0].end_date);
+  const end_date_raw = new Date(req.query.settle.end_date);
   const end_date = new Date(
     end_date_raw.getTime() - end_date_raw.getTimezoneOffset() * 60000
   );
@@ -485,7 +485,7 @@ export const generatePdf = (req, res) => {
   doc.moveDown();
   doc.fontSize(12).text(`Imie: ${req.query.first_name}`);
   doc.fontSize(12).text(`Nazwisko: ${req.query.last_name}`);
-  doc.fontSize(12).text(`Typ umowy: ${req.query.settle[0].contract_type}`);
+  doc.fontSize(12).text(`Typ umowy: ${req.query.settle.contract_type}`);
   doc.moveDown();
   doc
     .fontSize(12)
@@ -502,10 +502,10 @@ export const generatePdf = (req, res) => {
         end_date.toISOString().split("T")[0]
       }`
     );
-  doc.fontSize(12).text(`Wynagrodzenie brutto: ${req.query.settle[0].rate} zl`);
+  doc.fontSize(12).text(`Wynagrodzenie brutto: ${req.query.settle.rate} zl`);
   doc
     .fontSize(12)
-    .text(`Wynagrodzenie netto: ${req.query.settle[0].netto_rate} zl`);
+    .text(`Wynagrodzenie netto: ${req.query.settle.netto_rate} zl`);
   doc.moveDown();
 
   const stream = doc.pipe(res.type("application/pdf").attachment("raport.pdf"));
