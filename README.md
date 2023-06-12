@@ -52,6 +52,16 @@ Create database, use your own folder path
     mysql -u root -p -t < /path/to/System_HR-WoskspaceX/workspacex.sql
 
 
+### Data to login
+
+pracownik - login: Colt56, password: Colt56
+
+księgowa - login: Frankie66, password: Frankie66
+
+opiekun - login: Nella29, password: Nella29
+
+admin - login: Karolann.Breitenberg, password: Karolann.Breitenberg
+
 ## Authors
 
   - **Łukasz Skraba**
