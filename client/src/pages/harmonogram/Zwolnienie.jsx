@@ -28,7 +28,7 @@ const Zwolnienie = () => {
       [fieldName]: filteredValue,
     });
   };
-
+  
   const dodZwolnienie = async () => {
     const fromDate = fromDateValue.toISOString().slice(0, 19).replace("T", " ");
     const toDate = toDateValue.toISOString().slice(0, 19).replace("T", " ");
@@ -64,9 +64,9 @@ const Zwolnienie = () => {
         <div className="add-form">
           <form className="add-form__inputs">
             <select
-              name="contract_type"
+              name="app_type"
               onChange={(event) =>
-                handleAppChange(event.target.value, /[]/g, event.target.name)
+                handleAppChange(event.target.value, /./g, event.target.name)
               }
             >
               <option value="L4">L4</option>
