@@ -54,9 +54,9 @@ CREATE TABLE `accomodation` (
   KEY `accomodation_address_id_foreign` (`address_id`),
   KEY `accomodation_sv_id_foreign` (`sv_id`),
   KEY `accomodation_user_id_foreign` (`user_id`),
-  CONSTRAINT `accomodation_address_id_foreign` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
-  CONSTRAINT `accomodation_sv_id_foreign` FOREIGN KEY (`sv_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `accomodation_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `accomodation_address_id_foreign` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `accomodation_sv_id_foreign` FOREIGN KEY (`sv_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `accomodation_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,7 +134,7 @@ CREATE TABLE `calendar` (
   `event_desc` varchar(255) NOT NULL,
   PRIMARY KEY (`event_id`),
   KEY `calendar_user_id_foreign` (`user_id`),
-  CONSTRAINT `calendar_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `calendar_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -227,7 +227,7 @@ CREATE TABLE `contracts` (
   `contract_type` varchar(255) NOT NULL,
   PRIMARY KEY (`contract_id`),
   KEY `contracts_user_id_foreign` (`user_id`),
-  CONSTRAINT `contracts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `contracts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -277,7 +277,7 @@ CREATE TABLE `documents` (
   `confirmation` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`doc_id`),
   KEY `documents_user_id_foreign` (`user_id`),
-  CONSTRAINT `documents_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `documents_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -326,7 +326,7 @@ CREATE TABLE `emp_applications` (
   `approved` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`app_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `emp_applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `emp_applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -384,7 +384,7 @@ CREATE TABLE `job_schedule` (
   `sunday_end` time DEFAULT NULL,
   PRIMARY KEY (`job_schedule_id`),
   KEY `job_schedule_job_id_foreign` (`job_id`),
-  CONSTRAINT `job_schedule_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
+  CONSTRAINT `job_schedule_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -449,7 +449,7 @@ CREATE TABLE `jobs` (
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`job_id`),
   KEY `jobs_client_id_foreign` (`client_id`),
-  CONSTRAINT `jobs_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`)
+  CONSTRAINT `jobs_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -498,9 +498,9 @@ CREATE TABLE `jobs_assigment` (
   KEY `jobs_assigment_job_id_foreign` (`job_id`),
   KEY `jobs_assigment_contract_id_foreign` (`contract_id`),
   KEY `jobs_assigment_user_id_foreign` (`user_id`),
-  CONSTRAINT `jobs_assigment_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`),
-  CONSTRAINT `jobs_assigment_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`),
-  CONSTRAINT `jobs_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `jobs_assigment_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `jobs_assigment_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `jobs_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -551,8 +551,8 @@ CREATE TABLE `salaries` (
   PRIMARY KEY (`salary_id`),
   KEY `salaries_user_id_foreign` (`user_id`),
   KEY `salaries_contract_id_foreign` (`contract_id`),
-  CONSTRAINT `salaries_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`),
-  CONSTRAINT `salaries_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `salaries_contract_id_foreign` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contract_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `salaries_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -622,8 +622,8 @@ CREATE TABLE `supervisor_assigment` (
   PRIMARY KEY (`sv_assg_id`),
   KEY `supervisor_assigment_user_id_foreign` (`user_id`),
   KEY `supervisor_assigment_sv_id_foreign` (`sv_id`),
-  CONSTRAINT `supervisor_assigment_sv_id_foreign` FOREIGN KEY (`sv_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `supervisor_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `supervisor_assigment_sv_id_foreign` FOREIGN KEY (`sv_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `supervisor_assigment_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -728,8 +728,8 @@ CREATE TABLE `user_schedule` (
   PRIMARY KEY (`day_id`),
   KEY `user_schedule_event_id_foreign` (`event_id`),
   KEY `user_schedule_user_id_foreign` (`user_id`),
-  CONSTRAINT `user_schedule_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `calendar` (`event_id`),
-  CONSTRAINT `user_schedule_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `user_schedule_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `calendar` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_schedule_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -763,7 +763,7 @@ CREATE TABLE `users` (
   `img_url` mediumtext NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `users_address_id_foreign` (`address_id`),
-  CONSTRAINT `users_address_id_foreign` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+  CONSTRAINT `users_address_id_foreign` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

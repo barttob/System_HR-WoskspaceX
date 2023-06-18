@@ -48,7 +48,6 @@ Login in to mysql database and run the following
 
 Create database, use your own folder path
 
-    cd migrations
     mysql -u root -p -t < /path/to/System_HR-WoskspaceX/workspacex.sql
 
 
